@@ -36,19 +36,19 @@ const inputVariants = {
 
 // Contrast text color function
 const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
+  if (!bgColor) return "#111"; // default to dark
   const color = bgColor.substring(1);
   const rgb = parseInt(color, 16);
   const r = (rgb >> 16) & 0xff;
   const g = (rgb >> 8) & 0xff;
   const b = rgb & 0xff;
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
+  return brightness > 150 ? "#111" : "#fff";
 };
 
 function Contact() {
   const { selectedTech, techColors, bgColor } = useTech();
-  const textColor = getContrastTextColor(bgColor || "#4B5563");
+  const textColor = getContrastTextColor(bgColor);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,7 +64,6 @@ function Contact() {
   const [submitError, setSubmitError] = useState("");
   const formRef = useRef(null);
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -72,17 +71,17 @@ function Contact() {
     setSubmitError("");
   };
 
-  // Handle input focus
   const handleFocus = (name) => {
     setFocused((prev) => ({ ...prev, [name]: true }));
   };
 
-  // Handle input blur
   const handleBlur = (name) => {
-    setFocused((prev) => ({ ...prev, [name]: formData[name].trim() !== "" }));
+    setFocused((prev) => ({
+      ...prev,
+      [name]: formData[name].trim() !== "",
+    }));
   };
 
-  // Validate form
   const validate = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Name is required";
@@ -95,7 +94,6 @@ function Contact() {
     return newErrors;
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -105,14 +103,11 @@ function Contact() {
     }
 
     try {
-      const form = e.target;
-      const data = new FormData(form);
-      const response = await fetch(form.action, {
+      const data = new FormData(e.target);
+      const response = await fetch(e.target.action, {
         method: "POST",
         body: data,
-        headers: {
-          Accept: "application/json",
-        },
+        headers: { Accept: "application/json" },
       });
 
       if (response.ok) {
@@ -128,7 +123,6 @@ function Contact() {
     }
   };
 
-  // Social links
   const socialLinks = [
     {
       icon: FaGithub,
@@ -156,9 +150,8 @@ function Contact() {
     },
   ];
 
-  // Gradient based on selectedTech
   const primaryColor = techColors[selectedTech] || "#4B5563";
-  const secondaryColor = selectedTech !== "default" ? "#6B7280" : "#6B7280";
+  const secondaryColor = "#6B7280";
   const gradient = `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`;
 
   return (
@@ -188,24 +181,14 @@ function Contact() {
             action="https://formsubmit.co/your-email@example.com"
             method="POST"
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl shadow-xl p-8 relative"
+            className="bg-white text-gray-800 rounded-2xl shadow-xl p-8 relative"
             variants={itemVariants}
             noValidate
           >
-            {/* FormSubmit.co Hidden Inputs */}
             <input type="hidden" name="_captcha" value="false" />
-            <input
-              type="hidden"
-              name="_subject"
-              value="New Portfolio Contact!"
-            />
-            <input
-              type="hidden"
-              name="_autoresponse"
-              value="Thanks for reaching out! I'll get back to you soon."
-            />
+            <input type="hidden" name="_subject" value="New Portfolio Contact!" />
+            <input type="hidden" name="_autoresponse" value="Thanks for reaching out!" />
 
-            {/* Submission Feedback */}
             <AnimatePresence>
               {submitted && (
                 <motion.div
@@ -231,20 +214,12 @@ function Contact() {
               )}
             </AnimatePresence>
 
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">
-              Get in Touch
-            </h3>
+            <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
 
-            {/* Form Fields Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               {/* Name Field */}
               <div className="relative">
-                <label
-                  htmlFor="name"
-                  className={`block text-sm font-medium mb-1 ${
-                    errors.name ? "text-red-500" : "text-gray-600"
-                  }`}
-                >
+                <label htmlFor="name" className={`block text-sm font-medium mb-1 ${errors.name ? "text-red-500" : "text-gray-600"}`}>
                   Name
                 </label>
                 <motion.input
@@ -256,11 +231,7 @@ function Contact() {
                   onFocus={() => handleFocus("name")}
                   onBlur={() => handleBlur("name")}
                   placeholder="Your Name"
-                  className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${
-                    errors.name
-                      ? "border-red-500"
-                      : "border-gray-200 focus:border-blue-500"
-                  } text-gray-800 focus:outline-none transition-all duration-300`}
+                  className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.name ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
                   aria-invalid={!!errors.name}
                   aria-describedby={errors.name ? "name-error" : undefined}
                   variants={inputVariants}
@@ -269,13 +240,7 @@ function Contact() {
                 />
                 <AnimatePresence>
                   {errors.name && (
-                    <motion.p
-                      id="name-error"
-                      className="text-red-500 text-xs mt-1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
+                    <motion.p id="name-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       {errors.name}
                     </motion.p>
                   )}
@@ -284,12 +249,7 @@ function Contact() {
 
               {/* Email Field */}
               <div className="relative">
-                <label
-                  htmlFor="email"
-                  className={`block text-sm font-medium mb-1 ${
-                    errors.email ? "text-red-500" : "text-gray-600"
-                  }`}
-                >
+                <label htmlFor="email" className={`block text-sm font-medium mb-1 ${errors.email ? "text-red-500" : "text-gray-600"}`}>
                   Email
                 </label>
                 <motion.input
@@ -301,11 +261,7 @@ function Contact() {
                   onFocus={() => handleFocus("email")}
                   onBlur={() => handleBlur("email")}
                   placeholder="Your Email"
-                  className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${
-                    errors.email
-                      ? "border-red-500"
-                      : "border-gray-200 focus:border-blue-500"
-                  } text-gray-800 focus:outline-none transition-all duration-300`}
+                  className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.email ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "email-error" : undefined}
                   variants={inputVariants}
@@ -314,13 +270,7 @@ function Contact() {
                 />
                 <AnimatePresence>
                   {errors.email && (
-                    <motion.p
-                      id="email-error"
-                      className="text-red-500 text-xs mt-1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
+                    <motion.p id="email-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       {errors.email}
                     </motion.p>
                   )}
@@ -330,12 +280,7 @@ function Contact() {
 
             {/* Message Field */}
             <div className="relative mb-6">
-              <label
-                htmlFor="message"
-                className={`block text-sm font-medium mb-1 ${
-                  errors.message ? "text-red-500" : "text-gray-600"
-                }`}
-              >
+              <label htmlFor="message" className={`block text-sm font-medium mb-1 ${errors.message ? "text-red-500" : "text-gray-600"}`}>
                 Message
               </label>
               <motion.textarea
@@ -347,11 +292,7 @@ function Contact() {
                 onBlur={() => handleBlur("message")}
                 placeholder="Your Message"
                 rows={4}
-                className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${
-                  errors.message
-                    ? "border-red-500"
-                    : "border-gray-200 focus:border-blue-500"
-                } text-gray-800 focus:outline-none transition-all duration-300`}
+                className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.message ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
                 aria-invalid={!!errors.message}
                 aria-describedby={errors.message ? "message-error" : undefined}
                 variants={inputVariants}
@@ -360,13 +301,7 @@ function Contact() {
               />
               <AnimatePresence>
                 {errors.message && (
-                  <motion.p
-                    id="message-error"
-                    className="text-red-500 text-xs mt-1"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
+                  <motion.p id="message-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {errors.message}
                   </motion.p>
                 )}
@@ -394,51 +329,30 @@ function Contact() {
         </motion.div>
 
         {/* Info Column */}
-        <motion.div
-          className="flex flex-col justify-center text-center lg:text-left"
-          variants={itemVariants}
-        >
-          <h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            style={{ color: textColor }}
-          >
+        <motion.div className="flex flex-col justify-center text-center lg:text-left" variants={itemVariants}>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: textColor }}>
             Let’s Build Something Amazing
           </h2>
           <p className="text-lg mb-8" style={{ color: textColor }}>
-            Have a project idea or just want to chat? Reach out via the form or
-            connect with me directly.
+            Have a project idea or just want to chat? Reach out via the form or connect with me directly.
           </p>
           <div className="mb-8">
-            <h4
-              className="text-xl font-semibold mb-4"
-              style={{ color: textColor }}
-            >
+            <h4 className="text-xl font-semibold mb-4" style={{ color: textColor }}>
               Contact Info
             </h4>
             <p className="text-base" style={{ color: textColor }}>
-              <a
-                href="mailto:dummyuser@example.com"
-                className="hover:underline"
-                style={{ color: primaryColor }}
-              >
+              <a href="mailto:dummyuser@example.com" className="hover:underline" style={{ color: primaryColor }}>
                 dummyuser@example.com
               </a>
             </p>
             <p className="text-base" style={{ color: textColor }}>
-              <a
-                href="https://linkedin.com/in/dummyuser"
-                className="hover:underline"
-                style={{ color: primaryColor }}
-              >
+              <a href="https://linkedin.com/in/dummyuser" className="hover:underline" style={{ color: primaryColor }}>
                 linkedin.com/in/dummyuser
               </a>
             </p>
           </div>
           <div>
-            <h4
-              className="text-xl font-semibold mb-4"
-              style={{ color: textColor }}
-            >
+            <h4 className="text-xl font-semibold mb-4" style={{ color: textColor }}>
               Follow Me
             </h4>
             <div className="flex justify-center lg:justify-start gap-4">
@@ -451,14 +365,7 @@ function Contact() {
                   whileTap={{ scale: 0.9 }}
                   aria-label={`Visit my ${label} profile`}
                 >
-                  <Icon
-                    size={24}
-                    style={{ color, transition: "color 0.2s" }}
-                    className="hover:brightness-110"
-                  />
-                  <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-12 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                    {label}
-                  </span>
+                  <Icon size={24} style={{ color, transition: "color 0.2s" }} className="hover:brightness-110" />
                 </motion.a>
               ))}
             </div>

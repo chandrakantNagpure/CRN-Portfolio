@@ -260,7 +260,7 @@ function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full">
+            <div className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-6 w-full">
               {techIcons.filter((item) => item.tech !== "default").map(({ icon: Icon, tech, label }, i) => (
                 <motion.div
                   key={tech}

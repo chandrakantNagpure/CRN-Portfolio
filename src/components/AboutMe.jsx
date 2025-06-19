@@ -245,177 +245,217 @@ function AboutMe() {
 
   // Get tech color or fallback
   const accentColor = techColors[selectedTech] || "#4B5563";
-  const textColor = "#000";
+  const textColor = getContrastTextColor(bgColor);
   const TechIcon = techIcons[selectedTech] || techIcons.default;
 
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="flex flex-col items-center justify-start py-5 px-6 md:px-16 relative font-poppins overflow-hidden"
-      style={{
-        background: bgColor
-          ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
-          : "white",
-        color: textColor,
-      }}
-    >
-      {/* Particle Background */}
-      <ParticleCanvas bgColor={bgColor || "#4B5563"} />
+    <>
+      <style>
+        {`
+          @media (max-width: 990px) {
+            .about-section {
+              min-height: 100vh;
+            }
+            .orbital-cluster {
+              flex-direction: column;
+              height: auto !important;
+              gap: 2rem;
+              align-items: center;
+              justify-content: space-between;
+              padding: 1rem 0;
+            }
+            .central-star {
+              position: relative !important;
+              margin-bottom: 1rem;
+            }
+            .orbital-paths {
+              display: none !important;
+            }
+            .skills-planet {
+              position: relative !important;
+              left: 50% !important;
+              transform: translateX(-50%) !important;
+              top: 0 !important;
+              margin-bottom: 1rem;
+            }
+            .bio-planet {
+              position: relative !important;
+              right: 50% !important;
+              transform: translateX(50%) !important;
+              bottom: 0 !important;
+              margin-top: 1rem;
+            }
+          }
+        `}
+      </style>
+      <section
+        id="about"
+        ref={sectionRef}
+        className="flex flex-col items-center justify-start py-5 px-6 md:px-16 relative font-poppins overflow-hidden about-section"
+        style={{
+          background: bgColor
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : "white",
+          color: textColor,
+        }}
+      >
+        {/* Particle Background */}
+        <ParticleCanvas bgColor={bgColor || "#4B5563"} />
 
-      {/* Orbital Cluster */}
-      <motion.div className="relative max-w-4xl w-full h-[80vh] flex items-center justify-center z-10">
-        {/* Central Star */}
-        <motion.div
-          className="absolute w-24 h-24 rounded-full bg-gray-800 flex items-center justify-center"
-          variants={starVariants}
-          initial="hidden"
-          animate={["visible", "pulse"]}
-          viewport={{ once: false }}
-        >
-          <TechIcon size={48} color={accentColor} />
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: `radial-gradient(circle, ${accentColor}33, transparent 70%)`,
-              opacity: 0.5,
-            }}
-          />
-        </motion.div>
-
-        {/* Orbital Paths */}
-        <svg className="absolute w-full h-full">
-          <motion.circle
-            cx="50%"
-            cy="50%"
-            r="100"
-            fill="none"
-            stroke={accentColor}
-            strokeWidth="1"
-            strokeDasharray="10 10"
-            variants={orbitPathVariants}
+        {/* Orbital Cluster */}
+        <motion.div className="relative max-w-4xl w-full h-[80vh] flex items-center justify-center z-10 orbital-cluster">
+          {/* Central Star */}
+          <motion.div
+            className="absolute w-24 h-24 rounded-full bg-gray-800 flex items-center justify-center central-star"
+            variants={starVariants}
             initial="hidden"
-            whileInView="visible"
+            animate={["visible", "pulse"]}
             viewport={{ once: false }}
-          />
-          <motion.circle
-            cx="50%"
-            cy="50%"
-            r="150"
-            fill="none"
-            stroke={accentColor}
-            strokeWidth="1"
-            strokeDasharray="10 10"
-            variants={orbitPathVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false }}
-          />
-        </svg>
-
-        {/* Bio Planet */}
-        <motion.div
-          className="absolute right-4 w-64 md:w-80"
-          variants={planetVariants}
-          custom={0}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false }}
-          whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
-        >
-          <div
-            className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-            style={{ border: `1px solid ${accentColor}33` }}
           >
-            <h2
-              className="text-xl md:text-2xl font-bold mb-4 font-orbitron"
+            <TechIcon size={48} color={accentColor} />
+            <div
+              className="absolute inset-0 rounded-full"
               style={{
-                color: accentColor,
-                textShadow: `0 0 8px ${accentColor}33`,
+                background: `radial-gradient(circle, ${accentColor}33, transparent 70%)`,
+                opacity: 0.5,
               }}
+            />
+          </motion.div>
+
+          {/* Orbital Paths */}
+          <svg className="absolute w-full h-full orbital-paths">
+            <motion.circle
+              cx="50%"
+              cy="50%"
+              r="100"
+              fill="none"
+              stroke={accentColor}
+              strokeWidth="1"
+              strokeDasharray="10 10"
+              variants={orbitPathVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false }}
+            />
+            <motion.circle
+              cx="50%"
+              cy="50%"
+              r="150"
+              fill="none"
+              stroke={accentColor}
+              strokeWidth="1"
+              strokeDasharray="10 10"
+              variants={orbitPathVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false }}
+            />
+          </svg>
+
+          {/* Bio Planet */}
+          <motion.div
+            className="absolute right-4 w-64 md:w-80 bio-planet"
+            variants={planetVariants}
+            custom={0}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
+          >
+            <div
+              className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              style={{ border: `1px solid ${accentColor}33` }}
             >
-              About Me
-            </h2>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={selectedTech}
-                className="text-base leading-relaxed"
-                style={{ color: textColor }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+              <h2
+                className="text-xl md:text-2xl font-bold mb-4 font-orbitron"
+                style={{
+                  color: accentColor,
+                  textShadow: `0 0 8px ${accentColor}33`,
+                }}
               >
-                {description}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-        </motion.div>
-
-        {/* Skills Planet */}
-        <motion.div
-          className="absolute left-5 w-64 md:w-80"
-          variants={planetVariants}
-          custom={1}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false }}
-          whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
-        >
-          <div
-            className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-            style={{ border: `1px solid ${accentColor}33` }}
-          >
-            <h3
-              className="text-lg md:text-xl font-bold mb-4 font-orbitron"
-              style={{
-                color: accentColor,
-                textShadow: `0 0 8px ${accentColor}33`,
-              }}
-            >
-              Core Skills
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={index}
-                  className="relative flex flex-col items-center"
-                  variants={hexBadgeVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  whileHover="hover"
-                  viewport={{ once: false }}
+                About Me
+              </h2>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={selectedTech}
+                  className="text-base leading-relaxed"
+                  style={{ color: textColor }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <svg className="w-16 h-16" viewBox="0 0 100 100">
-                    <polygon
-                      points="50,10 90,30 90,70 50,90 10,70 10,30"
-                      fill="none"
-                      stroke="#4B5563"
-                      strokeWidth="4"
-                    />
-                    <text
-                      x="50"
-                      y="55"
-                      textAnchor="middle"
-                      className="text-base font-bold"
-                      fill="black"
-                    >
-                      {skill.level}%
-                    </text>
-                  </svg>
-                  <span
-                    className="mt-1 text-base text-center"
-                    style={{ color: textColor }} // Fixed syntax error
-                  >
-                    {skill.name}
-                  </span>
-                </motion.div>
-              ))}
+                  {description}
+                </motion.p>
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Skills Planet */}
+          <motion.div
+            className="absolute left-5 w-64 md:w-80 skills-planet"
+            variants={planetVariants}
+            custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
+          >
+            <div
+              className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              style={{ border: `1px solid ${accentColor}33` }}
+            >
+              <h3
+                className="text-lg md:text-xl font-bold mb-4 font-orbitron"
+                style={{
+                  color: accentColor,
+                  textShadow: `0 0 8px ${accentColor}33`,
+                }}
+              >
+                Core Skills
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {skills.map((skill, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative flex flex-col items-center"
+                    variants={hexBadgeVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    whileHover="hover"
+                    viewport={{ once: false }}
+                  >
+                    <svg className="w-16 h-16" viewBox="0 0 100 100">
+                      <polygon
+                        points="50,10 90,30 90,70 50,90 10,70 10,30"
+                        fill="none"
+                        stroke="#4B5563"
+                        strokeWidth="4"
+                      />
+                      <text
+                        x="50"
+                        y="55"
+                        textAnchor="middle"
+                        className="text-base font-bold"
+                        fill="black"
+                      >
+                        {skill.level}%
+                      </text>
+                    </svg>
+                    <span
+                      className="mt-1 text-base text-center"
+                      style={{ color: textColor }}
+                    >
+                      {skill.name}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </section>
+      </section>
+    </>
   );
 }
 
