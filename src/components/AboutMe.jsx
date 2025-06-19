@@ -220,7 +220,7 @@ const getContrastTextColor = (bgColor) => {
   const g = (rgb >> 8) & 0xff;
   const b = rgb & 0xff;
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
+  return brightness > 150 ? "#000" : "#000";
 };
 
 function AboutMe() {
