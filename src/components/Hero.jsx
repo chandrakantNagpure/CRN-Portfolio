@@ -1,4 +1,3 @@
-// Hero.jsx
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -19,6 +18,15 @@ import {
 } from "react-icons/si";
 import { useTech } from "./TechContext";
 
+// Debounce utility for resize handler
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
 const ParticleCanvas = ({ bgColor }) => {
   const canvasRef = useRef(null);
 
@@ -36,6 +44,7 @@ const ParticleCanvas = ({ bgColor }) => {
       speedY: Math.random() * 0.3 - 0.15,
     }));
 
+    let animationFrameId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
@@ -49,34 +58,44 @@ const ParticleCanvas = ({ bgColor }) => {
         ctx.fillStyle = `${bgColor}33`;
         ctx.fill();
       });
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
     animate();
 
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    };
+    }, 100);
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [bgColor]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-0" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-0"
+      aria-label="Decorative animated particle background"
+    />
+  );
 };
 
 const techDescriptions = {
-  react: "React description...",
-  nextjs: "Next.js description...",
-  tailwind: "Tailwind description...",
-  wordpress: "WordPress description...",
-  php: "PHP description...",
-  javascript: "JavaScript description...",
-  github: "GitHub description...",
-  figma: "Figma description...",
-  photoshop: "Photoshop description...",
-  gsap: "GSAP description...",
-  framer: "Framer description...",
-  default: "General tech description...",
+  react: "Expert React developer building fast, scalable, and user-friendly web applications with modern JavaScript frameworks.",
+  nextjs: "Specialized in Next.js for server-side rendering and static site generation, optimizing performance and SEO.",
+  tailwind: "Proficient in Tailwind CSS for rapid, responsive, and visually appealing UI development.",
+  wordpress: "Experienced WordPress developer creating custom themes, plugins, and SEO-optimized websites.",
+  php: "Skilled PHP developer building dynamic, server-side web applications and custom CMS solutions.",
+  javascript: "Advanced JavaScript developer crafting interactive and performant web experiences.",
+  github: "Proficient in GitHub for version control, collaboration, and open-source contributions.",
+  figma: "Expert in Figma for designing intuitive and visually stunning UI/UX prototypes.",
+  photoshop: "Skilled in Adobe Photoshop for creating high-quality graphics and visual assets.",
+  gsap: "Experienced in GSAP for creating smooth, engaging animations for web applications.",
+  framer: "Proficient in Framer Motion for building advanced, interactive web animations.",
+  default: "Versatile frontend developer with expertise in React, WordPress, UI/UX design, and modern web technologies.",
 };
 
 const techTitles = {
@@ -204,8 +223,37 @@ function Hero() {
   const isDarkBg = getContrastTextColor(bgColor) === "#fff";
   const iconBgColor = isDarkBg ? "#1f2937" : "#ffffff";
 
+  // Structured Data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Chandrakant Nagpure",
+    jobTitle: "Frontend Developer",
+    description: "Specializing in React, Next.js, WordPress, and UI/UX design.",
+    url: "https://chandrakantnagpure.com", // Replace with actual URL
+    sameAs: [
+      "https://github.com/chandrakantnagpure", // Replace with actual GitHub
+      "https://linkedin.com/in/chandrakantnagpure", // Replace with actual LinkedIn
+    ],
+  };
+
   return (
     <>
+      {/* Structured Data */}
+      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+
+      {/* Note: Add meta tags in the parent page or Next.js Head component:
+        <Head>
+          <title>Chandrakant Nagpure - Frontend Developer & WordPress Expert</title>
+          <meta name="description" content="Chandrakant Nagpure, a skilled React and WordPress developer, offers expertise in building modern, SEO-friendly web applications." />
+          <meta property="og:title" content="Chandrakant Nagpure - Frontend Developer" />
+          <meta property="og:description" content="Expert in React, Next.js, WordPress, and UI/UX design. Contact for modern web solutions." />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://chandrakantnagpure.com" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
+      */}
+
       <section
         id="home"
         ref={heroRef}
@@ -218,6 +266,13 @@ function Hero() {
         }}
       >
         <ParticleCanvas bgColor={bgColor || "#ffffff"} />
+
+        {/* Hidden div for SEO to ensure all titles are crawlable */}
+        <div style={{ display: "none" }}>
+          {Object.values(techTitles).flat().map((title, i) => (
+            <span key={i}>{title}</span>
+          ))}
+        </div>
 
         <div className="relative z-10 max-w-7xl w-full flex flex-col md:flex-row items-center justify-between gap-12">
           <motion.div
@@ -246,9 +301,10 @@ function Hero() {
               {description}
             </motion.p>
             <a
-              href="#contact"
+              href="/contact"
               className="inline-block px-6 py-3 rounded-full font-medium text-base transition-all duration-300 hover:scale-105"
               style={{ backgroundColor: iconColor, color: getContrastTextColor(iconColor) }}
+              aria-label="Contact Chandrakant Nagpure to collaborate on projects"
             >
               Let’s Work Together
             </a>
@@ -279,12 +335,14 @@ function Hero() {
                     <Icon
                       size={selectedTech === tech ? 36 : 32}
                       color={techColors[tech]}
-                      aria-label={`Click to select ${label} technology`}
+                      aria-label={`Select ${label} technology`}
                     />
                   </div>
                   <div className="hidden md:block absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-800 text-white text-xs rounded px-2 py-1 pointer-events-none">
-                    Click to select {label}
+                    Select {label}
                   </div>
+                  {/* Hidden span for SEO */}
+                  <span style={{ display: "none" }}>{label} Developer</span>
                 </motion.div>
               ))}
             </div>
@@ -306,7 +364,7 @@ function Hero() {
               <button
                 onClick={toggleDropdown}
                 className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full shadow-lg hover:bg-gray-700 transition"
-                aria-label={isDropdownOpen ? "Close tech dropdown" : "Open tech dropdown"}
+                aria-label={isDropdownOpen ? "Close technology dropdown" : "Open technology dropdown"}
               >
                 <motion.div
                   key={selectedTech}
@@ -335,7 +393,9 @@ function Hero() {
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <Icon size={24} color={techColors[tech]} aria-label={`Click to select ${label} technology`} />
+                        <Icon size={24} color={techColors[tech]} aria-label={`Select ${label} technology`} />
+                        {/* Hidden span for SEO */}
+                        <span style={{ display: "none" }}>{label} Developer</span>
                       </motion.li>
                     ))}
                   </motion.ul>
