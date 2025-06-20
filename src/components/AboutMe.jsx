@@ -17,93 +17,102 @@ import {
   SiFramer,
 } from "react-icons/si";
 
+// Debounce utility for resize handler
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
 // Define tech-specific descriptions
 const techDescriptions = {
   react:
-    "Crafting dynamic, component-based UIs with React, I build fast, scalable web apps that shine.",
+    "Crafting dynamic, component-based UIs with React, I build fast, scalable web applications optimized for performance and user experience.",
   nextjs:
-    "Using Next.js, I create SEO-optimized, server-rendered apps with blazing performance.",
+    "Using Next.js, I create SEO-optimized, server-rendered applications with blazing-fast performance and static site generation.",
   tailwind:
-    "Tailwind CSS lets me design responsive, modern interfaces with rapid, utility-first styling.",
+    "Tailwind CSS enables rapid, responsive, and modern UI development with utility-first styling for consistent designs.",
   wordpress:
-    "I build customizable, SEO-friendly WordPress sites with tailored themes and plugins.",
-  php: "PHP powers my secure, scalable backend systems, seamlessly integrated with modern frontends.",
+    "I build customizable, SEO-friendly WordPress websites with custom themes and plugins for enhanced functionality.",
+  php: "PHP powers my secure, scalable backend systems, seamlessly integrated with modern frontend frameworks.",
   javascript:
-    "JavaScript fuels my interactive web experiences, from DOM magic to async logic.",
+    "JavaScript drives my interactive web experiences, leveraging ES6+, DOM manipulation, and asynchronous programming.",
   github:
-    "GitHub streamlines my workflows, enabling version control and CI/CD collaboration.",
+    "GitHub streamlines my version control, CI/CD pipelines, and collaborative workflows for efficient development.",
   figma:
-    "Figma is my canvas for designing intuitive, user-centered interfaces and prototypes.",
+    "Figma is my tool for designing intuitive, user-centered UI/UX prototypes and collaborative design systems.",
   photoshop:
-    "Photoshop helps me create pixel-perfect graphics and stunning web visuals.",
-  gsap: "GSAP brings my web animations to life with smooth, high-performance motion.",
+    "Adobe Photoshop enables me to create pixel-perfect graphics and high-quality web assets for stunning visuals.",
+  gsap: "GSAP powers smooth, high-performance web animations, enhancing user engagement and interactivity.",
   framer:
-    "Framer lets me craft interactive prototypes with advanced, motion-driven designs.",
+    "Framer Motion allows me to craft advanced, motion-driven prototypes and interactive web designs.",
   default:
-    "I’m Chandrakant Nagpure, a developer and designer with 5+ years of experience, creating innovative, user-focused web solutions.",
+    "I’m Chandrakant Nagpure, a versatile developer and designer with over 5 years of experience, delivering innovative, user-focused web solutions.",
 };
 
-// Define key skills with expertise levels
+// Define key skills with expertise levels and descriptions
 const skillsHighlights = {
   react: [
-    { name: "Components", level: 90 },
-    { name: "State", level: 85 },
-    { name: "Hooks", level: 88 },
+    { name: "Components", level: 90, description: "Building reusable, modular React components for scalable applications." },
+    { name: "State", level: 85, description: "Managing complex state with Redux and Context API for robust UIs." },
+    { name: "Hooks", level: 88, description: "Leveraging React Hooks for efficient, functional component logic." },
   ],
   nextjs: [
-    { name: "SSR", level: 87 },
-    { name: "SSG", level: 85 },
-    { name: "API Routes", level: 80 },
+    { name: "SSR", level: 87, description: "Implementing server-side rendering for SEO and performance." },
+    { name: "SSG", level: 85, description: "Using static site generation for fast, pre-rendered pages." },
+    { name: "API Routes", level: 80, description: "Creating dynamic API routes for seamless backend integration." },
   ],
   tailwind: [
-    { name: "Utility CSS", level: 92 },
-    { name: "Responsive", level: 90 },
-    { name: "Prototyping", level: 88 },
+    { name: "Utility CSS", level: 92, description: "Crafting responsive UIs with Tailwind's utility-first approach." },
+    { name: "Responsive", level: 90, description: "Designing mobile-first, adaptive layouts for all devices." },
+    { name: "Prototyping", level: 88, description: "Rapidly prototyping designs with Tailwind CSS." },
   ],
   wordpress: [
-    { name: "Themes", level: 85 },
-    { name: "Plugins", level: 80 },
-    { name: "SEO", level: 87 },
+    { name: "Themes", level: 85, description: "Developing custom WordPress themes for unique designs." },
+    { name: "Plugins", level: 80, description: "Creating and customizing plugins for enhanced functionality." },
+    { name: "SEO", level: 87, description: "Optimizing WordPress sites for search engine visibility." },
   ],
   php: [
-    { name: "Backend", level: 82 },
-    { name: "Database", level: 80 },
-    { name: "Security", level: 85 },
+    { name: "Backend", level: 82, description: "Building robust server-side applications with PHP." },
+    { name: "Database", level: 80, description: "Integrating MySQL and other databases with PHP." },
+    { name: "Security", level: 85, description: "Implementing secure coding practices in PHP applications." },
   ],
   javascript: [
-    { name: "ES6+", level: 90 },
-    { name: "DOM", level: 88 },
-    { name: "Async", level: 85 },
+    { name: "ES6+", level: 90, description: "Writing modern JavaScript with ES6+ features for dynamic apps." },
+    { name: "DOM", level: 88, description: "Manipulating the DOM for interactive user interfaces." },
+    { name: "Async", level: 85, description: "Handling asynchronous operations with Promises and async/await." },
   ],
   github: [
-    { name: "Version Control", level: 88 },
-    { name: "CI/CD", level: 85 },
-    { name: "Collaboration", level: 90 },
+    { name: "Version Control", level: 88, description: "Managing codebases with Git and GitHub for version control." },
+    { name: "CI/CD", level: 85, description: "Automating deployments with GitHub Actions and CI/CD pipelines." },
+    { name: "Collaboration", level: 90, description: "Collaborating on open-source and team projects via GitHub." },
   ],
   figma: [
-    { name: "UI/UX", level: 87 },
-    { name: "Prototyping", level: 85 },
-    { name: "Collaboration", level: 88 },
+    { name: "UI/UX", level: 87, description: "Designing user-friendly interfaces with Figma." },
+    { name: "Prototyping", level: 85, description: "Creating interactive UI/UX prototypes in Figma." },
+    { name: "Collaboration", level: 88, description: "Streamlining team workflows with Figma's collaboration tools." },
   ],
   photoshop: [
-    { name: "Graphics", level: 85 },
-    { name: "Editing", level: 90 },
-    { name: "Web Assets", level: 87 },
+    { name: "Graphics", level: 85, description: "Creating high-quality graphics for web and print." },
+    { name: "Editing", level: 90, description: "Editing images for professional web assets." },
+    { name: "Web Assets", level: 87, description: "Producing optimized visual assets for websites." },
   ],
   gsap: [
-    { name: "Animations", level: 88 },
-    { name: "Scroll", level: 85 },
-    { name: "Performance", level: 80 },
+    { name: "Animations", level: 88, description: "Crafting smooth animations with GSAP for engaging UIs." },
+    { name: "Scroll", level: 85, description: "Implementing scroll-triggered animations with GSAP." },
+    { name: "Performance", level: 80, description: "Optimizing GSAP animations for high performance." },
   ],
   framer: [
-    { name: "Motion", level: 87 },
-    { name: "Prototypes", level: 85 },
-    { name: "Animations", level: 88 },
+    { name: "Motion", level: 87, description: "Building dynamic motion effects with Framer Motion." },
+    { name: "Prototypes", level: 85, description: "Creating interactive prototypes with Framer." },
+    { name: "Animations", level: 88, description: "Designing advanced animations for web applications." },
   ],
   default: [
-    { name: "Frontend", level: 90 },
-    { name: "UI/UX", level: 85 },
-    { name: "Full-Stack", level: 88 },
+    { name: "Frontend", level: 90, description: "Developing modern, responsive frontend applications." },
+    { name: "UI/UX", level: 85, description: "Designing intuitive and visually appealing user interfaces." },
+    { name: "Full-Stack", level: 88, description: "Building end-to-end web solutions with frontend and backend expertise." },
   ],
 };
 
@@ -183,6 +192,7 @@ const ParticleCanvas = ({ bgColor }) => {
       speedY: Math.random() * 0.3 - 0.15,
     }));
 
+    let animationFrameId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
@@ -196,19 +206,29 @@ const ParticleCanvas = ({ bgColor }) => {
         ctx.fillStyle = `${bgColor}33`;
         ctx.fill();
       });
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
     animate();
 
-    const handleResize = () => {
+    const handleResize = debounce(() => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    };
+    }, 100);
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [bgColor]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-0" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 z-0"
+      aria-label="Decorative animated particle background"
+    />
+  );
 };
 
 // Contrast text color function
@@ -220,7 +240,7 @@ const getContrastTextColor = (bgColor) => {
   const g = (rgb >> 8) & 0xff;
   const b = rgb & 0xff;
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#000";
+  return brightness > 150 ? "#000" : "#fff";
 };
 
 function AboutMe() {
@@ -248,8 +268,30 @@ function AboutMe() {
   const textColor = getContrastTextColor(bgColor);
   const TechIcon = techIcons[selectedTech] || techIcons.default;
 
+  // Structured Data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Chandrakant Nagpure",
+    jobTitle: "Frontend Developer",
+    description: "Specializing in React, Next.js, WordPress, UI/UX design, and modern web technologies with over 5 years of experience.",
+    url: "https://chandrakantnagpure.com", // Replace with actual URL
+    knowsAbout: Object.keys(techDescriptions).map((tech) => ({
+      "@type": "Thing",
+      name: tech.charAt(0).toUpperCase() + tech.slice(1),
+      description: techDescriptions[tech],
+    })),
+    sameAs: [
+      "https://github.com/chandrakantnagpure", // Replace with actual GitHub
+      "https://linkedin.com/in/chandrakantnagpure", // Replace with actual LinkedIn
+    ],
+  };
+
   return (
     <>
+      {/* Structured Data */}
+      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+
       <style>
         {`
           @media (max-width: 990px) {
@@ -302,6 +344,21 @@ function AboutMe() {
         {/* Particle Background */}
         <ParticleCanvas bgColor={bgColor || "#4B5563"} />
 
+        {/* Hidden div for SEO to ensure all descriptions and skills are crawlable */}
+        <div style={{ display: "none" }}>
+          {Object.entries(techDescriptions).map(([tech, desc], i) => (
+            <span key={i}>{desc}</span>
+          ))}
+          {Object.entries(skillsHighlights).map(([tech, skills], i) => (
+            <div key={i}>
+              {skills.map((skill, j) => (
+                <span key={j}>{`${skill.name}: ${skill.description}`}</span>
+              ))}
+            </div>
+          ))}
+          <span>{selectedTech.charAt(0).toUpperCase() + selectedTech.slice(1)} Developer</span>
+        </div>
+
         {/* Orbital Cluster */}
         <motion.div className="relative max-w-4xl w-full h-[80vh] flex items-center justify-center z-10 orbital-cluster">
           {/* Central Star */}
@@ -311,8 +368,13 @@ function AboutMe() {
             initial="hidden"
             animate={["visible", "pulse"]}
             viewport={{ once: false }}
+            aria-label={`Selected technology: ${selectedTech.charAt(0).toUpperCase() + selectedTech.slice(1)}`}
           >
-            <TechIcon size={48} color={accentColor} />
+            <TechIcon
+              size={48}
+              color={accentColor}
+              aria-label={`${selectedTech.charAt(0).toUpperCase() + selectedTech.slice(1)} icon`}
+            />
             <div
               className="absolute inset-0 rounded-full"
               style={{
@@ -379,7 +441,7 @@ function AboutMe() {
                 <motion.p
                   key={selectedTech}
                   className="text-base leading-relaxed"
-                  style={{ color: textColor }}
+                  style={{ color: "#000" }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -424,6 +486,8 @@ function AboutMe() {
                     whileInView="visible"
                     whileHover="hover"
                     viewport={{ once: false }}
+                    role="group"
+                    aria-label={`${skill.name}: ${skill.description}, Expertise level ${skill.level}%`}
                   >
                     <svg className="w-16 h-16" viewBox="0 0 100 100">
                       <polygon
@@ -444,10 +508,11 @@ function AboutMe() {
                     </svg>
                     <span
                       className="mt-1 text-base text-center"
-                      style={{ color: textColor }}
+                      style={{ color: "#000" }}
                     >
                       {skill.name}
                     </span>
+                    <span style={{ display: "none" }}>{skill.description}</span>
                   </motion.div>
                 ))}
               </div>

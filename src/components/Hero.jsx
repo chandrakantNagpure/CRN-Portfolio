@@ -242,18 +242,6 @@ function Hero() {
       {/* Structured Data */}
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
 
-      {/* Note: Add meta tags in the parent page or Next.js Head component:
-        <Head>
-          <title>Chandrakant Nagpure - Frontend Developer & WordPress Expert</title>
-          <meta name="description" content="Chandrakant Nagpure, a skilled React and WordPress developer, offers expertise in building modern, SEO-friendly web applications." />
-          <meta property="og:title" content="Chandrakant Nagpure - Frontend Developer" />
-          <meta property="og:description" content="Expert in React, Next.js, WordPress, and UI/UX design. Contact for modern web solutions." />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://chandrakantnagpure.com" />
-          <meta name="twitter:card" content="summary_large_image" />
-        </Head>
-      */}
-
       <section
         id="home"
         ref={heroRef}
