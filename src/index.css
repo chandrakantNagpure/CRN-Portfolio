@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+/* Lazy loading image effects */
+.lazy-load-image-background {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.lazy-load-image-background.blur {
+  filter: blur(5px);
+  transition: filter 0.3s;
+}
+
+.lazy-load-image-background.blur.lazy-load-image-loaded {
+  filter: blur(0);
+}
+
+/* Performance optimizations */
+.project-card img,
+.lazy-load-image-background img {
+  will-change: transform;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .lazy-load-image-background.blur {
+    filter: none;
+    transition: none;
+  }
+  
+  .project-card img,
+  .lazy-load-image-background img {
+    will-change: auto;
+  }
+}

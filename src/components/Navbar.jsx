@@ -5,7 +5,7 @@ import {
   FaProjectDiagram,
   FaEnvelope,
 } from "react-icons/fa";
-import logo from "/assets/logo-5.png";
+import OptimizedImage from "./OptimizedImage";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,12 +66,15 @@ function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
           {/* Logo */}
           <a href="#home" className="flex items-center">
-            <img
-              src={logo}
+            <OptimizedImage
+              src="/assets/logo-5.png"
               alt="CRN Logo"
-              className={`transition-all duration-300 ${
+              className={`object-contain transition-all duration-300 ${
                 isScrolled ? "w-[120px]" : "w-[160px]"
               }`}
+              width={isScrolled ? 120 : 160}
+              height={isScrolled ? 40 : 50}
+              effect="opacity"
             />
           </a>
 

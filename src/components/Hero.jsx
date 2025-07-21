@@ -18,70 +18,7 @@ import {
 } from "react-icons/si";
 import { useTech } from "./TechContext";
 
-// Debounce utility for resize handler
-const debounce = (func, wait) => {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-};
-
-const ParticleCanvas = ({ bgColor }) => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles = Array.from({ length: 30 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 1,
-      speedX: Math.random() * 0.3 - 0.15,
-      speedY: Math.random() * 0.3 - 0.15,
-    }));
-
-    let animationFrameId;
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `${bgColor}33`;
-        ctx.fill();
-      });
-      animationFrameId = requestAnimationFrame(animate);
-    };
-    animate();
-
-    const handleResize = debounce(() => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }, 100);
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [bgColor]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 z-0"
-      aria-label="Decorative animated particle background"
-    />
-  );
-};
+import ParticleCanvas from "./ParticleCanvas";
 
 const techDescriptions = {
   react: "Expert React developer building fast, scalable, and user-friendly web applications with modern JavaScript frameworks.",

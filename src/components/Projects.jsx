@@ -7,6 +7,7 @@ import {
 } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useTech } from "./TechContext";
+import OptimizedImage from "./OptimizedImage";
 import {
   FaArrowUp,
   FaThumbtack,
@@ -222,14 +223,13 @@ const ProjectCard = memo(
           />
         )}
         <div className="relative overflow-hidden rounded-lg mb-4">
-          <motion.img
+          <OptimizedImage
             src={project.image}
-            srcSet={`${project.image}&w=200 200w, ${project.image}&w=400 400w`}
-            sizes="(max-width: 640px) 200px, 400px"
             alt={project.title}
-            className="w-full h-60 object-cover"
-            loading="lazy"
-            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+            className="w-full h-60 object-cover transition-transform duration-300 hover:scale-105"
+            width={400}
+            height={240}
+            effect="blur"
           />
         </div>
         <div className="flex justify-between items-center mb-2">
@@ -368,12 +368,13 @@ const ProjectModal = ({
         >
           {project.title}
         </h3>
-        <img
+        <OptimizedImage
           src={project.image}
-          srcSet={`${project.image}&w=200 200w, ${project.image}&w=400 400w`}
-          sizes="(max-width: 640px) 200px, 400px"
           alt={project.title}
           className="w-full h-48 object-cover rounded-lg mb-4"
+          width={400}
+          height={192}
+          effect="blur"
         />
         <p className="text-sm font-semibold mb-4" style={{ color: "#000" }}>
           {project.description}
