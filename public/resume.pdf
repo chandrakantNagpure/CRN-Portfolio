@@ -1,0 +1,117 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources <<
+/Font <<
+/F1 5 0 R
+>>
+>>
+>>
+endobj
+
+4 0 obj
+<<
+/Length 1000
+>>
+stream
+BT
+/F1 24 Tf
+50 750 Td
+(Chandrakant Nagpure) Tj
+0 -30 Td
+/F1 16 Tf
+(Frontend Developer & WordPress Expert) Tj
+0 -40 Td
+/F1 12 Tf
+(Email: chandrakant@example.com) Tj
+0 -20 Td
+(Phone: +1 (555) 123-4567) Tj
+0 -20 Td
+(LinkedIn: linkedin.com/in/chandrakantnagpure) Tj
+0 -20 Td
+(GitHub: github.com/chandrakantnagpure) Tj
+0 -40 Td
+/F1 16 Tf
+(EXPERIENCE) Tj
+0 -25 Td
+/F1 12 Tf
+(Senior Frontend Developer | Tech Company | 2022-Present) Tj
+0 -15 Td
+(• Developed responsive web applications using React and Next.js) Tj
+0 -15 Td
+(• Improved website performance by 40% through optimization) Tj
+0 -15 Td
+(• Led a team of 3 developers on multiple projects) Tj
+0 -25 Td
+(WordPress Developer | Digital Agency | 2020-2022) Tj
+0 -15 Td
+(• Created custom WordPress themes and plugins) Tj
+0 -15 Td
+(• Managed 20+ client websites with 99.9% uptime) Tj
+0 -40 Td
+/F1 16 Tf
+(SKILLS) Tj
+0 -25 Td
+/F1 12 Tf
+(Frontend: React, Next.js, JavaScript, TypeScript, Tailwind CSS) Tj
+0 -15 Td
+(Backend: PHP, WordPress, Node.js) Tj
+0 -15 Td
+(Design: Figma, Adobe Photoshop, UI/UX Design) Tj
+0 -15 Td
+(Animation: GSAP, Framer Motion) Tj
+0 -15 Td
+(Tools: Git, GitHub, VS Code, Webpack, Vite) Tj
+0 -40 Td
+/F1 16 Tf
+(EDUCATION) Tj
+0 -25 Td
+/F1 12 Tf
+(Bachelor of Computer Science | University Name | 2018-2022) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000053 00000 n 
+0000000110 00000 n 
+0000000251 00000 n 
+0000001303 00000 n 
+trailer
+<<
+/Size 6
+/Root 1 0 R
+>>
+startxref
+1372
+%%EOF

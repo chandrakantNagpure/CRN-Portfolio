@@ -225,14 +225,23 @@ function Hero() {
             >
               {description}
             </motion.p>
-            <a
-              href="/contact"
-              className="inline-block px-6 py-3 rounded-full font-medium text-base transition-all duration-300 hover:scale-105"
-              style={{ backgroundColor: iconColor, color: getContrastTextColor(iconColor) }}
-              aria-label="Contact Chandrakant Nagpure to collaborate on projects"
-            >
-              Let’s Work Together
-            </a>
+            
+            {/* Status and Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+              <StatusIndicator />
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#contact"
+                className="inline-block px-6 py-3 rounded-full font-medium text-base transition-all duration-300 hover:scale-105 text-center"
+                style={{ backgroundColor: iconColor, color: getContrastTextColor(iconColor) }}
+                aria-label="Contact Chandrakant Nagpure to collaborate on projects"
+              >
+                Let's Work Together
+              </a>
+              <ResumeButton variant="outline" />
+            </div>
           </motion.div>
 
           <motion.div

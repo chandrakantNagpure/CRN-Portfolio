@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTech } from "./TechContext";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
+import ResumeButton from "./ResumeButton";
 
 // Animation variants
 const containerVariants = {
@@ -336,6 +337,18 @@ function Contact() {
           <p className="text-lg mb-8" style={{ color: textColor }}>
             Have a project idea or just want to chat? Reach out via the form or connect with me directly.
           </p>
+          
+          {/* Resume Download Section */}
+          <div className="mb-8 p-4 bg-white bg-opacity-20 backdrop-blur-lg rounded-lg">
+            <h4 className="text-xl font-semibold mb-3" style={{ color: textColor }}>
+              Download My Resume
+            </h4>
+            <p className="text-sm mb-4" style={{ color: textColor }}>
+              Get a detailed overview of my experience, skills, and projects.
+            </p>
+            <ResumeButton variant="primary" />
+          </div>
+          
           <div className="mb-8">
             <h4 className="text-xl font-semibold mb-4" style={{ color: textColor }}>
               Contact Info

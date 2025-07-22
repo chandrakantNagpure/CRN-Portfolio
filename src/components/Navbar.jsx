@@ -6,6 +6,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import OptimizedImage from "./OptimizedImage";
+import StatusIndicator from "./StatusIndicator";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,6 +79,11 @@ function Navbar() {
             />
           </a>
 
+          {/* Status Indicator - Hidden on mobile */}
+          <div className="hidden md:block">
+            <StatusIndicator />
+          </div>
+
           {/* Hamburger */}
           <button
             onClick={toggleSidebar}
@@ -118,6 +124,11 @@ function Navbar() {
         }`}
       >
         <div className="flex flex-col p-6 mt-20 space-y-6 text-lg font-medium">
+          {/* Status in mobile menu */}
+          <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
+            <StatusIndicator />
+          </div>
+          
           <button
             onClick={(e) => handleLinkClick(e, "#home")}
             className="flex items-center gap-3 hover:text-teal-500 transition cursor-pointer"
