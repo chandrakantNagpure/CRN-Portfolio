@@ -1,6 +1,4 @@
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const OptimizedImage = ({
   src,
@@ -8,12 +6,14 @@ const OptimizedImage = ({
   className = '',
   width,
   height,
-  effect = 'blur',
   placeholder,
   threshold = 100,
   ...props
 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const imgRef = useRef(null);
 
   // Generate optimized image URLs for different sizes
   const generateOptimizedUrl = (originalUrl, targetWidth) => {
@@ -39,8 +39,28 @@ const OptimizedImage = ({
       .join(', ');
   };
 
-  // Fallback image for errors
-  const fallbackImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDQwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNzUgMTAwSDIyNVYxNTBIMTc1VjEwMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+SW1hZ2UgTm90IEZvdW5kPC9wPgo8L3N2Zz4K';
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: `${threshold}px` }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  const handleLoad = () => {
+    setIsLoaded(true);
+  };
 
   const handleError = () => {
     setImageError(true);
@@ -63,21 +83,40 @@ const OptimizedImage = ({
   }
 
   return (
-    <LazyLoadImage
-      src={generateOptimizedUrl(src, width || 800)}
-      srcSet={generateSrcSet(src)}
-      sizes="(max-width: 640px) 400px, (max-width: 1024px) 600px, 800px"
-      alt={alt}
-      className={className}
-      width={width}
-      height={height}
-      effect={effect}
-      threshold={threshold}
-      placeholder={placeholder}
-      onError={handleError}
-      loading="lazy"
-      {...props}
-    />
+    <div ref={imgRef} className={`relative overflow-hidden ${className}`} style={{ width, height }}>
+      {/* Placeholder */}
+      {!isLoaded && (
+        <div 
+          className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center"
+          style={{ width, height }}
+        >
+          {placeholder || (
+            <div className="text-gray-400">
+              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+              </svg>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Actual Image */}
+      {isInView && (
+        <img
+          src={generateOptimizedUrl(src, width || 800)}
+          srcSet={generateSrcSet(src)}
+          sizes="(max-width: 640px) 400px, (max-width: 1024px) 600px, 800px"
+          alt={alt}
+          className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          width={width}
+          height={height}
+          onLoad={handleLoad}
+          onError={handleError}
+          loading="lazy"
+          {...props}
+        />
+      )}
+    </div>
   );
 };
 
