@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   FaReact,
   FaWordpress,
@@ -234,14 +235,14 @@ function Hero() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#contact"
+              <Link
+                to="/contact"
                 className="inline-block px-6 py-3 rounded-full font-medium text-base transition-all duration-300 hover:scale-105 text-center"
                 style={{ backgroundColor: iconColor, color: getContrastTextColor(iconColor) }}
                 aria-label="Contact Chandrakant Nagpure to collaborate on projects"
               >
                 Let's Work Together
-              </a>
+              </Link>
               <ResumeButton variant="outline" />
             </div>
           </motion.div>

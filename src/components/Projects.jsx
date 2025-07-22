@@ -6,6 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 import { useTech } from "./TechContext";
 import OptimizedImage from "./OptimizedImage";
 import {

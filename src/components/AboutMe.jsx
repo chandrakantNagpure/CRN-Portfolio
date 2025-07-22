@@ -6,6 +6,7 @@ import {
   useTransform,
   useSpring,
 } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useTech } from "./TechContext";
 import OptimizedImage from "./OptimizedImage";
 import { FaReact, FaWordpress, FaPhp, FaGithub, FaFigma, FaCode } from "react-icons/fa";
@@ -448,13 +449,13 @@ function AboutMe() {
                       style={{ color: "#000" }}
                     >
                       {skill.name}
-                    </span>
-                    <span style={{ display: "none" }}>{skill.description}</span>
+          <Link
+            to="/contact"
                   </motion.div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </Link>
         </motion.div>
       </section>
     </>

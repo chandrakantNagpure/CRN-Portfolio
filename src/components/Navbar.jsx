@@ -5,10 +5,12 @@ import {
   FaProjectDiagram,
   FaEnvelope,
 } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import OptimizedImage from "./OptimizedImage";
 import StatusIndicator from "./StatusIndicator";
 
 function Navbar() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -47,13 +49,14 @@ function Navbar() {
     };
   }, []);
 
-  const handleLinkClick = (e, id) => {
-    e.preventDefault();
-    const section = document.querySelector(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleLinkClick = () => {
     setIsOpen(false);
+  };
+
+  const isActive = (path) => {
+    if (path === "/" && location.pathname === "/") return true;
+    if (path !== "/" && location.pathname.startsWith(path)) return true;
+    return false;
   };
 
   return (
@@ -66,7 +69,7 @@ function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
           {/* Logo */}
-          <a href="#home" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <OptimizedImage
               src="/assets/logo-5.png"
               alt="CRN Logo"
@@ -77,7 +80,7 @@ function Navbar() {
               height={isScrolled ? 40 : 50}
               effect="opacity"
             />
-          </a>
+          </Link>
 
           {/* Status Indicator - Hidden on mobile */}
           <div className="hidden md:block">
@@ -129,30 +132,42 @@ function Navbar() {
             <StatusIndicator />
           </div>
           
-          <button
-            onClick={(e) => handleLinkClick(e, "#home")}
-            className="flex items-center gap-3 hover:text-teal-500 transition cursor-pointer"
+          <Link
+            to="/"
+            onClick={handleLinkClick}
+            className={`flex items-center gap-3 hover:text-teal-500 transition cursor-pointer ${
+              isActive("/") ? "text-teal-500" : ""
+            }`}
           >
             <FaHome /> Home
-          </button>
-          <button
-            onClick={(e) => handleLinkClick(e, "#about")}
-            className="flex items-center gap-3 hover:text-teal-500 transition cursor-pointer"
+          </Link>
+          <Link
+            to="/about"
+            onClick={handleLinkClick}
+            className={`flex items-center gap-3 hover:text-teal-500 transition cursor-pointer ${
+              isActive("/about") ? "text-teal-500" : ""
+            }`}
           >
             <FaUser /> About
-          </button>
-          <button
-            onClick={(e) => handleLinkClick(e, "#projects")}
-            className="flex items-center gap-3 hover:text-teal-500 transition cursor-pointer"
+          </Link>
+          <Link
+            to="/projects"
+            onClick={handleLinkClick}
+            className={`flex items-center gap-3 hover:text-teal-500 transition cursor-pointer ${
+              isActive("/projects") ? "text-teal-500" : ""
+            }`}
           >
             <FaProjectDiagram /> Projects
-          </button>
-          <button
-            onClick={(e) => handleLinkClick(e, "#contact")}
-            className="flex items-center gap-3 hover:text-teal-500 transition cursor-pointer"
+          </Link>
+          <Link
+            to="/contact"
+            onClick={handleLinkClick}
+            className={`flex items-center gap-3 hover:text-teal-500 transition cursor-pointer ${
+              isActive("/contact") ? "text-teal-500" : ""
+            }`}
           >
             <FaEnvelope /> Contact
-          </button>
+          </Link>
         </div>
       </aside>
     </>
