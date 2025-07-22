@@ -44,7 +44,7 @@ const techDescriptions = {
   framer:
     "Framer Motion allows me to craft advanced, motion-driven prototypes and interactive web designs.",
   default:
-    "I’m Chandrakant Nagpure, a versatile developer and designer with over 5 years of experience, delivering innovative, user-focused web solutions.",
+    "I'm Chandrakant Nagpure, a versatile developer and designer with over 5 years of experience, delivering innovative, user-focused web solutions.",
 };
 
 // Define key skills with expertise levels and descriptions
@@ -449,14 +449,20 @@ function AboutMe() {
                       style={{ color: "#000" }}
                     >
                       {skill.name}
-          <Link
-            to="/contact"
+                    </span>
                   </motion.div>
                 ))}
               </div>
             </div>
-          </Link>
+          </motion.div>
         </motion.div>
+
+        <Link
+          to="/contact"
+          className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
+        >
+          Get In Touch
+        </Link>
       </section>
     </>
   );
