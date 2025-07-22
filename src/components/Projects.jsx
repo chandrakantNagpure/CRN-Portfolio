@@ -510,73 +510,98 @@ function Projects() {
     );
   };
 
+  const primaryColor = techColors[selectedTech] || "#4B5563";
+
   return (
-    <section
-      id="projects"
-      ref={sectionRef}
-      className="min-h-screen flex flex-col items-center py-16 px-6 md:px-16 relative font-poppins overflow-hidden"
-      style={{
-        background: bgColor
-          ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
-          : `linear-gradient(to right, #ffffff33, #ffffff)`,
-        color: textColor,
-        opacity: 1,
-      }}
-    >
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 h-1 z-20 progress-bar"
+    <>
+      <section
+        id="projects"
+        ref={sectionRef}
+        className="min-h-screen flex flex-col items-center py-16 px-6 md:px-16 relative font-poppins overflow-hidden"
         style={{
-          width: progressWidth,
-          "--accent-color": techColors[selectedTech || "default"],
+          background: bgColor
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : `linear-gradient(to right, #ffffff33, #ffffff)`,
+          color: textColor,
+          opacity: 1,
         }}
-      />
+      >
+        {/* Scroll Progress Bar */}
+        <motion.div
+          className="fixed top-0 left-0 h-1 z-20 progress-bar"
+          style={{
+            width: progressWidth,
+            "--accent-color": techColors[selectedTech || "default"],
+          }}
+        />
 
-      <div className="max-w-6xl w-full z-10 relative">
-        <motion.h2
-          className="text-4xl md:text-5xl font-orbitron font-extrabold text-center mb-12"
-          style={{ color: textColor }}
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          My Projects
-        </motion.h2>
+        <div className="max-w-6xl w-full z-10 relative">
+          <motion.h2
+            className="text-4xl md:text-5xl font-orbitron font-extrabold text-center mb-12"
+            style={{ color: textColor }}
+            initial={{ y: -20 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            My Projects
+          </motion.h2>
 
-        <AnimatePresence mode="wait">
-          {filteredProjects.length === 0 ? (
-            <motion.p
-              key="no-projects"
-              className="text-lg text-center"
+          <AnimatePresence mode="wait">
+            {filteredProjects.length === 0 ? (
+              <motion.p
+                key="no-projects"
+                className="text-lg text-center"
+                style={{ color: textColor }}
+                initial={{ y: 20 }}
+                animate={{ y: 0 }}
+                exit={{ y: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                No projects found.
+              </motion.p>
+            ) : (
+              <div
+                key="grid"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    index={index}
+                    setModalProject={setModalProject}
+                    techColors={techColors}
+                    selectedTech={selectedTech}
+                    togglePin={togglePin}
+                    isPinned={pinnedIds.includes(project.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </AnimatePresence>
+
+          <motion.div
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <h3
+              className="text-2xl md:text-3xl font-bold mb-6 font-orbitron"
               style={{ color: textColor }}
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              exit={{ y: 20 }}
-              transition={{ duration: 0.3 }}
             >
-              No projects found.
-            </motion.p>
-          ) : (
-            <div
-              key="grid"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              Have a Project in Mind?
+            </h3>
+            <Link
+              to="/contact"
+              className="inline-block px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
+              style={{ backgroundColor: primaryColor, color: getContrastTextColor(primaryColor) }}
             >
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  setModalProject={setModalProject}
-                  techColors={techColors}
-                  selectedTech={selectedTech}
-                  togglePin={togglePin}
-                  isPinned={pinnedIds.includes(project.id)}
-                />
-              ))}
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
+              Let's Collaborate
+            </Link>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Project Modal */}
       <AnimatePresence>
@@ -625,7 +650,7 @@ function Projects() {
           </motion.button>
         )}
       </AnimatePresence>
-    </section>
+    </>
   );
 }
 
