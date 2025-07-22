@@ -19,6 +19,8 @@ import {
 import { useTech } from "./TechContext";
 
 import ParticleCanvas from "./ParticleCanvas";
+import StatusIndicator from "./StatusIndicator";
+import ResumeButton from "./ResumeButton";
 
 const techDescriptions = {
   react: "Expert React developer building fast, scalable, and user-friendly web applications with modern JavaScript frameworks.",
