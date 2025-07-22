@@ -1,9 +1,24 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTech } from './TechContext';
+
+// Contrast text color function (reusing existing functionality)
+const getContrastTextColor = (bgColor) => {
+  if (!bgColor) return "#000";
+  const color = bgColor.substring(1);
+  const rgb = parseInt(color, 16);
+  const r = (rgb >> 16) & 0xff;
+  const g = (rgb >> 8) & 0xff;
+  const b = rgb & 0xff;
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 150 ? "#000" : "#fff";
+};
 
 const StatusIndicator = ({ className = '' }) => {
+  const { bgColor } = useTech();
   const [status, setStatus] = useState('available');
   const [isExpanded, setIsExpanded] = useState(false);
+  const textColor = getContrastTextColor(bgColor);
 
   // Simulate status updates (in a real app, this would come from an API or manual update)
   useEffect(() => {
@@ -81,11 +96,15 @@ const StatusIndicator = ({ className = '' }) => {
             }}
           />
         </div>
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span 
+          className="text-sm font-medium"
+          style={{ color: textColor }}
+        >
           {currentStatus.text}
         </span>
         <motion.span
-          className="text-xs text-gray-500"
+          className="text-xs"
+          style={{ color: textColor, opacity: 0.7 }}
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
@@ -108,14 +127,23 @@ const StatusIndicator = ({ className = '' }) => {
           >
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">{currentStatus.icon}</span>
-              <span className="font-semibold text-gray-800">
+              <span 
+                className="font-semibold"
+                style={{ color: '#1f2937' }}
+              >
                 {currentStatus.text}
               </span>
             </div>
-            <p className="text-sm text-gray-600 mb-3">
+            <p 
+              className="text-sm mb-3"
+              style={{ color: '#4b5563' }}
+            >
               {currentStatus.description}
             </p>
-            <div className="text-xs text-gray-500">
+            <div 
+              className="text-xs"
+              style={{ color: '#6b7280' }}
+            >
               Last updated: {new Date().toLocaleTimeString()}
             </div>
           </motion.div>
