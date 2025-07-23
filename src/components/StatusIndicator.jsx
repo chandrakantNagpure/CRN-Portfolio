@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTech } from './TechContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // Contrast text color function (reusing existing functionality)
 const getContrastTextColor = (bgColor) => {
@@ -15,6 +16,7 @@ const getContrastTextColor = (bgColor) => {
 };
 
 const StatusIndicator = ({ className = '' }) => {
+  const { t } = useLanguage();
   const { bgColor } = useTech();
   const [status, setStatus] = useState('available');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -38,22 +40,22 @@ const StatusIndicator = ({ className = '' }) => {
     available: {
       color: '#10B981',
       bgColor: '#D1FAE5',
-      text: 'Available for work',
-      description: 'Open to new opportunities and projects',
+      text: t('status.available'),
+      description: t('status.descriptions.available'),
       icon: '✅'
     },
     busy: {
       color: '#F59E0B',
       bgColor: '#FEF3C7',
-      text: 'Currently busy',
-      description: 'Working on existing projects',
+      text: t('status.busy'),
+      description: t('status.descriptions.busy'),
       icon: '⏳'
     },
     away: {
       color: '#EF4444',
       bgColor: '#FEE2E2',
-      text: 'Away',
-      description: 'Not available at the moment',
+      text: t('status.away'),
+      description: t('status.descriptions.away'),
       icon: '🔴'
     }
   };
@@ -144,7 +146,7 @@ const StatusIndicator = ({ className = '' }) => {
               className="text-xs"
               style={{ color: '#6b7280' }}
             >
-              Last updated: {new Date().toLocaleTimeString()}
+              {t('status.lastUpdated')} {new Date().toLocaleTimeString()}
             </div>
           </motion.div>
         )}

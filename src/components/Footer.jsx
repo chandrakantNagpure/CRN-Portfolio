@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useTech } from "./TechContext";
 import { FaHeart, FaReact, FaWordpress, FaCode } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const getContrastTextColor = (bgColor) => {
   if (!bgColor) return "#000";
@@ -15,6 +16,7 @@ const getContrastTextColor = (bgColor) => {
 };
 
 function Footer() {
+  const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
   const textColor = getContrastTextColor(bgColor);
   const primaryColor = techColors[selectedTech] || "#4B5563";
@@ -49,28 +51,28 @@ function Footer() {
         >
           {/* Made with love section */}
           <div className="flex items-center gap-2 text-sm md:text-base">
-            <span style={{ color: textColor }}>Made with</span>
+            <span style={{ color: textColor }}>{t('footer.madeWith')}</span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
               <FaHeart size={16} color="#e74c3c" />
             </motion.div>
-            <span style={{ color: textColor }}>and</span>
+            <span style={{ color: textColor }}>{t('footer.and')}</span>
             <motion.div
               className="flex items-center gap-1"
               whileHover={{ scale: 1.05 }}
             >
               <TechIcon size={16} color={primaryColor} />
               <span style={{ color: primaryColor }} className="font-medium">
-                {selectedTech === "default" ? "passion" : selectedTech}
+                {selectedTech === "default" ? t('footer.passion') : selectedTech}
               </span>
             </motion.div>
           </div>
 
           {/* Copyright */}
           <div className="text-sm" style={{ color: textColor, opacity: 0.8 }}>
-            © {new Date().getFullYear()} Chandrakant Nagpure. All rights reserved.
+            © {new Date().getFullYear()} Chandrakant Nagpure. {t('footer.copyright')}
           </div>
 
           {/* Quick links */}
@@ -80,21 +82,21 @@ function Footer() {
               className="hover:underline transition-colors duration-200"
               style={{ color: textColor }}
             >
-              About
+              {t('nav.about')}
             </a>
             <a
               href="/projects"
               className="hover:underline transition-colors duration-200"
               style={{ color: textColor }}
             >
-              Projects
+              {t('nav.projects')}
             </a>
             <a
               href="/contact"
               className="hover:underline transition-colors duration-200"
               style={{ color: textColor }}
             >
-              Contact
+              {t('nav.contact')}
             </a>
           </div>
         </motion.div>
@@ -107,7 +109,7 @@ function Footer() {
           animate={{ opacity: 0.6 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          Building amazing web experiences with modern technologies
+          {t('footer.tagline')}
         </motion.div>
       </div>
     </footer>

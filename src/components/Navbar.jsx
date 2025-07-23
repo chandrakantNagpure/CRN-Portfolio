@@ -8,8 +8,11 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import OptimizedImage from "./OptimizedImage";
 import StatusIndicator from "./StatusIndicator";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "../contexts/LanguageContext";
 
 function Navbar() {
+  const { t } = useLanguage();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -87,6 +90,11 @@ function Navbar() {
             <StatusIndicator />
           </div>
 
+          {/* Language Switcher - Hidden on mobile */}
+          <div className="hidden md:block">
+            <LanguageSwitcher />
+          </div>
+
           {/* Hamburger */}
           <button
             onClick={toggleSidebar}
@@ -130,6 +138,9 @@ function Navbar() {
           {/* Status in mobile menu */}
           <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
             <StatusIndicator />
+            <div className="mt-3">
+              <LanguageSwitcher />
+            </div>
           </div>
           
           <Link
@@ -139,7 +150,7 @@ function Navbar() {
               isActive("/") ? "text-teal-500" : ""
             }`}
           >
-            <FaHome /> Home
+            <FaHome /> {t('nav.home')}
           </Link>
           <Link
             to="/about"
@@ -148,7 +159,7 @@ function Navbar() {
               isActive("/about") ? "text-teal-500" : ""
             }`}
           >
-            <FaUser /> About
+            <FaUser /> {t('nav.about')}
           </Link>
           <Link
             to="/projects"
@@ -157,7 +168,7 @@ function Navbar() {
               isActive("/projects") ? "text-teal-500" : ""
             }`}
           >
-            <FaProjectDiagram /> Projects
+            <FaProjectDiagram /> {t('nav.projects')}
           </Link>
           <Link
             to="/contact"
@@ -166,7 +177,7 @@ function Navbar() {
               isActive("/contact") ? "text-teal-500" : ""
             }`}
           >
-            <FaEnvelope /> Contact
+            <FaEnvelope /> {t('nav.contact')}
           </Link>
         </div>
       </aside>

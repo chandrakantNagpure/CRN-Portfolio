@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaDownload, FaEye, FaSpinner } from 'react-icons/fa';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ResumeButton = ({ className = '', variant = 'primary' }) => {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -60,7 +62,7 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
           >
             {isLoading ? <FaSpinner size={16} /> : <FaDownload size={16} />}
           </motion.div>
-          <span>{isLoading ? 'Downloading...' : 'Download Resume'}</span>
+          <span>{isLoading ? t('resume.downloading') : t('hero.downloadResume')}</span>
           
           {/* Ripple effect */}
           <motion.div
@@ -78,7 +80,7 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
           aria-label="View resume"
         >
           <FaEye size={16} />
-          <span>View</span>
+          <span>{t('hero.viewResume')}</span>
         </motion.button>
       </div>
 
@@ -94,7 +96,7 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
           >
             <div className="flex items-center gap-2">
               <span>✅</span>
-              <span>Resume downloaded successfully!</span>
+              <span>{t('resume.downloaded')}</span>
             </div>
           </motion.div>
         )}

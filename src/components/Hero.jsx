@@ -22,42 +22,7 @@ import { useTech } from "./TechContext";
 import ParticleCanvas from "./ParticleCanvas";
 import StatusIndicator from "./StatusIndicator";
 import ResumeButton from "./ResumeButton";
-
-const techDescriptions = {
-  react: "Expert React developer building fast, scalable, and user-friendly web applications with modern JavaScript frameworks.",
-  nextjs: "Specialized in Next.js for server-side rendering and static site generation, optimizing performance and SEO.",
-  tailwind: "Proficient in Tailwind CSS for rapid, responsive, and visually appealing UI development.",
-  wordpress: "Experienced WordPress developer creating custom themes, plugins, and SEO-optimized websites.",
-  php: "Skilled PHP developer building dynamic, server-side web applications and custom CMS solutions.",
-  javascript: "Advanced JavaScript developer crafting interactive and performant web experiences.",
-  github: "Proficient in GitHub for version control, collaboration, and open-source contributions.",
-  figma: "Expert in Figma for designing intuitive and visually stunning UI/UX prototypes.",
-  photoshop: "Skilled in Adobe Photoshop for creating high-quality graphics and visual assets.",
-  gsap: "Experienced in GSAP for creating smooth, engaging animations for web applications.",
-  framer: "Proficient in Framer Motion for building advanced, interactive web animations.",
-  default: "Versatile frontend developer with expertise in React, WordPress, UI/UX design, and modern web technologies.",
-};
-
-const techTitles = {
-  react: "React Developer",
-  nextjs: "Next.js Developer",
-  tailwind: "Tailwind CSS Developer",
-  wordpress: "WordPress Expert",
-  php: "PHP Developer",
-  javascript: "JavaScript Developer",
-  github: "GitHub Specialist",
-  figma: "UI/UX Designer",
-  photoshop: "Graphic Designer",
-  gsap: "Animation Developer",
-  framer: "Framer Motion Expert",
-  default: [
-    "Frontend Developer",
-    "WordPress Expert",
-    "React Enthusiast",
-    "UI/UX Designer",
-    "Freelancer",
-  ],
-};
+import { useLanguage } from "../contexts/LanguageContext";
 
 const getContrastTextColor = (bgColor) => {
   if (!bgColor) return "#000";
@@ -85,6 +50,7 @@ const iconVariants = {
 };
 
 function Hero() {
+  const { t } = useLanguage();
   const { selectedTech, bgColor, updateTech, techColors } = useTech();
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
@@ -92,16 +58,16 @@ function Hero() {
   const [deleting, setDeleting] = useState(false);
   const [textColor, setTextColor] = useState("#000");
   const [description, setDescription] = useState(techDescriptions.default);
-  const [currentTitles, setCurrentTitles] = useState(techTitles.default);
+  const [currentTitles, setCurrentTitles] = useState(t('hero.titles.default'));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHeroInView, setIsHeroInView] = useState(true);
   const heroRef = useRef(null);
 
   useEffect(() => {
     setTextColor(getContrastTextColor(bgColor));
-    setDescription(techDescriptions[selectedTech] || techDescriptions.default);
-    setCurrentTitles(techTitles[selectedTech] || techTitles.default);
-  }, [selectedTech, bgColor]);
+    setDescription(t(`hero.descriptions.${selectedTech}`) || t('hero.descriptions.default'));
+    setCurrentTitles(t(`hero.titles.${selectedTech}`) || t('hero.titles.default'));
+  }, [selectedTech, bgColor, t]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -210,7 +176,7 @@ function Hero() {
             variants={textVariants}
           >
             <h1 className="text-3xl md:text-5xl font-orbitron font-extrabold mb-4">
-              Hi, I’m Chandrakant Nagpure
+              {t('hero.greeting')}
             </h1>
             <h2 className="text-xl md:text-2xl font-semibold h-10 mb-4 font-orbitron">
               {text}
@@ -241,7 +207,7 @@ function Hero() {
                 style={{ backgroundColor: iconColor, color: getContrastTextColor(iconColor) }}
                 aria-label="Contact Chandrakant Nagpure to collaborate on projects"
               >
-                Let's Work Together
+                {t('hero.cta')}
               </Link>
               <ResumeButton variant="outline" />
             </div>

@@ -13,6 +13,7 @@ import {
   FaTimes,
   FaFilter,
 } from "react-icons/fa";
+import { useLanguage } from "../contexts/LanguageContext";
 
 // Reuse project data from Projects component
 const projectsData = [
@@ -90,6 +91,7 @@ const getContrastTextColor = (bgColor) => {
 };
 
 function ProjectsPage() {
+  const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
   const textColor = getContrastTextColor(bgColor);
   const [filteredProjects, setFilteredProjects] = useState(projectsData);
@@ -138,12 +140,12 @@ function ProjectsPage() {
   };
 
   const filters = [
-    { key: "all", label: "All Projects" },
-    { key: "featured", label: "Featured" },
-    { key: "react", label: "React" },
-    { key: "nextjs", label: "Next.js" },
-    { key: "wordpress", label: "WordPress" },
-    { key: "javascript", label: "JavaScript" },
+    { key: "all", label: t('projects.filters.all') },
+    { key: "featured", label: t('projects.filters.featured') },
+    { key: "react", label: t('projects.filters.react') },
+    { key: "nextjs", label: t('projects.filters.nextjs') },
+    { key: "wordpress", label: t('projects.filters.wordpress') },
+    { key: "javascript", label: t('projects.filters.javascript') },
   ];
 
   const primaryColor = techColors[selectedTech] || "#4B5563";
@@ -172,14 +174,13 @@ function ProjectsPage() {
             className="text-4xl md:text-6xl font-orbitron font-extrabold mb-6"
             style={{ color: textColor }}
           >
-            My Projects
+            {t('projects.title')}
           </h1>
           <p
             className="text-lg md:text-xl max-w-3xl mx-auto"
             style={{ color: textColor, opacity: 0.8 }}
           >
-            A showcase of my work spanning web development, design, and digital solutions.
-            Each project represents a unique challenge and creative solution.
+            {t('projects.subtitle')}
           </p>
         </motion.div>
 
@@ -222,7 +223,7 @@ function ProjectsPage() {
               exit={{ opacity: 0 }}
             >
               <p className="text-xl" style={{ color: textColor }}>
-                No projects found for the selected filter.
+                {t('projects.noProjects')}
               </p>
             </motion.div>
           ) : (
@@ -260,14 +261,14 @@ function ProjectsPage() {
             className="text-2xl md:text-3xl font-bold mb-6 font-orbitron"
             style={{ color: textColor }}
           >
-            Have a Project in Mind?
+            {t('projects.cta')}
           </h3>
           <a
             href="/contact"
             className="inline-block px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
             style={{ backgroundColor: primaryColor, color: getContrastTextColor(primaryColor) }}
           >
-            Let's Collaborate
+            {t('projects.collaborate')}
           </a>
         </motion.div>
       </div>
