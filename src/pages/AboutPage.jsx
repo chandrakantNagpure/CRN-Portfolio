@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTech } from "../components/TechContext";
 import OptimizedImage from "../components/OptimizedImage";
 import ParticleCanvas from "../components/ParticleCanvas";
+import Footer from "../components/Footer";
 import { FaReact, FaWordpress, FaPhp, FaGithub, FaFigma, FaCode } from "react-icons/fa";
 import {
   SiNextdotjs,
@@ -293,6 +294,7 @@ function AboutPage() {
           </a>
         </motion.div>
       </div>
+      <Footer />
     </div>
   );
 }

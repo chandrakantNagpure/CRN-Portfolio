@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTech } from "../components/TechContext";
 import ParticleCanvas from "../components/ParticleCanvas";
 import ResumeButton from "../components/ResumeButton";
+import Footer from "../components/Footer";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
 const getContrastTextColor = (bgColor) => {
@@ -450,6 +451,7 @@ function ContactPage() {
           </motion.div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

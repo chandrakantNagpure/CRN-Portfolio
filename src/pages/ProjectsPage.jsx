@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { useTech } from "../components/TechContext";
 import OptimizedImage from "../components/OptimizedImage";
 import ParticleCanvas from "../components/ParticleCanvas";
+import Footer from "../components/Footer";
 import {
   FaArrowUp,
   FaThumbtack,
@@ -270,6 +271,7 @@ function ProjectsPage() {
           </a>
         </motion.div>
       </div>
+      <Footer />
 
       {/* Project Modal */}
       <AnimatePresence>
