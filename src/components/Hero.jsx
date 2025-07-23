@@ -57,7 +57,7 @@ function Hero() {
   const [subIndex, setSubIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [textColor, setTextColor] = useState("#000");
-  const [description, setDescription] = useState(techDescriptions.default);
+  const [description, setDescription] = useState(t('hero.descriptions.default'));
   const [currentTitles, setCurrentTitles] = useState(t('hero.titles.default'));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHeroInView, setIsHeroInView] = useState(true);
@@ -163,7 +163,7 @@ function Hero() {
 
         {/* Hidden div for SEO to ensure all titles are crawlable */}
         <div style={{ display: "none" }}>
-          {Object.values(techTitles).flat().map((title, i) => (
+          {Object.values(t('hero.titles')).flat().map((title, i) => (
             <span key={i}>{title}</span>
           ))}
         </div>
