@@ -304,7 +304,7 @@ function Contact() {
                 {errors.message && (
                   <motion.p id="message-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {errors.message}
-                  </motion.p>
+                  <p style={{ color: "#000", opacity: 0.8 }}>{value}</p>
                 )}
               </AnimatePresence>
             </div>

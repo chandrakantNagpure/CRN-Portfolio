@@ -384,7 +384,7 @@ function ContactPage() {
                           {value}
                         </a>
                       ) : (
-                        <p style={{ color: textColor, opacity: 0.8 }}>{value}</p>
+                        <p style={{ color: "#000", opacity: 0.8 }}>{value}</p>
                       )}
                     </div>
                   </div>
