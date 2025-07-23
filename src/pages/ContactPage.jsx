@@ -5,6 +5,7 @@ import ParticleCanvas from "../components/ParticleCanvas";
 import ResumeButton from "../components/ResumeButton";
 import Footer from "../components/Footer";
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const getContrastTextColor = (bgColor) => {
   if (!bgColor) return "#111";
@@ -18,6 +19,7 @@ const getContrastTextColor = (bgColor) => {
 };
 
 function ContactPage() {
+  const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
   const textColor = getContrastTextColor(bgColor);
   const [formData, setFormData] = useState({
@@ -57,14 +59,14 @@ function ContactPage() {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.name.trim()) newErrors.name = t('contact.form.errors.nameRequired');
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t('contact.form.errors.emailRequired');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = t('contact.form.errors.emailInvalid');
     }
-    if (!formData.subject.trim()) newErrors.subject = "Subject is required";
-    if (!formData.message.trim()) newErrors.message = "Message is required";
+    if (!formData.subject.trim()) newErrors.subject = t('contact.form.errors.subjectRequired');
+    if (!formData.message.trim()) newErrors.message = t('contact.form.errors.messageRequired');
     return newErrors;
   };
 
@@ -84,7 +86,7 @@ function ContactPage() {
       setFocused({ name: false, email: false, subject: false, message: false });
       setTimeout(() => setSubmitted(false), 5000);
     } catch (error) {
-      setSubmitError("An error occurred. Please try again.");
+      setSubmitError(t('contact.form.error'));
     }
   };
 
@@ -118,19 +120,19 @@ function ContactPage() {
   const contactInfo = [
     {
       icon: FaEnvelope,
-      label: "Email",
+      label: t('contact.info.email'),
       value: "dummyuser@example.com",
       link: "mailto:dummyuser@example.com",
     },
     {
       icon: FaPhone,
-      label: "Phone",
+      label: t('contact.info.phone'),
       value: "+1 (555) 123-4567",
       link: "tel:+15551234567",
     },
     {
       icon: FaMapMarkerAlt,
-      label: "Location",
+      label: t('contact.info.location'),
       value: "San Francisco, CA",
       link: null,
     },
@@ -162,13 +164,13 @@ function ContactPage() {
             className="text-4xl md:text-6xl font-orbitron font-extrabold mb-6"
             style={{ color: textColor }}
           >
-            Get In Touch
+            {t('contact.title')}
           </h1>
           <p
             className="text-lg md:text-xl max-w-3xl mx-auto"
             style={{ color: textColor, opacity: 0.8 }}
           >
-            Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
+            {t('contact.subtitle')}
           </p>
         </motion.div>
 
@@ -189,7 +191,7 @@ function ContactPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  Thank you for your message! I'll get back to you soon.
+                  {t('contact.form.success')}
                 </motion.div>
               )}
               {submitError && (
@@ -205,7 +207,7 @@ function ContactPage() {
             </AnimatePresence>
 
             <h2 className="text-2xl font-bold mb-8" style={{ color: "#000" }}>
-              Send Me a Message
+              {t('contact.form.title')}
             </h2>
 
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
@@ -218,7 +220,7 @@ function ContactPage() {
                       errors.name ? "text-red-500" : "text-gray-700"
                     }`}
                   >
-                    Name *
+                    {t('contact.form.name')} {t('contact.form.required')}
                   </label>
                   <input
                     type="text"
@@ -228,7 +230,7 @@ function ContactPage() {
                     onChange={handleChange}
                     onFocus={() => handleFocus("name")}
                     onBlur={() => handleBlur("name")}
-                    placeholder="Your Name"
+                    placeholder={t('contact.form.placeholders.name')}
                     className={`w-full px-4 py-3 rounded-lg bg-white border ${
                       errors.name
                         ? "border-red-500"
@@ -249,7 +251,7 @@ function ContactPage() {
                       errors.email ? "text-red-500" : "text-gray-700"
                     }`}
                   >
-                    Email *
+                    {t('contact.form.email')} {t('contact.form.required')}
                   </label>
                   <input
                     type="email"
@@ -259,7 +261,7 @@ function ContactPage() {
                     onChange={handleChange}
                     onFocus={() => handleFocus("email")}
                     onBlur={() => handleBlur("email")}
-                    placeholder="your.email@example.com"
+                    placeholder={t('contact.form.placeholders.email')}
                     className={`w-full px-4 py-3 rounded-lg bg-white border ${
                       errors.email
                         ? "border-red-500"
@@ -281,7 +283,7 @@ function ContactPage() {
                     errors.subject ? "text-red-500" : "text-gray-700"
                   }`}
                 >
-                  Subject *
+                  {t('contact.form.subject')} {t('contact.form.required')}
                 </label>
                 <input
                   type="text"
@@ -291,7 +293,7 @@ function ContactPage() {
                   onChange={handleChange}
                   onFocus={() => handleFocus("subject")}
                   onBlur={() => handleBlur("subject")}
-                  placeholder="Project Discussion"
+                  placeholder={t('contact.form.placeholders.subject')}
                   className={`w-full px-4 py-3 rounded-lg bg-white border ${
                     errors.subject
                       ? "border-red-500"
@@ -312,7 +314,7 @@ function ContactPage() {
                     errors.message ? "text-red-500" : "text-gray-700"
                   }`}
                 >
-                  Message *
+                  {t('contact.form.message')} {t('contact.form.required')}
                 </label>
                 <textarea
                   id="message"
@@ -321,7 +323,7 @@ function ContactPage() {
                   onChange={handleChange}
                   onFocus={() => handleFocus("message")}
                   onBlur={() => handleBlur("message")}
-                  placeholder="Tell me about your project..."
+                  placeholder={t('contact.form.placeholders.message')}
                   rows={6}
                   className={`w-full px-4 py-3 rounded-lg bg-white border ${
                     errors.message
@@ -343,7 +345,7 @@ function ContactPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Send Message
+                {t('contact.form.send')}
               </motion.button>
             </form>
           </motion.div>
@@ -361,7 +363,7 @@ function ContactPage() {
                 className="text-2xl font-bold mb-6 font-orbitron"
                 style={{ color: textColor }}
               >
-                Contact Information
+                {t('contact.info.title')}
               </h3>
               <div className="space-y-4">
                 {contactInfo.map(({ icon: Icon, label, value, link }) => (
@@ -399,10 +401,10 @@ function ContactPage() {
                 className="text-xl font-semibold mb-4 font-orbitron"
                 style={{ color: textColor }}
               >
-                Download My Resume
+                {t('contact.resume.title')}
               </h4>
               <p className="mb-6" style={{ color: textColor, opacity: 0.8 }}>
-                Get a detailed overview of my experience, skills, and projects.
+                {t('contact.resume.description')}
               </p>
               <ResumeButton variant="primary" />
             </div>
@@ -413,7 +415,7 @@ function ContactPage() {
                 className="text-xl font-semibold mb-6 font-orbitron"
                 style={{ color: textColor }}
               >
-                Connect With Me
+                {t('contact.social.title')}
               </h4>
               <div className="flex gap-4">
                 {socialLinks.map(({ icon: Icon, label, url, color }) => (
@@ -437,15 +439,14 @@ function ContactPage() {
                 className="text-xl font-semibold mb-4 font-orbitron"
                 style={{ color: textColor }}
               >
-                Availability
+                {t('contact.availability.title')}
               </h4>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span style={{ color: textColor }}>Available for new projects</span>
+                <span style={{ color: textColor }}>{t('contact.availability.status')}</span>
               </div>
               <p style={{ color: textColor, opacity: 0.8 }}>
-                I'm currently accepting new freelance projects and collaborations.
-                Let's discuss how we can work together!
+                {t('contact.availability.description')}
               </p>
             </div>
           </motion.div>
