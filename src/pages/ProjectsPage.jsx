@@ -14,6 +14,10 @@ import {
   FaFilter,
 } from "react-icons/fa";
 import { useLanguage } from "../contexts/LanguageContext";
+import SEO from "../components/SEO";
+import BackToTopButton from "../components/BackToTopButton";
+import StickyContact from "../components/StickyContact";
+import ChatBot from "../components/ChatBot";
 
 // Reuse project data from Projects component
 const projectsData = [
@@ -79,16 +83,7 @@ const projectsData = [
   },
 ];
 
-const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
-  const color = bgColor.substring(1);
-  const rgb = parseInt(color, 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = rgb & 0xff;
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
-};
+import { getContrastTextColor } from "../utils/colors";
 
 function ProjectsPage() {
   const { t } = useLanguage();
@@ -151,16 +146,23 @@ function ProjectsPage() {
   const primaryColor = techColors[selectedTech] || "#4B5563";
 
   return (
-    <div
-      ref={sectionRef}
-      className="min-h-screen flex flex-col items-center py-20 px-6 md:px-16 relative font-poppins overflow-hidden"
-      style={{
-        background: bgColor
-          ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
-          : `linear-gradient(to right, #ffffff33, #ffffff)`,
-        color: textColor,
-      }}
-    >
+    <>
+      <SEO
+        title={t('projects.title')}
+        description={t('projects.subtitle')}
+        canonical="/projects"
+        keywords={['React Projects', 'WordPress Development', 'Frontend Portfolio', 'Web Development Projects', 'UI/UX Design Cases']}
+      />
+      <div
+        ref={sectionRef}
+        className="min-h-screen flex flex-col items-center py-20 px-6 md:px-16 relative font-poppins overflow-hidden"
+        style={{
+          background: bgColor
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : `linear-gradient(to right, #ffffff33, #ffffff)`,
+          color: textColor,
+        }}
+      >
       <ParticleCanvas bgColor={bgColor || "#4B5563"} />
 
       <div className="max-w-7xl w-full z-10 relative">
@@ -201,7 +203,7 @@ function ProjectsPage() {
                   : 'bg-white bg-opacity-20 backdrop-blur-lg hover:bg-opacity-30'
               }`}
               style={{
-                backgroundColor: activeFilter === filter.key ? primaryColor : undefined,
+                backgroundColor: activeFilter === filter.key ? primaryColor : '#d3d3d3' + '33',
                 color: activeFilter === filter.key ? getContrastTextColor(primaryColor) : textColor,
                 border: `1px solid ${primaryColor}33`
               }}
@@ -272,7 +274,6 @@ function ProjectsPage() {
           </a>
         </motion.div>
       </div>
-      <Footer />
 
       {/* Project Modal */}
       <AnimatePresence>
@@ -284,8 +285,19 @@ function ProjectsPage() {
             setModalProject={setModalProject}
           />
         )}
-      </AnimatePresence>
-    </div>
+        </AnimatePresence>
+      </div>
+            <Footer />
+            
+      {/* Back to Top Button */}
+      <BackToTopButton textColor={getContrastTextColor(bgColor)} />
+      
+      {/* Sticky Contact */}
+      <StickyContact />
+      
+      {/* ChatBot */}
+      <ChatBot />
+    </>
   );
 }
 

@@ -4,21 +4,12 @@ import { FaHeart, FaReact, FaWordpress, FaCode } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 import { useLanguage } from "../contexts/LanguageContext";
 
-const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
-  const color = bgColor.substring(1);
-  const rgb = parseInt(color, 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = rgb & 0xff;
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
-};
+import { getContrastTextColor } from "../utils/colors";
 
 function Footer() {
   const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
-  const textColor = getContrastTextColor(bgColor);
+  const textColor = "#000000";
   const primaryColor = techColors[selectedTech] || "#4B5563";
 
   const techIcons = {

@@ -45,8 +45,25 @@ const iconVariants = {
   visible: (i) => ({
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, delay: i * 0.1, ease: "easeOut" },
+    transition: { 
+      duration: 0.5, 
+      delay: i * 0.1, 
+      ease: "easeOut",
+      type: "spring",
+      stiffness: 100
+    },
   }),
+};
+
+// Attention-grabbing pulse animation for initial load
+const attentionPulse = {
+  scale: [1, 1.05, 1],
+  transition: {
+    duration: 1.5,
+    repeat: 3,
+    ease: "easeInOut",
+    delay: 2 // Start after icons have loaded
+  }
 };
 
 function Hero() {
@@ -176,7 +193,7 @@ function Hero() {
             variants={textVariants}
           >
             <h1 className="text-3xl md:text-5xl font-orbitron font-extrabold mb-4">
-              {t('hero.greeting')}
+              <span style={{ color: iconColor }}>I'll Build Your</span> Dream Website
             </h1>
             <h2 className="text-xl md:text-2xl font-semibold h-10 mb-4 font-orbitron">
               {text}
@@ -214,12 +231,54 @@ function Hero() {
           </motion.div>
 
           <motion.div
-            className="flex-1 flex justify-center items-center w-full max-w-md"
+            className="flex-1 flex flex-col justify-center items-center w-full max-w-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-6 w-full">
+            {/* Interactive Instructions */}
+            <motion.div 
+              className="text-center mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              <h3 
+                className="text-lg font-semibold mb-2 font-orbitron"
+                style={{ color: iconColor }}
+              >
+                Click to Explore My Skills
+              </h3>
+              <p 
+                className="text-sm opacity-75 mb-4"
+                style={{ color: textColor }}
+              >
+                Choose a technology to see personalized content
+              </p>
+              
+              {/* Animated hint arrow */}
+              <motion.div
+                className="flex justify-center"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <span 
+                  className="text-2xl"
+                  style={{ color: iconColor }}
+                >
+                  ↓
+                </span>
+              </motion.div>
+            </motion.div>
+
+            <motion.div 
+              className="grid grid-cols-3 md:grid-cols-3 gap-4 md:gap-6 w-full"
+              animate={attentionPulse}
+            >
               {techIcons.filter((item) => item.tech !== "default").map(({ icon: Icon, tech, label }, i) => (
                 <motion.div
                   key={tech}
@@ -229,26 +288,86 @@ function Hero() {
                   initial="hidden"
                   animate="visible"
                   whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => handleIconClick(tech)}
                 >
+                  {/* Interactive container with better visual cues */}
                   <div
-                    className="p-3 rounded-full cursor-pointer transition-all duration-200"
-                    style={{ backgroundColor: iconBgColor }}
+                    className={`relative p-3 md:p-4 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${
+                      selectedTech === tech 
+                        ? 'shadow-xl ring-4 ring-opacity-50 transform scale-110' 
+                        : 'shadow-md hover:shadow-lg border-opacity-30'
+                    }`}
+                    style={{ 
+                      backgroundColor: iconBgColor,
+                      borderColor: selectedTech === tech ? techColors[tech] : 'transparent',
+                      boxShadow: selectedTech === tech ? `0 8px 25px ${techColors[tech]}40` : undefined,
+                      '--tw-ring-color': `${techColors[tech]}50`
+                    }}
                   >
+                    {/* Pulse effect for selected tech */}
+                    {selectedTech === tech && (
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl"
+                        style={{ backgroundColor: techColors[tech] }}
+                        animate={{
+                          scale: [1, 1.1, 1],
+                          opacity: [0, 0.2, 0]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    )}
+                    
                     <Icon
-                      size={selectedTech === tech ? 36 : 32}
+                      size={selectedTech === tech ? 40 : 32}
                       color={techColors[tech]}
                       aria-label={`Select ${label} technology`}
+                      className="relative z-10"
+                    />
+                    
+                    {/* Click indicator */}
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-blue-500"
+                      style={{ backgroundColor: techColors[tech] }}
+                      animate={selectedTech === tech ? {} : {
+                        scale: [0.8, 1.2, 0.8],
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
                     />
                   </div>
-                  <div className="hidden md:block absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-800 text-white text-xs rounded px-2 py-1 pointer-events-none">
-                    Select {label}
+                  
+                  {/* Enhanced tooltips */}
+                  <motion.div 
+                    className="absolute -top-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-20"
+                    whileHover={{ y: -2 }}
+                  >
+                    <div className="bg-gray-900 text-white text-xs font-medium py-2 px-3 rounded-lg whitespace-nowrap shadow-lg">
+                      <span className="block">Click for {label}</span>
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900" />
+                    </div>
+                  </motion.div>
+                  
+                  {/* Mobile tap hint */}
+                  <div className="md:hidden absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-60">
+                    <span className="text-xs" style={{ color: textColor }}>
+                      {selectedTech === tech ? '✓ Selected' : 'Tap me'}
+                    </span>
                   </div>
+                  
                   {/* Hidden span for SEO */}
                   <span style={{ display: "none" }}>{label} Developer</span>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -257,7 +376,7 @@ function Hero() {
       <AnimatePresence>
         {!isHeroInView && (
           <motion.div
-            className="fixed bottom-4 right-4 z-50"
+            className="fixed bottom-4 left-4 z-50"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -281,7 +400,7 @@ function Hero() {
               <AnimatePresence>
                 {isDropdownOpen && (
                   <motion.ul
-                    className="absolute bottom-14 left-0 bg-gray-800 bg-opacity-90 backdrop-blur-md rounded-lg p-2 flex flex-col items-center gap-2"
+                    className="absolute bottom-14 right-0 bg-gray-800 bg-opacity-90 backdrop-blur-md rounded-lg p-2 flex flex-col items-center gap-2"
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}

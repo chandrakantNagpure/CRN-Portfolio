@@ -8,7 +8,6 @@ import {
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { useTech } from "./TechContext";
-import OptimizedImage from "./OptimizedImage";
 import {
   FaArrowUp,
   FaThumbtack,
@@ -16,96 +15,72 @@ import {
   FaShareAlt,
   FaTimes,
 } from "react-icons/fa";
-
-// Project data
+// Project images
+const creativeLab_splashscreen = "/assets/projects/CreativeLab-Interior.png";
+const cyberi3secure_splashscreen = "/assets/projects/Cyber3Secure.png";
+const share_proximacloud_splashscreen = "/assets/projects/share.proximacloud.png";
+const inheritance_infra_splashscreen = "/assets/projects/Inheritance_Infra.png";
+const palloti_splashscreen = "/assets/projects/Palloti.png";
+// Real project data
 const projectsData = [
   {
     id: 1,
-    title: "E-commerce Platform",
-    description:
-      "A responsive online store with product filtering, cart, and secure checkout. Features advanced search, user authentication, and payment integration for a seamless shopping experience.",
-    techs: ["react", "nextjs", "tailwind"],
-    image:
-      "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/ecommerce-platform",
-    repoLink: "https://github.com/dummyuser/ecommerce-platform",
+    title: "Creative for CreativeLab Interior",
+    description: "A unique horizontal scrolling website built completely from scratch with custom WordPress theme. Features creative layouts and fresh design elements for an interior design company.",
+    techs: ["figma", "wordpress", "css", "gsap", "javascript"],
+    image: creativeLab_splashscreen,
+    liveLink: "https://creativelabinteriors.ae/",
+    featured: true,
   },
   {
     id: 2,
-    title: "Personal Blog",
-    description:
-      "A customizable blog platform with SEO optimization and a user-friendly CMS. Supports rich media, comments, and social sharing for engaging content delivery.",
-    techs: ["wordpress", "php", "javascript"],
-    image:
-      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/personal-blog",
-    repoLink: "https://github.com/dummyuser/personal-blog",
+    title: "Cyberi3Secure",
+    description: "A cybersecurity firm specializing in Privileged Access Management (PAM) to enhance identity security, compliance, and operational efficiency for organizations.",
+    techs: ["wordpress", "php", "javascript", "gsap", "css"],
+    image: cyberi3secure_splashscreen,
+    liveLink: "https://cyberi3secure.com/",
+    repoLink: "https://github.com/chandrakantNagpure/Cyber3Secure",
+    featured: true,
   },
   {
     id: 3,
-    title: "Task Manager App",
-    description:
-      "A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.",
-    techs: ["react", "javascript", "figma"],
-    image:
-      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/task-manager",
-    repoLink: "https://github.com/dummyuser/task-manager",
+    title: "ProximaShare",
+    description: "A lightweight and secure file-sharing platform with drag-and-drop support. Files are limited to 2MB and shared via expiring links that auto-delete after 3 downloads or 3 days, ensuring privacy and simplicity.",
+    techs: ["nextjs", "javascript", "tailwind"],
+    image: share_proximacloud_splashscreen,
+    liveLink: "https://share.proximacloud.in/",
+    repoLink: "https://github.com/proxima-cloud/proxima-share-fe",
+    featured: true,
   },
   {
     id: 4,
-    title: "Animated Portfolio",
-    description:
-      "A dynamic portfolio site with smooth animations and modern design. Showcases developer skills with interactive elements and responsive layouts.",
-    techs: ["gsap", "framer", "tailwind"],
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/animated-portfolio",
-    repoLink: "https://github.com/dummyuser/animated-portfolio",
+    title: "Inheritance Infrastructure",
+    description: "A forward-thinking real estate company based in Nagpur, Maharashtra, focused on delivering quality residential and commercial land investments and developments.",
+    techs: ["react", "tailwind", "javascript", "gsap"],
+    image: inheritance_infra_splashscreen,
+    liveLink: "https://inheritance-infrastructure.vercel.app/",
+    repoLink: "https://github.com/chandrakantNagpure/InheritanceInfrastructure",
+    featured: false,
   },
   {
     id: 5,
-    title: "Social Media Dashboard",
-    description:
-      "A dashboard for managing social media accounts with analytics and post scheduling. Features real-time insights and cross-platform integration.",
-    techs: ["react", "nextjs", "javascript"],
-    image:
-      "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/social-dashboard",
-    repoLink: "https://github.com/dummyuser/social-dashboard",
+    title: "St. Vincent Pallotti College",
+    description: "An autonomous engineering college website with modern design and user-friendly interface for students and faculty.",
+    techs: ["html", "php", "css", "bootstrap", "javascript"],
+    image: palloti_splashscreen,
+    liveLink: "https://svpcet.ac.in/",
+    repoLink: "https://github.com/chandrakantNagpure/pallotti",
+    featured: false,
   },
   {
     id: 6,
-    title: "Photography Website",
-    description:
-      "A visually stunning site for photographers with galleries and booking forms. Built with a CMS for easy content updates and SEO optimization.",
-    techs: ["wordpress", "php", "photoshop"],
-    image:
-      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/photography-website",
-    repoLink: "https://github.com/dummyuser/photography-website",
-  },
-  {
-    id: 7,
-    title: "Code Collaboration Tool",
-    description:
-      "A platform for developers to collaborate on code with version control and real-time editing. Supports syntax highlighting and team workflows.",
-    techs: ["github", "javascript", "react"],
-    image:
-      "https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/code-collaboration",
-    repoLink: "https://github.com/dummyuser/code-collaboration",
-  },
-  {
-    id: 8,
-    title: "UI Design Prototype",
-    description:
-      "An interactive prototype for a mobile app with pixel-perfect designs and animations. Created for user testing and stakeholder feedback.",
-    techs: ["figma", "framer", "photoshop"],
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/ui-prototype",
-    repoLink: "https://github.com/dummyuser/ui-prototype",
+    title: "Task Manager App",
+    description: "A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.",
+    techs: ["react", "javascript", "figma"],
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop",
+    liveLink: "https://example.com/task-manager",
+    repoLink: "https://github.com/dummyuser/task-manager",
+    featured: false,
   },
 ];
 
@@ -224,13 +199,12 @@ const ProjectCard = memo(
           />
         )}
         <div className="relative overflow-hidden rounded-lg mb-4">
-          <OptimizedImage
+          <motion.img
             src={project.image}
             alt={project.title}
-            className="w-full h-60 object-cover transition-transform duration-300 hover:scale-105"
-            width={400}
-            height={240}
-            effect="blur"
+            className="w-full h-60 object-cover"
+            loading="lazy"
+            whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
           />
         </div>
         <div className="flex justify-between items-center mb-2">
@@ -254,38 +228,46 @@ const ProjectCard = memo(
             <FaThumbtack size={16} color={isPinned ? primaryColor : "#000"} />
           </button>
         </div>
-        <div className="flex flex-wrap gap-2 mb-3 justify-start relative">
-          {project.techs.map((tech, i) => {
-            const progress = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random 50-100%
-            return (
-              <motion.div
-                key={tech}
-                className="w-20"
-                variants={badgeVariants}
-                custom={progress}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
-                  <motion.div
-                    className="h-full"
-                    style={{ backgroundColor: techColors[tech] || "#4B5563" }}
-                    variants={badgeVariants}
-                    custom={progress}
-                    aria-label={`${tech} progress: ${progress}%`}
-                  />
-                </div>
-                <p
-                  className="text-xs mt-1 text-center capitalize"
-                  style={{ color: "#000" }}
-                >
-                  {tech} ({progress}%)
-                </p>
-              </motion.div>
-            );
-          })}
+<div className="flex flex-wrap gap-4 mb-3 justify-start relative">
+  {project.techs.map((tech, i) => {
+    const progress = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random 50-100%
+    return (
+      <motion.div
+        key={tech}
+        className="w-28" // a bit wider so text fits nicely
+        variants={badgeVariants}
+        custom={progress}
+        initial="hidden"
+        animate="visible"
+        whileHover={{ scale: 1.05 }}
+      >
+        {/* Progress container */}
+        <div className="bg-gray-200 rounded-full h-3 overflow-hidden relative shadow-sm">
+          <motion.div
+            className="h-full rounded-full"
+            style={{
+              background: `linear-gradient(90deg, ${techColors[tech] || "#4B5563"}, #9ca3af)`,
+            }}
+            variants={badgeVariants}
+            custom={progress}
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            aria-label={`${tech} progress: ${progress}%`}
+          />
+          {/* Animated shine effect */}
+          <div className="absolute inset-0 bg-white/20 animate-pulse" />
         </div>
+
+        {/* Label */}
+        <p className="text-xs mt-1 text-center capitalize font-medium text-gray-800">
+          {tech} <span className="text-gray-500">({progress}%)</span>
+        </p>
+      </motion.div>
+    );
+  })}
+</div>
+
         <button
           className="text-sm font-medium px-3 py-1 rounded text-white transition mb-3"
           style={{ backgroundColor: primaryColor }}
@@ -369,13 +351,11 @@ const ProjectModal = ({
         >
           {project.title}
         </h3>
-        <OptimizedImage
+        <img
           src={project.image}
           alt={project.title}
           className="w-full h-48 object-cover rounded-lg mb-4"
-          width={400}
-          height={192}
-          effect="blur"
+          loading="lazy"
         />
         <p className="text-sm font-semibold mb-4" style={{ color: "#000" }}>
           {project.description}
@@ -420,14 +400,6 @@ const ProjectModal = ({
             aria-label={`View live demo of ${project.title}`}
           >
             Live Demo
-          </a>
-          <a
-            href={project.repoLink}
-            className="text-sm font-medium px-3 py-1 rounded text-white transition"
-            style={{ backgroundColor: secondaryColor }}
-            aria-label={`View GitHub repository for ${project.title}`}
-          >
-            GitHub
           </a>
           <button
             className="text-sm font-medium px-3 py-1 rounded text-white transition"
@@ -630,24 +602,6 @@ function Projects() {
           >
             {toast.message}
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Back to Top Button */}
-      <AnimatePresence>
-        {showBackToTop.get() && (
-          <motion.button
-            className="back-to-top p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            aria-label="Scroll back to top"
-          >
-            <FaArrowUp size={20} color={textColor} />
-          </motion.button>
         )}
       </AnimatePresence>
     </>

@@ -1,69 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTech } from './TechContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useStatus, getTimeAgo } from '../contexts/StatusContext';
 
-// Contrast text color function (reusing existing functionality)
-const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
-  const color = bgColor.substring(1);
-  const rgb = parseInt(color, 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = rgb & 0xff;
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
-};
+import { getContrastTextColor } from "../utils/colors";
 
-const StatusIndicator = ({ className = '' }) => {
+const StatusIndicator = ({ className = '', showManualControls = false }) => {
   const { t } = useLanguage();
   const { bgColor } = useTech();
-  const [status, setStatus] = useState('available');
+  const { status, lastUpdated, updateStatus, statusConfig } = useStatus();
   const [isExpanded, setIsExpanded] = useState(false);
+  const statusRef = useRef(null);
   const textColor = getContrastTextColor(bgColor);
 
-  // Simulate status updates (in a real app, this would come from an API or manual update)
+  // Click outside to close status indicator
   useEffect(() => {
-    const statuses = ['available', 'busy', 'away'];
-    const interval = setInterval(() => {
-      // For demo purposes, randomly change status occasionally
-      if (Math.random() < 0.1) { // 10% chance every 30 seconds
-        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        setStatus(randomStatus);
+    const handleClickOutside = (event) => {
+      if (statusRef.current && !statusRef.current.contains(event.target)) {
+        setIsExpanded(false);
       }
-    }, 30000);
+    };
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const statusConfig = {
-    available: {
-      color: '#10B981',
-      bgColor: '#D1FAE5',
-      text: t('status.available'),
-      description: t('status.descriptions.available'),
-      icon: '✅'
-    },
-    busy: {
-      color: '#F59E0B',
-      bgColor: '#FEF3C7',
-      text: t('status.busy'),
-      description: t('status.descriptions.busy'),
-      icon: '⏳'
-    },
-    away: {
-      color: '#EF4444',
-      bgColor: '#FEE2E2',
-      text: t('status.away'),
-      description: t('status.descriptions.away'),
-      icon: '🔴'
+    if (isExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
     }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isExpanded]);
+
+  // Merge statusConfig with translations
+  const currentStatusConfig = {
+    ...statusConfig[status],
+    text: t(`status.${status}`),
+    description: t(`status.descriptions.${status}`)
   };
 
-  const currentStatus = statusConfig[status];
-
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} ref={statusRef}>
       <motion.div
         className="flex items-center gap-2 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -73,7 +49,7 @@ const StatusIndicator = ({ className = '' }) => {
         <div className="relative">
           <motion.div
             className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: currentStatus.color }}
+            style={{ backgroundColor: currentStatusConfig.color }}
             animate={{
               scale: [1, 1.2, 1],
               opacity: [1, 0.8, 1]
@@ -86,7 +62,7 @@ const StatusIndicator = ({ className = '' }) => {
           />
           <motion.div
             className="absolute inset-0 w-3 h-3 rounded-full"
-            style={{ backgroundColor: currentStatus.color }}
+            style={{ backgroundColor: currentStatusConfig.color }}
             animate={{
               scale: [1, 1.5, 1],
               opacity: [0.5, 0, 0.5]
@@ -102,7 +78,7 @@ const StatusIndicator = ({ className = '' }) => {
           className="text-sm font-medium"
           style={{ color: textColor }}
         >
-          {currentStatus.text}
+          {currentStatusConfig.text}
         </span>
         <motion.span
           className="text-xs"
@@ -117,10 +93,10 @@ const StatusIndicator = ({ className = '' }) => {
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            className="absolute top-full left-0 mt-2 p-3 rounded-lg shadow-lg border z-50 min-w-[200px]"
+            className="absolute top-full left-0 mt-2 p-4 rounded-lg shadow-lg border z-50 min-w-[250px]"
             style={{ 
-              backgroundColor: currentStatus.bgColor,
-              borderColor: currentStatus.color + '40'
+              backgroundColor: currentStatusConfig.bgColor,
+              borderColor: currentStatusConfig.color + '40'
             }}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -128,25 +104,53 @@ const StatusIndicator = ({ className = '' }) => {
             transition={{ duration: 0.2 }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">{currentStatus.icon}</span>
+              <span className="text-lg">{currentStatusConfig.icon}</span>
               <span 
                 className="font-semibold"
                 style={{ color: '#1f2937' }}
               >
-                {currentStatus.text}
+                {currentStatusConfig.text}
               </span>
             </div>
             <p 
               className="text-sm mb-3"
               style={{ color: '#4b5563' }}
             >
-              {currentStatus.description}
+              {currentStatusConfig.description}
             </p>
+            
+            {/* Manual Status Controls */}
+            {showManualControls && (
+              <div className="mb-3 border-t pt-3">
+                <p className="text-xs font-medium mb-2" style={{ color: '#6b7280' }}>
+                  Update Status:
+                </p>
+                <div className="flex gap-2">
+                  {Object.entries(statusConfig).map(([key, config]) => (
+                    <button
+                      key={key}
+                      onClick={() => updateStatus(key)}
+                      className={`px-2 py-1 rounded text-xs transition-colors ${
+                        status === key ? 'font-semibold' : 'opacity-70 hover:opacity-100'
+                      }`}
+                      style={{ 
+                        backgroundColor: status === key ? config.color + '20' : 'transparent',
+                        color: config.color,
+                        border: `1px solid ${config.color}40`
+                      }}
+                    >
+                      {config.icon} {key}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
             <div 
               className="text-xs"
               style={{ color: '#6b7280' }}
             >
-              {t('status.lastUpdated')} {new Date().toLocaleTimeString()}
+              {t('status.lastUpdated')} {getTimeAgo(lastUpdated)}
             </div>
           </motion.div>
         )}

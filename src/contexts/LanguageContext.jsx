@@ -7,7 +7,10 @@ const translations = {
     nav: {
       home: 'Home',
       about: 'About',
+      services: 'Services',
       projects: 'Projects',
+      testimonials: 'Testimonials',
+      faq: 'FAQ',
       contact: 'Contact'
     },
     
@@ -65,19 +68,64 @@ const translations = {
       getInTouch: "Get In Touch",
       skillDescriptions: {
         react: [
-          { name: "Components", description: "Building reusable, modular React components for scalable applications." },
-          { name: "State", description: "Managing complex state with Redux and Context API for robust UIs." },
-          { name: "Hooks", description: "Leveraging React Hooks for efficient, functional component logic." }
+          { name: "Components", level: 90, description: "Building reusable, modular React components for scalable applications." },
+          { name: "State", level: 85, description: "Managing complex state with Redux and Context API for robust UIs." },
+          { name: "Hooks", level: 88, description: "Leveraging React Hooks for efficient, functional component logic." }
         ],
         nextjs: [
-          { name: "SSR", description: "Implementing server-side rendering for SEO and performance." },
-          { name: "SSG", description: "Using static site generation for fast, pre-rendered pages." },
-          { name: "API Routes", description: "Creating dynamic API routes for seamless backend integration." }
+          { name: "SSR", level: 87, description: "Implementing server-side rendering for SEO and performance." },
+          { name: "SSG", level: 85, description: "Using static site generation for fast, pre-rendered pages." },
+          { name: "API Routes", level: 80, description: "Creating dynamic API routes for seamless backend integration." }
+        ],
+        tailwind: [
+          { name: "Utility CSS", level: 92, description: "Crafting responsive UIs with Tailwind's utility-first approach." },
+          { name: "Responsive", level: 90, description: "Designing mobile-first, adaptive layouts for all devices." },
+          { name: "Prototyping", level: 88, description: "Rapidly prototyping designs with Tailwind CSS." }
+        ],
+        wordpress: [
+          { name: "Themes", level: 85, description: "Developing custom WordPress themes for unique designs." },
+          { name: "Plugins", level: 80, description: "Creating and customizing plugins for enhanced functionality." },
+          { name: "SEO", level: 87, description: "Optimizing WordPress sites for search engine visibility." }
+        ],
+        php: [
+          { name: "Backend", level: 82, description: "Building robust server-side applications with PHP." },
+          { name: "Database", level: 80, description: "Integrating MySQL and other databases with PHP." },
+          { name: "Security", level: 85, description: "Implementing secure coding practices in PHP applications." }
+        ],
+        javascript: [
+          { name: "ES6+", level: 90, description: "Writing modern JavaScript with ES6+ features for dynamic apps." },
+          { name: "DOM", level: 88, description: "Manipulating the DOM for interactive user interfaces." },
+          { name: "Async", level: 85, description: "Handling asynchronous operations with Promises and async/await." }
+        ],
+        github: [
+          { name: "Version Control", level: 88, description: "Managing codebases with Git and GitHub for version control." },
+          { name: "CI/CD", level: 85, description: "Automating deployments with GitHub Actions and CI/CD pipelines." },
+          { name: "Collaboration", level: 90, description: "Collaborating on open-source and team projects via GitHub." }
+        ],
+        figma: [
+          { name: "UI/UX", level: 87, description: "Designing user-friendly interfaces with Figma." },
+          { name: "Prototyping", level: 85, description: "Creating interactive UI/UX prototypes in Figma." },
+          { name: "Collaboration", level: 88, description: "Streamlining team workflows with Figma's collaboration tools." }
+        ],
+        photoshop: [
+          { name: "Graphics", level: 85, description: "Creating high-quality graphics for web and print." },
+          { name: "Editing", level: 90, description: "Editing images for professional web assets." },
+          { name: "Web Assets", level: 87, description: "Producing optimized visual assets for websites." }
+        ],
+        gsap: [
+          { name: "Animations", level: 88, description: "Crafting smooth animations with GSAP for engaging UIs." },
+          { name: "Scroll", level: 85, description: "Implementing scroll-triggered animations with GSAP." },
+          { name: "Performance", level: 80, description: "Optimizing GSAP animations for high performance." }
+        ],
+        framer: [
+          { name: "Motion", level: 87, description: "Building dynamic motion effects with Framer Motion." },
+          { name: "Prototypes", level: 85, description: "Creating interactive prototypes with Framer." },
+          { name: "Animations", level: 88, description: "Designing advanced animations for web applications." }
         ],
         default: [
-          { name: "Frontend", description: "Developing modern, responsive frontend applications." },
-          { name: "UI/UX", description: "Designing intuitive and visually appealing user interfaces." },
-          { name: "Full-Stack", description: "Building end-to-end web solutions with frontend and backend expertise." }
+          { name: "Frontend", level: 90, description: "Developing modern, responsive frontend applications." },
+          { name: "UI/UX", level: 85, description: "Designing intuitive and visually appealing user interfaces." },
+          { name: "Full-Stack", level: 88, description: "Building end-to-end web solutions with frontend and backend expertise." }
         ]
       }
     },
@@ -187,7 +235,10 @@ const translations = {
     nav: {
       home: 'Inicio',
       about: 'Acerca de',
+      services: 'Servicios',
       projects: 'Proyectos',
+      testimonials: 'Testimonios',
+      faq: 'FAQ',
       contact: 'Contacto'
     },
     
@@ -245,19 +296,64 @@ const translations = {
       getInTouch: "Ponte en Contacto",
       skillDescriptions: {
         react: [
-          { name: "Componentes", description: "Construyendo componentes React reutilizables y modulares para aplicaciones escalables." },
-          { name: "Estado", description: "Gestionando estado complejo con Redux y Context API para UIs robustas." },
-          { name: "Hooks", description: "Aprovechando React Hooks para lógica de componentes funcionales eficiente." }
+          { name: "Componentes", level: 90, description: "Construyendo componentes React reutilizables y modulares para aplicaciones escalables." },
+          { name: "Estado", level: 85, description: "Gestionando estado complejo con Redux y Context API para UIs robustas." },
+          { name: "Hooks", level: 88, description: "Aprovechando React Hooks para lógica de componentes funcionales eficiente." }
         ],
         nextjs: [
-          { name: "SSR", description: "Implementando renderizado del lado del servidor para SEO y rendimiento." },
-          { name: "SSG", description: "Usando generación de sitios estáticos para páginas rápidas y pre-renderizadas." },
-          { name: "Rutas API", description: "Creando rutas API dinámicas para integración backend sin problemas." }
+          { name: "SSR", level: 87, description: "Implementando renderizado del lado del servidor para SEO y rendimiento." },
+          { name: "SSG", level: 85, description: "Usando generación de sitios estáticos para páginas rápidas y pre-renderizadas." },
+          { name: "Rutas API", level: 80, description: "Creando rutas API dinámicas para integración backend sin problemas." }
+        ],
+        tailwind: [
+          { name: "CSS utilitario", level: 92, description: "Creando UIs responsivas con el enfoque utility-first de Tailwind." },
+          { name: "Responsivo", level: 90, description: "Diseñando layouts adaptativos mobile-first para todos los dispositivos." },
+          { name: "Prototipado", level: 88, description: "Prototipado rápido de diseños con Tailwind CSS." }
+        ],
+        wordpress: [
+          { name: "Temas", level: 85, description: "Desarrollando temas personalizados de WordPress para diseños únicos." },
+          { name: "Plugins", level: 80, description: "Creando y personalizando plugins para funcionalidades mejoradas." },
+          { name: "SEO", level: 87, description: "Optimizando sitios WordPress para visibilidad en buscadores." }
+        ],
+        php: [
+          { name: "Backend", level: 82, description: "Construyendo aplicaciones del lado del servidor robustas con PHP." },
+          { name: "Base de datos", level: 80, description: "Integrando MySQL y otras bases de datos con PHP." },
+          { name: "Seguridad", level: 85, description: "Implementando prácticas de codificación segura en aplicaciones PHP." }
+        ],
+        javascript: [
+          { name: "ES6+", level: 90, description: "Escribiendo JavaScript moderno con características ES6+ para apps dinámicas." },
+          { name: "DOM", level: 88, description: "Manipulando el DOM para interfaces de usuario interactivas." },
+          { name: "Asíncrono", level: 85, description: "Manejando operaciones asíncronas con Promises y async/await." }
+        ],
+        github: [
+          { name: "Control de versiones", level: 88, description: "Gestionando bases de código con Git y GitHub." },
+          { name: "CI/CD", level: 85, description: "Automatizando despliegues con GitHub Actions y pipelines CI/CD." },
+          { name: "Colaboración", level: 90, description: "Colaborando en proyectos open-source y de equipo en GitHub." }
+        ],
+        figma: [
+          { name: "UI/UX", level: 87, description: "Diseñando interfaces amigables con Figma." },
+          { name: "Prototipado", level: 85, description: "Creando prototipos UI/UX interactivos en Figma." },
+          { name: "Colaboración", level: 88, description: "Mejorando flujos de trabajo de equipo con herramientas de Figma." }
+        ],
+        photoshop: [
+          { name: "Gráficos", level: 85, description: "Creando gráficos de alta calidad para web e impresión." },
+          { name: "Edición", level: 90, description: "Editando imágenes para recursos web profesionales." },
+          { name: "Recursos Web", level: 87, description: "Produciendo recursos visuales optimizados para sitios web." }
+        ],
+        gsap: [
+          { name: "Animaciones", level: 88, description: "Creando animaciones fluidas con GSAP para UIs atractivas." },
+          { name: "Scroll", level: 85, description: "Implementando animaciones activadas por scroll con GSAP." },
+          { name: "Rendimiento", level: 80, description: "Optimizando animaciones GSAP para alto rendimiento." }
+        ],
+        framer: [
+          { name: "Motion", level: 87, description: "Construyendo efectos de movimiento dinámicos con Framer Motion." },
+          { name: "Prototipos", level: 85, description: "Creando prototipos interactivos con Framer." },
+          { name: "Animaciones", level: 88, description: "Diseñando animaciones avanzadas para aplicaciones web." }
         ],
         default: [
-          { name: "Frontend", description: "Desarrollando aplicaciones frontend modernas y responsivas." },
-          { name: "UI/UX", description: "Diseñando interfaces de usuario intuitivas y visualmente atractivas." },
-          { name: "Full-Stack", description: "Construyendo soluciones web de extremo a extremo con experiencia frontend y backend." }
+          { name: "Frontend", level: 90, description: "Desarrollando aplicaciones frontend modernas y responsivas." },
+          { name: "UI/UX", level: 85, description: "Diseñando interfaces de usuario intuitivas y visualmente atractivas." },
+          { name: "Full-Stack", level: 88, description: "Construyendo soluciones web de extremo a extremo con experiencia frontend y backend." }
         ]
       }
     },
@@ -367,7 +463,10 @@ const translations = {
     nav: {
       home: 'Accueil',
       about: 'À propos',
+      services: 'Services',
       projects: 'Projets',
+      testimonials: 'Témoignages',
+      faq: 'FAQ',
       contact: 'Contact'
     },
     
@@ -425,19 +524,64 @@ const translations = {
       getInTouch: "Entrer en Contact",
       skillDescriptions: {
         react: [
-          { name: "Composants", description: "Construction de composants React réutilisables et modulaires pour des applications évolutives." },
-          { name: "État", description: "Gestion d'état complexe avec Redux et Context API pour des interfaces utilisateur robustes." },
-          { name: "Hooks", description: "Utilisation des React Hooks pour une logique de composants fonctionnels efficace." }
+          { name: "Composants", level: 90, description: "Construction de composants React réutilisables et modulaires pour des applications évolutives." },
+          { name: "État", level: 85, description: "Gestion d'état complexe avec Redux et Context API pour des interfaces utilisateur robustes." },
+          { name: "Hooks", level: 88, description: "Utilisation des React Hooks pour une logique de composants fonctionnels efficace." }
         ],
         nextjs: [
-          { name: "SSR", description: "Implémentation du rendu côté serveur pour le SEO et les performances." },
-          { name: "SSG", description: "Utilisation de la génération de sites statiques pour des pages rapides et pré-rendues." },
-          { name: "Routes API", description: "Création de routes API dynamiques pour une intégration backend transparente." }
+          { name: "SSR", level: 87, description: "Implémentation du rendu côté serveur pour le SEO et les performances." },
+          { name: "SSG", level: 85, description: "Utilisation de la génération de sites statiques pour des pages rapides et pré-rendues." },
+          { name: "Routes API", level: 80, description: "Création de routes API dynamiques pour une intégration backend transparente." }
+        ],
+        tailwind: [
+          { name: "CSS utilitaire", level: 92, description: "Création d'interfaces réactives avec l'approche utility-first de Tailwind." },
+          { name: "Responsive", level: 90, description: "Conception de mises en page adaptatives mobile-first pour tous les appareils." },
+          { name: "Prototypage", level: 88, description: "Prototypage rapide de designs avec Tailwind CSS." }
+        ],
+        wordpress: [
+          { name: "Thèmes", level: 85, description: "Développement de thèmes WordPress personnalisés pour des designs uniques." },
+          { name: "Plugins", level: 80, description: "Création et personnalisation de plugins pour des fonctionnalités améliorées." },
+          { name: "SEO", level: 87, description: "Optimisation des sites WordPress pour la visibilité sur les moteurs de recherche." }
+        ],
+        php: [
+          { name: "Backend", level: 82, description: "Création d'applications côté serveur robustes avec PHP." },
+          { name: "Base de données", level: 80, description: "Intégration de MySQL et d'autres bases de données avec PHP." },
+          { name: "Sécurité", level: 85, description: "Mise en œuvre de pratiques de codage sécurisées dans les applications PHP." }
+        ],
+        javascript: [
+          { name: "ES6+", level: 90, description: "Écriture de JavaScript moderne avec des fonctionnalités ES6+ pour des applications dynamiques." },
+          { name: "DOM", level: 88, description: "Manipulation du DOM pour des interfaces utilisateur interactives." },
+          { name: "Asynchrone", level: 85, description: "Gestion des opérations asynchrones avec Promises et async/await." }
+        ],
+        github: [
+          { name: "Contrôle de version", level: 88, description: "Gestion des bases de code avec Git et GitHub." },
+          { name: "CI/CD", level: 85, description: "Automatisation des déploiements avec GitHub Actions et des pipelines CI/CD." },
+          { name: "Collaboration", level: 90, description: "Collaboration sur des projets open-source et en équipe via GitHub." }
+        ],
+        figma: [
+          { name: "UI/UX", level: 87, description: "Conception d'interfaces conviviales avec Figma." },
+          { name: "Prototypage", level: 85, description: "Création de prototypes UI/UX interactifs dans Figma." },
+          { name: "Collaboration", level: 88, description: "Amélioration des flux de travail d'équipe avec les outils de Figma." }
+        ],
+        photoshop: [
+          { name: "Graphiques", level: 85, description: "Création de graphiques de haute qualité pour le web et l'impression." },
+          { name: "Édition", level: 90, description: "Édition d'images pour des ressources web professionnelles." },
+          { name: "Ressources Web", level: 87, description: "Production de ressources visuelles optimisées pour les sites web." }
+        ],
+        gsap: [
+          { name: "Animations", level: 88, description: "Création d'animations fluides avec GSAP pour des interfaces attrayantes." },
+          { name: "Défilement", level: 85, description: "Mise en œuvre d'animations déclenchées par le scroll avec GSAP." },
+          { name: "Performance", level: 80, description: "Optimisation des animations GSAP pour des performances élevées." }
+        ],
+        framer: [
+          { name: "Motion", level: 87, description: "Création d'effets de mouvement dynamiques avec Framer Motion." },
+          { name: "Prototypes", level: 85, description: "Création de prototypes interactifs avec Framer." },
+          { name: "Animations", level: 88, description: "Conception d'animations avancées pour des applications web." }
         ],
         default: [
-          { name: "Frontend", description: "Développement d'applications frontend modernes et réactives." },
-          { name: "UI/UX", description: "Conception d'interfaces utilisateur intuitives et visuellement attrayantes." },
-          { name: "Full-Stack", description: "Construction de solutions web de bout en bout avec une expertise frontend et backend." }
+          { name: "Frontend", level: 90, description: "Développement d'applications frontend modernes et réactives." },
+          { name: "UI/UX", level: 85, description: "Conception d'interfaces utilisateur intuitives et visuellement attrayantes." },
+          { name: "Full-Stack", level: 88, description: "Construction de solutions web de bout en bout avec une expertise frontend et backend." }
         ]
       }
     },

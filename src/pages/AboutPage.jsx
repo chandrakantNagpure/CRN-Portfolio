@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useTech } from "../components/TechContext";
 import OptimizedImage from "../components/OptimizedImage";
@@ -14,6 +15,11 @@ import {
   SiFramer,
 } from "react-icons/si";
 import { useLanguage } from "../contexts/LanguageContext";
+import SEO from "../components/SEO";
+import BackToTopButton from "../components/BackToTopButton";
+import StickyContact from "../components/StickyContact";
+import ChatBot from "../components/ChatBot";
+import { getContrastTextColor } from "../utils/colors";
 
 
 const techIcons = {
@@ -29,17 +35,6 @@ const techIcons = {
   gsap: SiGreensock,
   framer: SiFramer,
   default: FaCode,
-};
-
-const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
-  const color = bgColor.substring(1);
-  const rgb = parseInt(color, 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = rgb & 0xff;
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
 };
 
 function AboutPage() {
@@ -63,16 +58,23 @@ function AboutPage() {
   const TechIcon = techIcons[selectedTech] || techIcons.default;
 
   return (
-    <div
-      ref={sectionRef}
-      className="min-h-screen flex flex-col items-center justify-center py-20 px-6 md:px-16 relative font-poppins overflow-hidden"
-      style={{
-        background: bgColor
-          ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
-          : "white",
-        color: textColor,
-      }}
-    >
+    <>
+      <SEO
+        title={t('about.title')}
+        description={`Learn more about ${description}`}
+        canonical="/about"
+        keywords={['About Chandrakant Nagpure', 'Frontend Developer Bio', 'React Expert', 'WordPress Developer', 'UI/UX Designer Experience']}
+      />
+      <div
+        ref={sectionRef}
+        className="min-h-screen flex flex-col items-center justify-center py-20 px-6 md:px-16 relative font-poppins overflow-hidden"
+        style={{
+          background: bgColor
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : "white",
+          color: textColor,
+        }}
+      >
       <ParticleCanvas bgColor={bgColor || "#4B5563"} />
 
       <div className="max-w-6xl w-full z-10 relative">
@@ -91,7 +93,7 @@ function AboutPage() {
           <div className="flex justify-center items-center mb-8">
             <div
               className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center"
-              style={{ backgroundColor: `${accentColor}20` }}
+              style={{ backgroundColor: `#d3d3d3` }}
             >
               <TechIcon size={40} color={accentColor} />
             </div>
@@ -209,17 +211,28 @@ function AboutPage() {
           >
             {t('about.cta')}
           </h3>
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="inline-block px-8 py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
             style={{ backgroundColor: accentColor, color: getContrastTextColor(accentColor) }}
           >
             {t('about.getInTouch')}
-          </a>
+          </Link>
         </motion.div>
+        </div>
+
+        
+        {/* Back to Top Button */}
+        <BackToTopButton textColor={getContrastTextColor(bgColor)} />
+        
+        {/* Sticky Contact */}
+        <StickyContact />
+        
+        {/* ChatBot */}
+        <ChatBot />
       </div>
-      <Footer />
-    </div>
+              <Footer />
+    </>
   );
 }
 

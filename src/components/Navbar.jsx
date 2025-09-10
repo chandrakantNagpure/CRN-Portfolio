@@ -4,6 +4,7 @@ import {
   FaUser,
   FaProjectDiagram,
   FaEnvelope,
+  FaCog,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import OptimizedImage from "./OptimizedImage";
@@ -100,6 +101,7 @@ function Navbar() {
             onClick={toggleSidebar}
             className="relative w-8 h-8 focus:outline-none group"
             aria-label="Toggle menu"
+            style={{ cursor: 'pointer' }}
           >
             <span
               className={`absolute h-0.5 w-8 bg-gray-800 dark:bg-white transform transition duration-300 ease-in-out ${
@@ -113,7 +115,7 @@ function Navbar() {
             />
             <span
               className={`absolute h-0.5 w-8 bg-gray-800 dark:bg-white transform transition duration-300 ease-in-out ${
-                isOpen ? "-rotate-45 bottom-3.5" : "bottom-2"
+                isOpen ? "-rotate-45 bottom-3.5" : "top-6"
               }`}
             />
           </button>
@@ -123,21 +125,21 @@ function Navbar() {
       {/* Overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/50 z-80 transition-opacity duration-300 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       />
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 right-0 h-full w-72 bg-white dark:bg-gray-900 text-gray-900 dark:text-white z-50 transform transition-transform duration-300 ease-in-out shadow-lg ${
+        className={`fixed top-0 right-0 h-full w-72 bg-white dark:bg-gray-900 text-gray-900 dark:text-white z-90 transform transition-transform duration-300 ease-in-out shadow-lg ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col p-6 mt-20 space-y-6 text-lg font-medium">
           {/* Status in mobile menu */}
           <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
-            <StatusIndicator />
+            <StatusIndicator showManualControls={true} />
             <div className="mt-3">
               <LanguageSwitcher />
             </div>
@@ -169,6 +171,15 @@ function Navbar() {
             }`}
           >
             <FaProjectDiagram /> {t('nav.projects')}
+          </Link>
+          <Link
+            to="/services"
+            onClick={handleLinkClick}
+            className={`flex items-center gap-3 hover:text-teal-500 transition cursor-pointer ${
+              isActive("/services") ? "text-teal-500" : ""
+            }`}
+          >
+            <FaCog /> {t('nav.services')}
           </Link>
           <Link
             to="/contact"
