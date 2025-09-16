@@ -1,85 +1,80 @@
-import { useEffect, useState, useRef, memo } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
-import { useTech } from "./TechContext";
-import {
-  FaArrowUp,
-  FaThumbtack,
-  FaLink,
-  FaShareAlt,
-  FaTimes,
-} from "react-icons/fa";
+import { useEffect, useState, useRef, memo } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
+import { useTech } from './TechContext';
+import { FaArrowUp, FaThumbtack, FaLink, FaShareAlt, FaTimes } from 'react-icons/fa';
 // Project images
-const creativeLab_splashscreen = "/assets/projects/CreativeLab-Interior.png";
-const cyberi3secure_splashscreen = "/assets/projects/Cyber3Secure.png";
-const share_proximacloud_splashscreen = "/assets/projects/share.proximacloud.png";
-const inheritance_infra_splashscreen = "/assets/projects/Inheritance_Infra.png";
-const palloti_splashscreen = "/assets/projects/Palloti.png";
+const creativeLab_splashscreen = '/assets/projects/CreativeLab-Interior.png';
+const cyberi3secure_splashscreen = '/assets/projects/Cyber3Secure.png';
+const share_proximacloud_splashscreen = '/assets/projects/share.proximacloud.png';
+const inheritance_infra_splashscreen = '/assets/projects/Inheritance_Infra.png';
+const palloti_splashscreen = '/assets/projects/Palloti.png';
 // Real project data
 const projectsData = [
   {
     id: 1,
-    title: "Creative for CreativeLab Interior",
-    description: "A unique horizontal scrolling website built completely from scratch with custom WordPress theme. Features creative layouts and fresh design elements for an interior design company.",
-    techs: ["figma", "wordpress", "css", "gsap", "javascript"],
+    title: 'Creative for CreativeLab Interior',
+    description:
+      'A unique horizontal scrolling website built completely from scratch with custom WordPress theme. Features creative layouts and fresh design elements for an interior design company.',
+    techs: ['figma', 'wordpress', 'css', 'gsap', 'javascript'],
     image: creativeLab_splashscreen,
-    liveLink: "https://creativelabinteriors.ae/",
+    liveLink: 'https://creativelabinteriors.ae/',
     featured: true,
   },
   {
     id: 2,
-    title: "Cyberi3Secure",
-    description: "A cybersecurity firm specializing in Privileged Access Management (PAM) to enhance identity security, compliance, and operational efficiency for organizations.",
-    techs: ["wordpress", "php", "javascript", "gsap", "css"],
+    title: 'Cyberi3Secure',
+    description:
+      'A cybersecurity firm specializing in Privileged Access Management (PAM) to enhance identity security, compliance, and operational efficiency for organizations.',
+    techs: ['wordpress', 'php', 'javascript', 'gsap', 'css'],
     image: cyberi3secure_splashscreen,
-    liveLink: "https://cyberi3secure.com/",
-    repoLink: "https://github.com/chandrakantNagpure/Cyber3Secure",
+    liveLink: 'https://cyberi3secure.com/',
+    repoLink: 'https://github.com/chandrakantNagpure/Cyber3Secure',
     featured: true,
   },
   {
     id: 3,
-    title: "ProximaShare",
-    description: "A lightweight and secure file-sharing platform with drag-and-drop support. Files are limited to 2MB and shared via expiring links that auto-delete after 3 downloads or 3 days, ensuring privacy and simplicity.",
-    techs: ["nextjs", "javascript", "tailwind"],
+    title: 'ProximaShare',
+    description:
+      'A lightweight and secure file-sharing platform with drag-and-drop support. Files are limited to 2MB and shared via expiring links that auto-delete after 3 downloads or 3 days, ensuring privacy and simplicity.',
+    techs: ['nextjs', 'javascript', 'tailwind'],
     image: share_proximacloud_splashscreen,
-    liveLink: "https://share.proximacloud.in/",
-    repoLink: "https://github.com/proxima-cloud/proxima-share-fe",
+    liveLink: 'https://share.proximacloud.in/',
+    repoLink: 'https://github.com/proxima-cloud/proxima-share-fe',
     featured: true,
   },
   {
     id: 4,
-    title: "Inheritance Infrastructure",
-    description: "A forward-thinking real estate company based in Nagpur, Maharashtra, focused on delivering quality residential and commercial land investments and developments.",
-    techs: ["react", "tailwind", "javascript", "gsap"],
+    title: 'Inheritance Infrastructure',
+    description:
+      'A forward-thinking real estate company based in Nagpur, Maharashtra, focused on delivering quality residential and commercial land investments and developments.',
+    techs: ['react', 'tailwind', 'javascript', 'gsap'],
     image: inheritance_infra_splashscreen,
-    liveLink: "https://inheritance-infrastructure.vercel.app/",
-    repoLink: "https://github.com/chandrakantNagpure/InheritanceInfrastructure",
+    liveLink: 'https://inheritance-infrastructure.vercel.app/',
+    repoLink: 'https://github.com/chandrakantNagpure/InheritanceInfrastructure',
     featured: false,
   },
   {
     id: 5,
-    title: "St. Vincent Pallotti College",
-    description: "An autonomous engineering college website with modern design and user-friendly interface for students and faculty.",
-    techs: ["html", "php", "css", "bootstrap", "javascript"],
+    title: 'St. Vincent Pallotti College',
+    description:
+      'An autonomous engineering college website with modern design and user-friendly interface for students and faculty.',
+    techs: ['html', 'php', 'css', 'bootstrap', 'javascript'],
     image: palloti_splashscreen,
-    liveLink: "https://svpcet.ac.in/",
-    repoLink: "https://github.com/chandrakantNagpure/pallotti",
+    liveLink: 'https://svpcet.ac.in/',
+    repoLink: 'https://github.com/chandrakantNagpure/pallotti',
     featured: false,
   },
   {
     id: 6,
-    title: "Task Manager App",
-    description: "A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.",
-    techs: ["react", "javascript", "figma"],
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop",
-    liveLink: "https://example.com/task-manager",
-    repoLink: "https://github.com/dummyuser/task-manager",
+    title: 'Task Manager App',
+    description:
+      'A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.',
+    techs: ['react', 'javascript', 'figma'],
+    image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop',
+    liveLink: 'https://example.com/task-manager',
+    repoLink: 'https://github.com/dummyuser/task-manager',
     featured: false,
   },
 ];
@@ -87,17 +82,17 @@ const projectsData = [
 // Animation variants
 const cardVariants = {
   hidden: { y: 50 },
-  visible: (i) => ({
+  visible: i => ({
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" },
+    transition: { duration: 0.6, delay: i * 0.1, ease: 'easeOut' },
   }),
 };
 
 const badgeVariants = {
-  hidden: { width: "0%" },
-  visible: (progress) => ({
+  hidden: { width: '0%' },
+  visible: progress => ({
     width: `${progress}%`,
-    transition: { duration: 0.8, ease: "easeOut" },
+    transition: { duration: 0.8, ease: 'easeOut' },
   }),
 };
 
@@ -116,7 +111,7 @@ const modalVariants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.3, ease: "easeOut" },
+    transition: { duration: 0.3, ease: 'easeOut' },
   },
 };
 
@@ -126,39 +121,29 @@ const overlayVariants = {
 };
 
 // Contrast text color function
-const getContrastTextColor = (bgColor) => {
-  if (!bgColor) return "#000";
+const getContrastTextColor = bgColor => {
+  if (!bgColor) return '#000';
   const color = bgColor.substring(1);
   const rgb = parseInt(color, 16);
   const r = (rgb >> 16) & 0xff;
   const g = (rgb >> 8) & 0xff;
   const b = rgb & 0xff;
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 150 ? "#000" : "#fff";
+  return brightness > 150 ? '#000' : '#fff';
 };
 
 // Project Card Component
 const ProjectCard = memo(
-  ({
-    project,
-    index,
-    setModalProject,
-    techColors,
-    selectedTech,
-    togglePin,
-    isPinned,
-  }) => {
+  ({ project, index, setModalProject, techColors, selectedTech, togglePin, isPinned }) => {
     const [ref, isInView] = useInView({ once: false, amount: 0.1 });
     const [ripple, setRipple] = useState(null);
     const cardRef = useRef(null);
-    const primaryTech = project.techs.includes(selectedTech)
-      ? selectedTech
-      : project.techs[0];
-    const primaryColor = techColors[primaryTech] || "#4B5563";
+    const primaryTech = project.techs.includes(selectedTech) ? selectedTech : project.techs[0];
+    const primaryColor = techColors[primaryTech] || '#4B5563';
     const secondaryTech = project.techs[1] || project.techs[0];
-    const secondaryColor = techColors[secondaryTech] || "#6B7280";
+    const secondaryColor = techColors[secondaryTech] || '#6B7280';
 
-    const handleOpenModal = (e) => {
+    const handleOpenModal = e => {
       e.stopPropagation();
       setRipple({
         x: e.clientX - cardRef.current.getBoundingClientRect().left,
@@ -173,18 +158,18 @@ const ProjectCard = memo(
       <motion.div
         ref={cardRef}
         className={`project-card bg-gray-100 bg-opacity-30 backdrop-blur-[8px] rounded-xl shadow-lg p-5 border border-gray-800/30 transition-all duration-300 relative overflow-hidden max-w-sm min-h-[350px] ${
-          isPinned ? "order-first" : ""
+          isPinned ? 'order-first' : ''
         } pulse-glow`}
         style={{
-          "--glow-color": primaryColor,
-          "--ripple-color": `${primaryColor}33`,
-          borderColor: isPinned ? primaryColor : "rgba(31, 41, 55, 0.3)",
+          '--glow-color': primaryColor,
+          '--ripple-color': `${primaryColor}33`,
+          borderColor: isPinned ? primaryColor : 'rgba(31, 41, 55, 0.3)',
         }}
         variants={cardVariants}
         custom={index}
         initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        whileHover={{ scale: 1.03, borderWidth: "3px" }}
+        animate={isInView ? 'visible' : 'hidden'}
+        whileHover={{ scale: 1.03, borderWidth: '3px' }}
         tabIndex={0}
         role="region"
         aria-labelledby={`title-${project.id}`}
@@ -211,62 +196,60 @@ const ProjectCard = memo(
           <h3
             id={`title-${project.id}`}
             className="text-xl font-orbitron font-bold"
-            style={{ color: "#000" }}
+            style={{ color: '#000' }}
           >
             {project.title}
           </h3>
           <button
             className="p-1 rounded-full hover:bg-gray-700 transition"
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               togglePin(project.id);
             }}
-            aria-label={
-              isPinned ? `Unpin ${project.title}` : `Pin ${project.title}`
-            }
+            aria-label={isPinned ? `Unpin ${project.title}` : `Pin ${project.title}`}
           >
-            <FaThumbtack size={16} color={isPinned ? primaryColor : "#000"} />
+            <FaThumbtack size={16} color={isPinned ? primaryColor : '#000'} />
           </button>
         </div>
-<div className="flex flex-wrap gap-4 mb-3 justify-start relative">
-  {project.techs.map((tech, i) => {
-    const progress = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random 50-100%
-    return (
-      <motion.div
-        key={tech}
-        className="w-28" // a bit wider so text fits nicely
-        variants={badgeVariants}
-        custom={progress}
-        initial="hidden"
-        animate="visible"
-        whileHover={{ scale: 1.05 }}
-      >
-        {/* Progress container */}
-        <div className="bg-gray-200 rounded-full h-3 overflow-hidden relative shadow-sm">
-          <motion.div
-            className="h-full rounded-full"
-            style={{
-              background: `linear-gradient(90deg, ${techColors[tech] || "#4B5563"}, #9ca3af)`,
-            }}
-            variants={badgeVariants}
-            custom={progress}
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            aria-label={`${tech} progress: ${progress}%`}
-          />
-          {/* Animated shine effect */}
-          <div className="absolute inset-0 bg-white/20 animate-pulse" />
-        </div>
+        <div className="flex flex-wrap gap-4 mb-3 justify-start relative">
+          {project.techs.map((tech, i) => {
+            const progress = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // Random 50-100%
+            return (
+              <motion.div
+                key={tech}
+                className="w-28" // a bit wider so text fits nicely
+                variants={badgeVariants}
+                custom={progress}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ scale: 1.05 }}
+              >
+                {/* Progress container */}
+                <div className="bg-gray-200 rounded-full h-3 overflow-hidden relative shadow-sm">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{
+                      background: `linear-gradient(90deg, ${techColors[tech] || '#4B5563'}, #9ca3af)`,
+                    }}
+                    variants={badgeVariants}
+                    custom={progress}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 1, ease: 'easeOut' }}
+                    aria-label={`${tech} progress: ${progress}%`}
+                  />
+                  {/* Animated shine effect */}
+                  <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                </div>
 
-        {/* Label */}
-        <p className="text-xs mt-1 text-center capitalize font-medium text-gray-800">
-          {tech} <span className="text-gray-500">({progress}%)</span>
-        </p>
-      </motion.div>
-    );
-  })}
-</div>
+                {/* Label */}
+                <p className="text-xs mt-1 text-center capitalize font-medium text-gray-800">
+                  {tech} <span className="text-gray-500">({progress}%)</span>
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
 
         <button
           className="text-sm font-medium px-3 py-1 rounded text-white transition mb-3"
@@ -282,35 +265,27 @@ const ProjectCard = memo(
 );
 
 // Project Modal Component
-const ProjectModal = ({
-  project,
-  techColors,
-  selectedTech,
-  setModalProject,
-  setToast,
-}) => {
-  const primaryTech = project.techs.includes(selectedTech)
-    ? selectedTech
-    : project.techs[0];
-  const primaryColor = techColors[primaryTech] || "#4B5563";
+const ProjectModal = ({ project, techColors, selectedTech, setModalProject, setToast }) => {
+  const primaryTech = project.techs.includes(selectedTech) ? selectedTech : project.techs[0];
+  const primaryColor = techColors[primaryTech] || '#4B5563';
   const secondaryTech = project.techs[1] || project.techs[0];
-  const secondaryColor = techColors[secondaryTech] || "#6B7280";
+  const secondaryColor = techColors[secondaryTech] || '#6B7280';
 
-  const handleShare = async (e) => {
+  const handleShare = async e => {
     e.stopPropagation();
     if (navigator.share) {
       try {
         await navigator.share({
           title: project.title,
-          text: project.description.slice(0, 100) + "...",
+          text: project.description.slice(0, 100) + '...',
           url: project.liveLink,
         });
       } catch (err) {
-        console.error("Share failed:", err);
+        console.error('Share failed:', err);
       }
     } else {
       navigator.clipboard.writeText(project.liveLink);
-      setToast({ message: "Link copied!", id: Date.now() });
+      setToast({ message: 'Link copied!', id: Date.now() });
       setTimeout(() => setToast(null), 2000);
     }
   };
@@ -318,13 +293,13 @@ const ProjectModal = ({
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0, 0, 0, 0.7)" }}
+      style={{ background: 'rgba(0, 0, 0, 0.7)' }}
       variants={overlayVariants}
       initial="hidden"
       animate="visible"
       exit="hidden"
       onClick={() => setModalProject(null)}
-      onKeyDown={(e) => e.key === "Escape" && setModalProject(null)}
+      onKeyDown={e => e.key === 'Escape' && setModalProject(null)}
       tabIndex={0}
       role="dialog"
       aria-labelledby={`modal-title-${project.id}`}
@@ -335,7 +310,7 @@ const ProjectModal = ({
         initial="hidden"
         animate="visible"
         exit="hidden"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <button
           className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-200 transition"
@@ -347,7 +322,7 @@ const ProjectModal = ({
         <h3
           id={`modal-title-${project.id}`}
           className="text-2xl font-orbitron font-bold mb-4"
-          style={{ color: "#000" }}
+          style={{ color: '#000' }}
         >
           {project.title}
         </h3>
@@ -357,7 +332,7 @@ const ProjectModal = ({
           className="w-full h-48 object-cover rounded-lg mb-4"
           loading="lazy"
         />
-        <p className="text-sm font-semibold mb-4" style={{ color: "#000" }}>
+        <p className="text-sm font-semibold mb-4" style={{ color: '#000' }}>
           {project.description}
         </p>
         <div className="flex flex-wrap gap-2 mb-4 justify-center">
@@ -376,16 +351,13 @@ const ProjectModal = ({
                 <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
                   <motion.div
                     className="h-full"
-                    style={{ backgroundColor: techColors[tech] || "#4B5563" }}
+                    style={{ backgroundColor: techColors[tech] || '#4B5563' }}
                     variants={badgeVariants}
                     custom={progress}
                     aria-label={`${tech} progress: ${progress}%`}
                   />
                 </div>
-                <p
-                  className="text-xs mt-1 text-center capitalize"
-                  style={{ color: "#000" }}
-                >
+                <p className="text-xs mt-1 text-center capitalize" style={{ color: '#000' }}>
                   {tech} ({progress}%)
                 </p>
               </motion.div>
@@ -404,10 +376,10 @@ const ProjectModal = ({
           <button
             className="text-sm font-medium px-3 py-1 rounded text-white transition"
             style={{ backgroundColor: primaryColor }}
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation();
               navigator.clipboard.writeText(project.liveLink);
-              setToast({ message: "Link copied!", id: Date.now() });
+              setToast({ message: 'Link copied!', id: Date.now() });
               setTimeout(() => setToast(null), 2000);
             }}
             aria-label={`Copy live demo link for ${project.title}`}
@@ -431,17 +403,17 @@ const ProjectModal = ({
 // Main Projects Component
 function Projects() {
   const techContext = useTech();
-  const selectedTech = techContext?.selectedTech || "default";
+  const selectedTech = techContext?.selectedTech || 'default';
   const setSelectedTech = techContext?.updateTech || (() => {});
-  const bgColor = techContext?.bgColor || "#ffffff";
-  const techColors = techContext?.techColors || { default: "#4B5563" };
+  const bgColor = techContext?.bgColor || '#ffffff';
+  const techColors = techContext?.techColors || { default: '#4B5563' };
   const textColor = getContrastTextColor(bgColor);
 
   const [filteredProjects, setFilteredProjects] = useState(projectsData);
   const [modalProject, setModalProject] = useState(null);
   const [pinnedIds, setPinnedIds] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("pinnedIds")) || [];
+      return JSON.parse(localStorage.getItem('pinnedIds')) || [];
     } catch {
       return [];
     }
@@ -450,23 +422,21 @@ function Projects() {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ['start end', 'end start'],
   });
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const showBackToTop = useTransform(scrollYProgress, (value) => value > 0.2);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const showBackToTop = useTransform(scrollYProgress, value => value > 0.2);
 
   // Persist pinnedIds
   useEffect(() => {
-    localStorage.setItem("pinnedIds", JSON.stringify(pinnedIds));
+    localStorage.setItem('pinnedIds', JSON.stringify(pinnedIds));
   }, [pinnedIds]);
 
   // Filter projects based on selectedTech
   useEffect(() => {
     let filtered = projectsData;
-    if (selectedTech !== "default") {
-      filtered = filtered.filter((project) =>
-        project.techs.includes(selectedTech)
-      );
+    if (selectedTech !== 'default') {
+      filtered = filtered.filter(project => project.techs.includes(selectedTech));
     }
     filtered.sort((a, b) => {
       const aPinned = pinnedIds.includes(a.id);
@@ -476,13 +446,11 @@ function Projects() {
     setFilteredProjects(filtered);
   }, [selectedTech, pinnedIds]);
 
-  const togglePin = (id) => {
-    setPinnedIds((prev) =>
-      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
-    );
+  const togglePin = id => {
+    setPinnedIds(prev => (prev.includes(id) ? prev.filter(pid => pid !== id) : [...prev, id]));
   };
 
-  const primaryColor = techColors[selectedTech] || "#4B5563";
+  const primaryColor = techColors[selectedTech] || '#4B5563';
 
   return (
     <>
@@ -503,7 +471,7 @@ function Projects() {
           className="fixed top-0 left-0 h-1 z-20 progress-bar"
           style={{
             width: progressWidth,
-            "--accent-color": techColors[selectedTech || "default"],
+            '--accent-color': techColors[selectedTech || 'default'],
           }}
         />
 
@@ -532,10 +500,7 @@ function Projects() {
                 No projects found.
               </motion.p>
             ) : (
-              <div
-                key="grid"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-              >
+              <div key="grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProjects.map((project, index) => (
                   <ProjectCard
                     key={project.id}

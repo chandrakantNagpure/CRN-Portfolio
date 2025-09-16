@@ -1,22 +1,20 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 // import { useLanguage } from "../contexts/LanguageContext";
-import { useTech } from "../components/TechContext";
-import { 
-  FaReact, 
-  FaWordpress, 
-  FaPhp, 
-  FaCode, 
-  FaRocket, 
-  FaClock, 
+import { useTech } from '../components/TechContext';
+import {
+  FaReact,
+  FaWordpress,
+  FaPhp,
+  FaCode,
+  FaRocket,
+  FaClock,
   FaDollarSign,
   FaCheckCircle,
   FaArrowRight,
-  FaStar
-} from "react-icons/fa";
-import { SiUpwork, SiFiverr } from "react-icons/si";
-import { Link } from "react-router-dom";
-import StickyContact from "../components/StickyContact";
-import ChatBot from "../components/ChatBot";
+  FaStar,
+} from 'react-icons/fa';
+import { SiUpwork, SiFiverr } from 'react-icons/si';
+import { Link } from 'react-router-dom';
 
 const ServicesPage = () => {
   // const { t } = useLanguage();
@@ -25,117 +23,118 @@ const ServicesPage = () => {
   const services = [
     {
       icon: FaReact,
-      title: "React Development",
-      description: "Custom React applications with modern hooks, context API, and performance optimization",
+      title: 'React Development',
+      description:
+        'Custom React applications with modern hooks, context API, and performance optimization',
       features: [
-        "Single Page Applications (SPA)",
-        "Component-based architecture",
-        "State management with Redux/Context",
-        "API integration",
-        "Performance optimization"
+        'Single Page Applications (SPA)',
+        'Component-based architecture',
+        'State management with Redux/Context',
+        'API integration',
+        'Performance optimization',
       ],
-      price: "Starting at $25/hour",
+      price: 'Starting at $25/hour',
       color: techColors.react,
-      platforms: ["upwork", "freelancer", "fiverr"]
+      platforms: ['upwork', 'freelancer', 'fiverr'],
     },
     {
       icon: FaWordpress,
-      title: "WordPress Development",
-      description: "Custom WordPress themes, plugins, and full website development",
+      title: 'WordPress Development',
+      description: 'Custom WordPress themes, plugins, and full website development',
       features: [
-        "Custom theme development",
-        "Plugin development & customization",
-        "WooCommerce integration",
-        "SEO optimization",
-        "Performance optimization"
+        'Custom theme development',
+        'Plugin development & customization',
+        'WooCommerce integration',
+        'SEO optimization',
+        'Performance optimization',
       ],
-      price: "Starting at $20/hour",
+      price: 'Starting at $20/hour',
       color: techColors.wordpress,
-      platforms: ["upwork", "freelancer", "fiverr"]
+      platforms: ['upwork', 'freelancer', 'fiverr'],
     },
     {
       icon: FaCode,
-      title: "Frontend Development",
-      description: "Modern, responsive websites with cutting-edge technologies",
+      title: 'Frontend Development',
+      description: 'Modern, responsive websites with cutting-edge technologies',
       features: [
-        "HTML5, CSS3, JavaScript",
-        "Responsive design",
-        "Cross-browser compatibility",
-        "Performance optimization",
-        "UI/UX implementation"
+        'HTML5, CSS3, JavaScript',
+        'Responsive design',
+        'Cross-browser compatibility',
+        'Performance optimization',
+        'UI/UX implementation',
       ],
-      price: "Starting at $22/hour",
+      price: 'Starting at $22/hour',
       color: techColors.javascript,
-      platforms: ["upwork", "freelancer"]
+      platforms: ['upwork', 'freelancer'],
     },
     {
       icon: FaRocket,
-      title: "Full Stack Development",
-      description: "End-to-end web application development with modern technologies",
+      title: 'Full Stack Development',
+      description: 'End-to-end web application development with modern technologies',
       features: [
-        "Frontend + Backend development",
-        "Database design & integration",
-        "API development",
-        "Deployment & hosting setup",
-        "Maintenance & support"
+        'Frontend + Backend development',
+        'Database design & integration',
+        'API development',
+        'Deployment & hosting setup',
+        'Maintenance & support',
       ],
-      price: "Starting at $30/hour",
-      color: "#FF6B6B",
-      platforms: ["upwork", "freelancer"]
-    }
+      price: 'Starting at $30/hour',
+      color: '#FF6B6B',
+      platforms: ['upwork', 'freelancer'],
+    },
   ];
 
   const packages = [
     {
-      name: "Starter Website",
-      price: "$299",
-      description: "Perfect for small businesses and personal brands",
+      name: 'Starter Website',
+      price: '$299',
+      description: 'Perfect for small businesses and personal brands',
       features: [
-        "5-page responsive website",
-        "Mobile-friendly design",
-        "Basic SEO setup",
-        "Contact form",
-        "2 revisions",
-        "7-day delivery"
+        '5-page responsive website',
+        'Mobile-friendly design',
+        'Basic SEO setup',
+        'Contact form',
+        '2 revisions',
+        '7-day delivery',
       ],
-      popular: false
+      popular: false,
     },
     {
-      name: "Business Website",
-      price: "$599",
-      description: "Ideal for growing businesses and e-commerce",
+      name: 'Business Website',
+      price: '$599',
+      description: 'Ideal for growing businesses and e-commerce',
       features: [
-        "10-page responsive website",
-        "Custom design & branding",
-        "Advanced SEO optimization",
-        "E-commerce integration",
-        "Admin panel",
-        "5 revisions",
-        "14-day delivery"
+        '10-page responsive website',
+        'Custom design & branding',
+        'Advanced SEO optimization',
+        'E-commerce integration',
+        'Admin panel',
+        '5 revisions',
+        '14-day delivery',
       ],
-      popular: true
+      popular: true,
     },
     {
-      name: "Premium Web App",
-      price: "$1,299",
-      description: "For complex applications and enterprise solutions",
+      name: 'Premium Web App',
+      price: '$1,299',
+      description: 'For complex applications and enterprise solutions',
       features: [
-        "Custom web application",
-        "User authentication",
-        "Database integration",
-        "Admin dashboard",
-        "API integration",
-        "Unlimited revisions",
-        "30-day delivery"
+        'Custom web application',
+        'User authentication',
+        'Database integration',
+        'Admin dashboard',
+        'API integration',
+        'Unlimited revisions',
+        '30-day delivery',
       ],
-      popular: false
-    }
+      popular: false,
+    },
   ];
 
   const platformLinks = {
-    upwork: "https://www.upwork.com/freelancers/chandrakant-nagpure",
-    freelancer: "https://www.freelancer.com/u/chandrakant-nagpure",
-    fiverr: "https://fiverr.com/chandrakant_dev"
+    upwork: 'https://www.upwork.com/freelancers/chandrakant-nagpure',
+    freelancer: 'https://www.freelancer.com/u/chandrakant-nagpure',
+    fiverr: 'https://fiverr.com/chandrakant_dev',
   };
 
   return (
@@ -157,8 +156,8 @@ const ServicesPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Transform your ideas into powerful, scalable web solutions. 
-            5+ years experience • 50+ satisfied clients • 100% job success rate
+            Transform your ideas into powerful, scalable web solutions. 5+ years experience • 50+
+            satisfied clients • 100% job success rate
           </motion.p>
           <motion.div
             className="flex flex-wrap justify-center gap-4"
@@ -196,9 +195,7 @@ const ServicesPage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              My Services
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">My Services</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Specialized web development services tailored to your business needs
             </p>
@@ -214,11 +211,7 @@ const ServicesPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <div className="flex items-center mb-4">
-                  <service.icon 
-                    size={32} 
-                    color={service.color} 
-                    className="mr-3"
-                  />
+                  <service.icon size={32} color={service.color} className="mr-3" />
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                 </div>
                 <p className="text-gray-600 mb-4">{service.description}</p>
@@ -271,7 +264,7 @@ const ServicesPage = () => {
                     </span>
                   </div>
                 )}
-                
+
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
                   <div className="text-4xl font-bold text-blue-600 mb-2">{pkg.price}</div>
@@ -300,9 +293,7 @@ const ServicesPage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Me?
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Me?</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -311,7 +302,9 @@ const ServicesPage = () => {
                 <FaStar size={24} color="#3B82F6" />
               </div>
               <h3 className="text-xl font-semibold mb-2">100% Job Success Rate</h3>
-              <p className="text-gray-600">Perfect track record on Upwork with 5-star reviews from all clients</p>
+              <p className="text-gray-600">
+                Perfect track record on Upwork with 5-star reviews from all clients
+              </p>
             </div>
 
             <div className="text-center">
@@ -327,7 +320,9 @@ const ServicesPage = () => {
                 <FaRocket size={24} color="#8B5CF6" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Modern Technologies</h3>
-              <p className="text-gray-600">Using latest tech stack for scalable, future-proof solutions</p>
+              <p className="text-gray-600">
+                Using latest tech stack for scalable, future-proof solutions
+              </p>
             </div>
           </div>
         </div>
@@ -336,9 +331,7 @@ const ServicesPage = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Start Your Project?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
           <p className="text-xl mb-8">
             Let's discuss your requirements and bring your vision to life
           </p>
@@ -360,12 +353,6 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
-      
-      {/* Sticky Contact */}
-      <StickyContact />
-      
-      {/* ChatBot */}
-      <ChatBot />
     </div>
   );
 };

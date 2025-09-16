@@ -10,84 +10,89 @@ import { getContrastTextColor } from '../utils/colors';
 const testimonialsData = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    company: "TechStart Solutions",
-    position: "CEO",
+    name: 'Sarah Johnson',
+    company: 'TechStart Solutions',
+    position: 'CEO',
     rating: 5,
-    text: "Chandrakant transformed our outdated website into a modern, responsive platform that increased our conversion rate by 40%. His attention to detail and technical expertise is outstanding.",
-    project: "E-commerce Platform Redesign",
+    text: 'Chandrakant transformed our outdated website into a modern, responsive platform that increased our conversion rate by 40%. His attention to detail and technical expertise is outstanding.',
+    project: 'E-commerce Platform Redesign',
     metrics: {
-      conversionIncrease: "40%",
-      performanceImprovement: "60%",
-      timeToComplete: "3 weeks"
+      conversionIncrease: '40%',
+      performanceImprovement: '60%',
+      timeToComplete: '3 weeks',
     },
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face",
-    linkedinUrl: "https://linkedin.com/in/sarahjohnson"
+    image:
+      'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face',
+    linkedinUrl: 'https://linkedin.com/in/sarahjohnson',
   },
   {
     id: 2,
-    name: "Michael Chen",
-    company: "Digital Marketing Pro",
-    position: "Marketing Director",
+    name: 'Michael Chen',
+    company: 'Digital Marketing Pro',
+    position: 'Marketing Director',
     rating: 5,
-    text: "Working with Chandrakant was exceptional. He delivered a WordPress site that not only looks amazing but also ranks well on Google. Our organic traffic increased by 85% within 2 months.",
-    project: "WordPress SEO Optimization",
+    text: 'Working with Chandrakant was exceptional. He delivered a WordPress site that not only looks amazing but also ranks well on Google. Our organic traffic increased by 85% within 2 months.',
+    project: 'WordPress SEO Optimization',
     metrics: {
-      trafficIncrease: "85%",
-      seoScore: "95/100",
-      timeToComplete: "2 weeks"
+      trafficIncrease: '85%',
+      seoScore: '95/100',
+      timeToComplete: '2 weeks',
     },
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    linkedinUrl: "https://linkedin.com/in/michaelchen"
+    image:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
+    linkedinUrl: 'https://linkedin.com/in/michaelchen',
   },
   {
     id: 3,
-    name: "Emily Rodriguez",
-    company: "Creative Agency Ltd",
-    position: "Creative Director",
+    name: 'Emily Rodriguez',
+    company: 'Creative Agency Ltd',
+    position: 'Creative Director',
     rating: 5,
     text: "Chandrakant's React development skills are top-notch. He built our interactive portfolio website with smooth animations and perfect mobile responsiveness. Client feedback has been amazing!",
-    project: "Interactive Portfolio Website",
+    project: 'Interactive Portfolio Website',
     metrics: {
-      mobileScore: "100/100",
-      loadTime: "1.2s",
-      clientSatisfaction: "98%"
+      mobileScore: '100/100',
+      loadTime: '1.2s',
+      clientSatisfaction: '98%',
     },
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    linkedinUrl: "https://linkedin.com/in/emilyrodriguez"
+    image:
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
+    linkedinUrl: 'https://linkedin.com/in/emilyrodriguez',
   },
   {
     id: 4,
-    name: "David Kumar",
-    company: "StartupHub",
-    position: "Founder",
+    name: 'David Kumar',
+    company: 'StartupHub',
+    position: 'Founder',
     rating: 5,
-    text: "Best investment we made! Chandrakant created our entire web presence from scratch. The modern design and fast performance helped us secure $2M in funding.",
-    project: "Complete Web Development",
+    text: 'Best investment we made! Chandrakant created our entire web presence from scratch. The modern design and fast performance helped us secure $2M in funding.',
+    project: 'Complete Web Development',
     metrics: {
-      businessImpact: "$2M funding",
-      performanceScore: "98/100",
-      deliveryTime: "On schedule"
+      businessImpact: '$2M funding',
+      performanceScore: '98/100',
+      deliveryTime: 'On schedule',
     },
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    linkedinUrl: "https://linkedin.com/in/davidkumar"
+    image:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+    linkedinUrl: 'https://linkedin.com/in/davidkumar',
   },
   {
     id: 5,
-    name: "Lisa Thompson",
-    company: "E-commerce Solutions",
-    position: "Operations Manager",
+    name: 'Lisa Thompson',
+    company: 'E-commerce Solutions',
+    position: 'Operations Manager',
     rating: 5,
     text: "Chandrakant's expertise in both frontend and WordPress development saved us thousands. He integrated complex payment systems seamlessly and delivered ahead of schedule.",
-    project: "Payment Integration & Optimization",
+    project: 'Payment Integration & Optimization',
     metrics: {
-      costSavings: "$15,000",
-      transactionSuccess: "99.8%",
-      deliveredEarly: "1 week ahead"
+      costSavings: '$15,000',
+      transactionSuccess: '99.8%',
+      deliveredEarly: '1 week ahead',
     },
-    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face",
-    linkedinUrl: "https://linkedin.com/in/lisathompson"
-  }
+    image:
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face',
+    linkedinUrl: 'https://linkedin.com/in/lisathompson',
+  },
 ];
 
 const containerVariants = {
@@ -95,9 +100,9 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2
-    }
-  }
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 const cardVariants = {
@@ -107,14 +112,14 @@ const cardVariants = {
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: "easeOut"
-    }
-  }
+      ease: 'easeOut',
+    },
+  },
 };
 
 const TestimonialCard = ({ testimonial, index, techColors, selectedTech }) => {
   const primaryColor = techColors[selectedTech] || '#4B5563';
-  
+
   return (
     <motion.div
       variants={cardVariants}
@@ -129,11 +134,7 @@ const TestimonialCard = ({ testimonial, index, techColors, selectedTech }) => {
       {/* Rating */}
       <div className="flex items-center gap-1 mb-4">
         {[...Array(5)].map((_, i) => (
-          <FaStar
-            key={i}
-            size={16}
-            color={i < testimonial.rating ? primaryColor : '#E5E7EB'}
-          />
+          <FaStar key={i} size={16} color={i < testimonial.rating ? primaryColor : '#E5E7EB'} />
         ))}
         <span className="ml-2 text-sm font-medium">{testimonial.rating}.0</span>
       </div>
@@ -172,12 +173,8 @@ const TestimonialCard = ({ testimonial, index, techColors, selectedTech }) => {
           />
         </div>
         <div className="flex-1">
-          <h4 className="font-semibold text-gray-900 dark:text-white">
-            {testimonial.name}
-          </h4>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {testimonial.position}
-          </p>
+          <h4 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h4>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{testimonial.position}</p>
           <p className="text-sm font-medium" style={{ color: primaryColor }}>
             {testimonial.company}
           </p>
@@ -197,11 +194,11 @@ const TestimonialCard = ({ testimonial, index, techColors, selectedTech }) => {
 
       {/* Project Tag */}
       <div className="mt-4 pt-4 border-t border-gray-200/30">
-        <span 
+        <span
           className="text-xs px-3 py-1 rounded-full bg-opacity-20 font-medium"
-          style={{ 
+          style={{
             backgroundColor: primaryColor + '20',
-            color: primaryColor 
+            color: primaryColor,
           }}
         >
           {testimonial.project}
@@ -217,7 +214,7 @@ function Testimonials() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
 
   const textColor = getContrastTextColor(bgColor);
@@ -226,9 +223,7 @@ function Testimonials() {
   // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => 
-        prev === testimonialsData.length - 1 ? 0 : prev + 1
-      );
+      setCurrentTestimonial(prev => (prev === testimonialsData.length - 1 ? 0 : prev + 1));
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -245,11 +240,11 @@ function Testimonials() {
       }}
     >
       {/* Background Pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `radial-gradient(circle at 25px 25px, ${primaryColor} 2px, transparent 0)`,
-          backgroundSize: '50px 50px'
+          backgroundSize: '50px 50px',
         }}
       />
 
@@ -262,7 +257,7 @@ function Testimonials() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 
+          <h2
             className="text-4xl md:text-5xl font-orbitron font-bold mb-6"
             style={{ color: textColor }}
           >
@@ -271,7 +266,7 @@ function Testimonials() {
           <p className="text-lg md:text-xl max-w-3xl mx-auto opacity-80">
             See what my clients say about working with me and the results we achieved together
           </p>
-          
+
           {/* Trust Indicators */}
           <div className="flex flex-wrap justify-center items-center gap-8 mt-8 text-sm">
             <div className="flex items-center gap-2">
@@ -293,7 +288,7 @@ function Testimonials() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          animate={inView ? 'visible' : 'hidden'}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
         >
           {testimonialsData.map((testimonial, index) => (
@@ -333,14 +328,14 @@ function Testimonials() {
             <motion.a
               href="#projects"
               className="px-8 py-4 rounded-full font-semibold border-2 transition-all duration-300"
-              style={{ 
-                borderColor: primaryColor, 
+              style={{
+                borderColor: primaryColor,
                 color: primaryColor,
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
               }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
-                backgroundColor: primaryColor + '10'
+                backgroundColor: primaryColor + '10',
               }}
               whileTap={{ scale: 0.95 }}
             >

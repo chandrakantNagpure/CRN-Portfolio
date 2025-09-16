@@ -12,17 +12,21 @@ function ThemeIndicator() {
   }
 
   return (
-    <div 
+    <div
       className="fixed opacity-0 top-4 left-4 z-40 px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm border transition-all duration-500"
-      style={{ 
+      style={{
         backgroundColor: primaryColor + '20',
         borderColor: primaryColor + '40',
-        color: textColor 
+        color: textColor,
       }}
     >
       <div className="text-xs font-medium">
-        <div>Current Theme: <span className="font-bold capitalize">{selectedTech}</span></div>
-        <div>Color: <span style={{ color: primaryColor }}>{primaryColor}</span></div>
+        <div>
+          Current Theme: <span className="font-bold capitalize">{selectedTech}</span>
+        </div>
+        <div>
+          Color: <span style={{ color: primaryColor }}>{primaryColor}</span>
+        </div>
       </div>
     </div>
   );

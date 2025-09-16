@@ -1,45 +1,53 @@
 import { motion } from 'framer-motion';
-import { FaReact, FaWordpress, FaMobile, FaRocket, FaDollarSign, FaClock, FaCheckCircle } from 'react-icons/fa';
+import {
+  FaReact,
+  FaWordpress,
+  FaMobile,
+  FaRocket,
+  FaDollarSign,
+  FaClock,
+  FaCheckCircle,
+} from 'react-icons/fa';
 import { useTech } from './TechContext';
 import { getContrastTextColor } from '../utils/colors';
 
 const quickServices = [
   {
     icon: FaReact,
-    title: "React Development",
-    description: "Modern, fast web applications",
-    price: "From $2,500",
-    features: ["Custom Components", "State Management", "API Integration"],
-    timeline: "2-4 weeks",
-    popular: false
+    title: 'React Development',
+    description: 'Modern, fast web applications',
+    price: 'From $2,500',
+    features: ['Custom Components', 'State Management', 'API Integration'],
+    timeline: '2-4 weeks',
+    popular: false,
   },
   {
     icon: FaWordpress,
-    title: "WordPress Sites",
-    description: "Professional business websites",
-    price: "From $1,500",
-    features: ["Custom Design", "SEO Optimized", "Mobile Ready"],
-    timeline: "1-3 weeks",
-    popular: true
+    title: 'WordPress Sites',
+    description: 'Professional business websites',
+    price: 'From $1,500',
+    features: ['Custom Design', 'SEO Optimized', 'Mobile Ready'],
+    timeline: '1-3 weeks',
+    popular: true,
   },
   {
     icon: FaMobile,
-    title: "Landing Pages",
-    description: "High-converting sales pages",
-    price: "From $800",
-    features: ["Conversion Focused", "Fast Loading", "Lead Capture"],
-    timeline: "1 week",
-    popular: false
+    title: 'Landing Pages',
+    description: 'High-converting sales pages',
+    price: 'From $800',
+    features: ['Conversion Focused', 'Fast Loading', 'Lead Capture'],
+    timeline: '1 week',
+    popular: false,
   },
   {
     icon: FaRocket,
-    title: "Full Projects",
-    description: "Complete web solutions",
-    price: "From $4,000",
-    features: ["Full Stack", "Database", "Deployment"],
-    timeline: "4-8 weeks",
-    popular: false
-  }
+    title: 'Full Projects',
+    description: 'Complete web solutions',
+    price: 'From $4,000',
+    features: ['Full Stack', 'Database', 'Deployment'],
+    timeline: '4-8 weeks',
+    popular: false,
+  },
 ];
 
 function QuickServices() {
@@ -48,7 +56,7 @@ function QuickServices() {
   const primaryColor = techColors[selectedTech] || '#4B5563';
 
   return (
-    <section 
+    <section
       className="py-16 px-6 md:px-16 relative overflow-hidden transition-all duration-500 ease-in-out"
       style={{
         // Match Hero gradient exactly
@@ -88,12 +96,12 @@ function QuickServices() {
                 service.popular ? 'border-2 transform scale-105' : 'border border-white/40'
               }`}
               style={{
-                borderColor: service.popular ? primaryColor : undefined
+                borderColor: service.popular ? primaryColor : undefined,
               }}
               whileHover={{ scale: service.popular ? 1.05 : 1.02 }}
             >
               {service.popular && (
-                <div 
+                <div
                   className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-white text-sm font-medium"
                   style={{ backgroundColor: primaryColor }}
                 >
@@ -102,7 +110,7 @@ function QuickServices() {
               )}
 
               <div className="text-center">
-                <div 
+                <div
                   className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                   style={{ backgroundColor: primaryColor + '20' }}
                 >
@@ -112,10 +120,8 @@ function QuickServices() {
                 <h3 className="text-xl font-bold mb-2" style={{ color: textColor }}>
                   {service.title}
                 </h3>
-                
-                <p className="text-gray-600 mb-4 text-sm">
-                  {service.description}
-                </p>
+
+                <p className="text-gray-600 mb-4 text-sm">{service.description}</p>
 
                 <div className="mb-4">
                   <div className="text-2xl font-bold mb-1" style={{ color: primaryColor }}>
@@ -138,10 +144,10 @@ function QuickServices() {
 
                 <motion.button
                   className="w-full py-3 px-4 rounded-full font-semibold transition-all duration-300"
-                  style={{ 
+                  style={{
                     backgroundColor: service.popular ? primaryColor : 'transparent',
                     color: service.popular ? 'white' : primaryColor,
-                    border: `2px solid ${primaryColor}`
+                    border: `2px solid ${primaryColor}`,
                   }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -167,39 +173,45 @@ function QuickServices() {
           <h3 className="text-2xl font-bold text-center mb-8" style={{ color: textColor }}>
             ✨ Why Choose Me?
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div 
+              <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: primaryColor + '20' }}
               >
                 <FaClock size={20} style={{ color: primaryColor }} />
               </div>
               <h4 className="font-semibold mb-2">Fast Delivery</h4>
-              <p className="text-sm text-gray-600">Most projects delivered within 1-4 weeks with regular updates</p>
+              <p className="text-sm text-gray-600">
+                Most projects delivered within 1-4 weeks with regular updates
+              </p>
             </div>
-            
+
             <div className="text-center">
-              <div 
+              <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: primaryColor + '20' }}
               >
                 <FaDollarSign size={20} style={{ color: primaryColor }} />
               </div>
               <h4 className="font-semibold mb-2">Transparent Pricing</h4>
-              <p className="text-sm text-gray-600">No hidden fees. Clear pricing upfront with detailed quotes</p>
+              <p className="text-sm text-gray-600">
+                No hidden fees. Clear pricing upfront with detailed quotes
+              </p>
             </div>
-            
+
             <div className="text-center">
-              <div 
+              <div
                 className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: primaryColor + '20' }}
               >
                 <FaCheckCircle size={20} style={{ color: primaryColor }} />
               </div>
               <h4 className="font-semibold mb-2">100% Satisfaction</h4>
-              <p className="text-sm text-gray-600">Unlimited revisions until you're completely happy</p>
+              <p className="text-sm text-gray-600">
+                Unlimited revisions until you're completely happy
+              </p>
             </div>
           </div>
 

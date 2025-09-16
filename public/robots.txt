@@ -1,2 +1,31 @@
 User-agent: *
-Disallow: 
+Allow: /
+
+# Sitemap location
+Sitemap: https://chandrakantnagpure.com/sitemap.xml
+
+# Disallow certain paths if needed
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /private/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Crawl delay (optional)
+Crawl-delay: 1

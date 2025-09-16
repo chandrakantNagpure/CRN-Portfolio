@@ -9,7 +9,7 @@ export function StatusProvider({ children }) {
     // Get status from localStorage or default to 'available'
     return localStorage.getItem('userStatus') || 'available';
   });
-  
+
   const [lastUpdated, setLastUpdated] = useState(() => {
     return localStorage.getItem('statusLastUpdated') || new Date().toISOString();
   });
@@ -21,7 +21,7 @@ export function StatusProvider({ children }) {
   }, [status, lastUpdated]);
 
   // Update status and timestamp
-  const updateStatus = (newStatus) => {
+  const updateStatus = newStatus => {
     setStatus(newStatus);
     setLastUpdated(new Date().toISOString());
   };
@@ -31,7 +31,8 @@ export function StatusProvider({ children }) {
     const statuses = ['available', 'busy', 'away'];
     const interval = setInterval(() => {
       // For demo purposes, randomly change status occasionally
-      if (Math.random() < 0.05) { // 5% chance every 60 seconds (less frequent)
+      if (Math.random() < 0.05) {
+        // 5% chance every 60 seconds (less frequent)
         const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
         updateStatus(randomStatus);
       }
@@ -59,28 +60,24 @@ export function StatusProvider({ children }) {
         color: '#10B981',
         bgColor: '#D1FAE5',
         icon: '✅',
-        priority: 1
+        priority: 1,
       },
       busy: {
         color: '#F59E0B',
         bgColor: '#FEF3C7',
         icon: '⏳',
-        priority: 2
+        priority: 2,
       },
       away: {
         color: '#EF4444',
         bgColor: '#FEE2E2',
         icon: '🔴',
-        priority: 3
-      }
-    }
+        priority: 3,
+      },
+    },
   };
 
-  return (
-    <StatusContext.Provider value={value}>
-      {children}
-    </StatusContext.Provider>
-  );
+  return <StatusContext.Provider value={value}>{children}</StatusContext.Provider>;
 }
 
 // Custom hook to use status context
@@ -97,7 +94,7 @@ export function getTimeAgo(timestamp) {
   const now = new Date();
   const past = new Date(timestamp);
   const diffInMinutes = Math.floor((now - past) / (1000 * 60));
-  
+
   if (diffInMinutes < 1) return 'Just now';
   if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
   if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;

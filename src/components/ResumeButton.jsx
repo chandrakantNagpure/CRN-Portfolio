@@ -10,11 +10,11 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
 
   const handleDownload = async () => {
     setIsLoading(true);
-    
+
     try {
       // Simulate download delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Create download link
       const link = document.createElement('a');
       link.href = '/resume.pdf';
@@ -22,7 +22,7 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Show success toast
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
@@ -37,12 +37,13 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
     window.open('/resume.pdf', '_blank');
   };
 
-  const baseClasses = "inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 relative overflow-hidden";
-  
+  const baseClasses =
+    'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 relative overflow-hidden';
+
   const variants = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl",
-    secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800 border border-gray-300",
-    outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+    primary: 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl',
+    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800 border border-gray-300',
+    outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white',
   };
 
   return (
@@ -58,12 +59,12 @@ const ResumeButton = ({ className = '', variant = 'primary' }) => {
         >
           <motion.div
             animate={isLoading ? { rotate: 360 } : { rotate: 0 }}
-            transition={isLoading ? { duration: 1, repeat: Infinity, ease: "linear" } : {}}
+            transition={isLoading ? { duration: 1, repeat: Infinity, ease: 'linear' } : {}}
           >
             {isLoading ? <FaSpinner size={16} /> : <FaDownload size={16} />}
           </motion.div>
           <span>{isLoading ? t('resume.downloading') : t('hero.downloadResume')}</span>
-          
+
           {/* Ripple effect */}
           <motion.div
             className="absolute inset-0 bg-white opacity-0"

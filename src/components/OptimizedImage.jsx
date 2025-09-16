@@ -18,25 +18,23 @@ const OptimizedImage = ({
   // Generate optimized image URLs for different sizes
   const generateOptimizedUrl = (originalUrl, targetWidth) => {
     if (!originalUrl) return '';
-    
+
     // For Unsplash images, add optimization parameters
     if (originalUrl.includes('unsplash.com')) {
       const baseUrl = originalUrl.split('?')[0];
       return `${baseUrl}?w=${targetWidth}&q=80&fm=webp&fit=crop`;
     }
-    
+
     // For other images, return as-is (could be extended for other CDNs)
     return originalUrl;
   };
 
   // Generate srcSet for responsive images
-  const generateSrcSet = (originalUrl) => {
+  const generateSrcSet = originalUrl => {
     if (!originalUrl) return '';
-    
+
     const sizes = [400, 600, 800, 1200];
-    return sizes
-      .map(size => `${generateOptimizedUrl(originalUrl, size)} ${size}w`)
-      .join(', ');
+    return sizes.map(size => `${generateOptimizedUrl(originalUrl, size)} ${size}w`).join(', ');
   };
 
   // Intersection Observer for lazy loading
@@ -68,7 +66,7 @@ const OptimizedImage = ({
 
   if (imageError) {
     return (
-      <div 
+      <div
         className={`flex items-center justify-center bg-gray-100 text-gray-500 text-sm ${className}`}
         style={{ width, height }}
         role="img"
@@ -86,20 +84,24 @@ const OptimizedImage = ({
     <div ref={imgRef} className={`relative overflow-hidden ${className}`} style={{ width, height }}>
       {/* Placeholder */}
       {!isLoaded && (
-        <div 
+        <div
           className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center"
           style={{ width, height }}
         >
           {placeholder || (
             <div className="text-gray-400">
               <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
           )}
         </div>
       )}
-      
+
       {/* Actual Image */}
       {isInView && (
         <img

@@ -1,8 +1,20 @@
-import React, { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTech } from "./TechContext";
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaCheckCircle, FaArrowRight, FaArrowLeft, FaLightbulb, FaDollarSign, FaClock, FaRocket } from "react-icons/fa";
-import ResumeButton from "./ResumeButton";
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTech } from './TechContext';
+import {
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+  FaEnvelope,
+  FaCheckCircle,
+  FaArrowRight,
+  FaArrowLeft,
+  FaLightbulb,
+  FaDollarSign,
+  FaClock,
+  FaRocket,
+} from 'react-icons/fa';
+import ResumeButton from './ResumeButton';
 
 // Animation variants
 const containerVariants = {
@@ -28,31 +40,51 @@ const alertVariants = {
 };
 
 const inputVariants = {
-  rest: { boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)" },
+  rest: { boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)' },
   focus: {
-    boxShadow: "0 0 8px 2px rgba(59, 130, 246, 0.5)",
+    boxShadow: '0 0 8px 2px rgba(59, 130, 246, 0.5)',
     transition: { duration: 0.3 },
   },
 };
 
-import { getContrastTextColor } from "../utils/colors";
+import { getContrastTextColor } from '../utils/colors';
 
 // Interactive questions configuration
 const interactiveQuestions = [
   {
     id: 'projectType',
-    question: "What type of project are you looking for?",
+    question: 'What type of project are you looking for?',
     type: 'single-choice',
     icon: FaLightbulb,
     required: true,
     options: [
-      { value: 'website', label: 'New Website', description: 'Build a website from scratch', icon: '🌐' },
-      { value: 'redesign', label: 'Website Redesign', description: 'Improve existing website', icon: '🎨' },
+      {
+        value: 'website',
+        label: 'New Website',
+        description: 'Build a website from scratch',
+        icon: '🌐',
+      },
+      {
+        value: 'redesign',
+        label: 'Website Redesign',
+        description: 'Improve existing website',
+        icon: '🎨',
+      },
       { value: 'webapp', label: 'Web Application', description: 'Interactive web app', icon: '⚡' },
-      { value: 'ecommerce', label: 'E-commerce Store', description: 'Online shopping platform', icon: '🛒' },
-      { value: 'maintenance', label: 'Maintenance & Support', description: 'Ongoing website care', icon: '🔧' },
-      { value: 'other', label: 'Something Else', description: 'Tell me what you need', icon: '💡' }
-    ]
+      {
+        value: 'ecommerce',
+        label: 'E-commerce Store',
+        description: 'Online shopping platform',
+        icon: '🛒',
+      },
+      {
+        value: 'maintenance',
+        label: 'Maintenance & Support',
+        description: 'Ongoing website care',
+        icon: '🔧',
+      },
+      { value: 'other', label: 'Something Else', description: 'Tell me what you need', icon: '💡' },
+    ],
   },
   {
     id: 'budget',
@@ -62,15 +94,30 @@ const interactiveQuestions = [
     required: true,
     options: [
       { value: 'small', label: '$500 - $2,000', description: 'Small project budget', icon: '💵' },
-      { value: 'medium', label: '$2,000 - $5,000', description: 'Medium project budget', icon: '💰' },
-      { value: 'large', label: '$5,000 - $10,000', description: 'Large project budget', icon: '💸' },
+      {
+        value: 'medium',
+        label: '$2,000 - $5,000',
+        description: 'Medium project budget',
+        icon: '💰',
+      },
+      {
+        value: 'large',
+        label: '$5,000 - $10,000',
+        description: 'Large project budget',
+        icon: '💸',
+      },
       { value: 'enterprise', label: '$10,000+', description: 'Enterprise budget', icon: '🏦' },
-      { value: 'discuss', label: 'Let\'s Discuss', description: 'Not sure about budget', icon: '💬' }
-    ]
+      {
+        value: 'discuss',
+        label: "Let's Discuss",
+        description: 'Not sure about budget',
+        icon: '💬',
+      },
+    ],
   },
   {
     id: 'timeline',
-    question: "When do you need this completed?",
+    question: 'When do you need this completed?',
     type: 'single-choice',
     icon: FaClock,
     required: true,
@@ -78,49 +125,84 @@ const interactiveQuestions = [
       { value: 'urgent', label: 'ASAP', description: 'Rush job (extra fees apply)', icon: '🔥' },
       { value: 'month', label: 'Within 1 month', description: 'Standard timeline', icon: '📅' },
       { value: 'quarter', label: '2-3 months', description: 'Flexible timeline', icon: '📆' },
-      { value: 'flexible', label: 'No rush', description: 'Take your time', icon: '🕒' }
-    ]
+      { value: 'flexible', label: 'No rush', description: 'Take your time', icon: '🕒' },
+    ],
   },
   {
     id: 'features',
-    question: "Which features do you need?",
+    question: 'Which features do you need?',
     type: 'multi-choice',
     icon: FaRocket,
     required: false,
     options: [
-      { value: 'responsive', label: 'Mobile Responsive', description: 'Works on all devices', icon: '📱' },
-      { value: 'seo', label: 'SEO Optimization', description: 'Better search rankings', icon: '🔍' },
-      { value: 'cms', label: 'Content Management', description: 'Easy content updates', icon: '✏️' },
-      { value: 'analytics', label: 'Analytics Setup', description: 'Track visitor behavior', icon: '📊' },
-      { value: 'payment', label: 'Payment Integration', description: 'Accept online payments', icon: '💳' },
-      { value: 'social', label: 'Social Media Integration', description: 'Connect social accounts', icon: '📲' },
-      { value: 'blog', label: 'Blog/News Section', description: 'Regular content updates', icon: '📝' },
-      { value: 'contact', label: 'Contact Forms', description: 'Customer inquiries', icon: '📧' }
-    ]
-  }
+      {
+        value: 'responsive',
+        label: 'Mobile Responsive',
+        description: 'Works on all devices',
+        icon: '📱',
+      },
+      {
+        value: 'seo',
+        label: 'SEO Optimization',
+        description: 'Better search rankings',
+        icon: '🔍',
+      },
+      {
+        value: 'cms',
+        label: 'Content Management',
+        description: 'Easy content updates',
+        icon: '✏️',
+      },
+      {
+        value: 'analytics',
+        label: 'Analytics Setup',
+        description: 'Track visitor behavior',
+        icon: '📊',
+      },
+      {
+        value: 'payment',
+        label: 'Payment Integration',
+        description: 'Accept online payments',
+        icon: '💳',
+      },
+      {
+        value: 'social',
+        label: 'Social Media Integration',
+        description: 'Connect social accounts',
+        icon: '📲',
+      },
+      {
+        value: 'blog',
+        label: 'Blog/News Section',
+        description: 'Regular content updates',
+        icon: '📝',
+      },
+      { value: 'contact', label: 'Contact Forms', description: 'Customer inquiries', icon: '📧' },
+    ],
+  },
 ];
 
 function Contact() {
   const { selectedTech, techColors, bgColor } = useTech();
   const textColor = getContrastTextColor(bgColor);
-  
+
   // Interactive form state
   const [currentStep, setCurrentStep] = useState(0);
   const [interactiveAnswers, setInteractiveAnswers] = useState({});
   const [showTraditionalForm, setShowTraditionalForm] = useState(false);
-  
+
   // Traditional form state
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    message: "",
+    name: '',
+    email: '',
+    company: '',
+    phone: '',
+    message: '',
   });
   const [errors, setErrors] = useState({});
   const [focused, setFocused] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState("");
+  const [submitError, setSubmitError] = useState('');
   const formRef = useRef(null);
 
   // Interactive form handlers
@@ -162,7 +244,7 @@ function Contact() {
 
   const generateMessageFromAnswers = () => {
     let message = "Hi Chandrakant! I'm interested in working with you.\n\nProject Details:\n";
-    
+
     Object.entries(interactiveAnswers).forEach(([questionId, answer]) => {
       const question = interactiveQuestions.find(q => q.id === questionId);
       if (question) {
@@ -178,45 +260,45 @@ function Contact() {
         }
       }
     });
-    
-    return message + "\nLooking forward to hearing from you!";
+
+    return message + '\nLooking forward to hearing from you!';
   };
 
   // Traditional form handlers
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-    setSubmitError("");
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+    setSubmitError('');
   };
 
-  const handleFocus = (name) => {
-    setFocused((prev) => ({ ...prev, [name]: true }));
+  const handleFocus = name => {
+    setFocused(prev => ({ ...prev, [name]: true }));
   };
 
-  const handleBlur = (name) => {
-    setFocused((prev) => ({
+  const handleBlur = name => {
+    setFocused(prev => ({
       ...prev,
-      [name]: formData[name].trim() !== "",
+      [name]: formData[name].trim() !== '',
     }));
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = 'Invalid email format';
     }
     // Message is only required if no interactive answers exist
     if (Object.keys(interactiveAnswers).length === 0 && !formData.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = 'Message is required';
     }
     return newErrors;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -226,63 +308,63 @@ function Contact() {
 
     try {
       const data = new FormData(e.target);
-      
+
       // Add interactive answers to form data if they exist
       if (Object.keys(interactiveAnswers).length > 0) {
         const generatedMessage = generateMessageFromAnswers();
-        const finalMessage = formData.message.trim() 
+        const finalMessage = formData.message.trim()
           ? `${generatedMessage}\n\nAdditional Message:\n${formData.message}`
           : generatedMessage;
-        
+
         // Update the message field in form data
         data.set('message', finalMessage);
       }
-      
+
       const response = await fetch(e.target.action, {
-        method: "POST",
+        method: 'POST',
         body: data,
-        headers: { Accept: "application/json" },
+        headers: { Accept: 'application/json' },
       });
 
       if (response.ok) {
         setSubmitted(true);
-        setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+        setFormData({ name: '', email: '', company: '', phone: '', message: '' });
         setFocused({ name: false, email: false, company: false, phone: false, message: false });
         setInteractiveAnswers({});
         setCurrentStep(0);
         setShowTraditionalForm(false);
         setTimeout(() => setSubmitted(false), 3000);
       } else {
-        setSubmitError("Failed to send message. Please try again.");
+        setSubmitError('Failed to send message. Please try again.');
       }
     } catch (error) {
-      setSubmitError("An error occurred. Please try again.");
+      setSubmitError('An error occurred. Please try again.');
     }
   };
 
   const socialLinks = [
     {
       icon: FaGithub,
-      label: "GitHub",
-      url: "https://github.com/chandrakantNagpure/",
-      color: techColors.github || "#181717",
+      label: 'GitHub',
+      url: 'https://github.com/chandrakantNagpure/',
+      color: techColors.github || '#181717',
     },
     {
       icon: FaLinkedin,
-      label: "LinkedIn",
-      url: "https://www.linkedin.com/in/chandrakant-nagpure-04419b135/",
-      color: techColors.linkedin || "#0A66C2",
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/chandrakant-nagpure-04419b135/',
+      color: techColors.linkedin || '#0A66C2',
     },
     {
       icon: FaEnvelope,
-      label: "Email",
-      url: "mailto:nagpure.cr@gmail.com",
-      color: techColors.email || "#D14836",
+      label: 'Email',
+      url: 'mailto:nagpure.cr@gmail.com',
+      color: techColors.email || '#D14836',
     },
   ];
 
-  const primaryColor = techColors[selectedTech] || "#4B5563";
-  const secondaryColor = "#6B7280";
+  const primaryColor = techColors[selectedTech] || '#4B5563';
+  const secondaryColor = '#6B7280';
   const gradient = `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`;
 
   return (
@@ -303,10 +385,7 @@ function Contact() {
         animate="visible"
       >
         {/* Form Column */}
-        <motion.div
-          className="flex flex-col justify-center"
-          variants={itemVariants}
-        >
+        <motion.div className="flex flex-col justify-center" variants={itemVariants}>
           <motion.form
             ref={formRef}
             action="https://formsubmit.co/nagpure.cr@gmail.com"
@@ -368,7 +447,9 @@ function Contact() {
                         className="h-2 rounded-full"
                         style={{ background: gradient }}
                         initial={{ width: 0 }}
-                        animate={{ width: `${((currentStep + 1) / interactiveQuestions.length) * 100}%` }}
+                        animate={{
+                          width: `${((currentStep + 1) / interactiveQuestions.length) * 100}%`,
+                        }}
                         transition={{ duration: 0.3 }}
                       />
                     </div>
@@ -377,25 +458,34 @@ function Contact() {
                   {/* Current Question */}
                   <div className="mb-8">
                     <h4 className="text-xl font-semibold mb-6 flex items-center gap-3">
-                      {React.createElement(interactiveQuestions[currentStep].icon, { size: 24, className: "text-blue-600" })}
+                      {React.createElement(interactiveQuestions[currentStep].icon, {
+                        size: 24,
+                        className: 'text-blue-600',
+                      })}
                       {interactiveQuestions[currentStep].question}
                     </h4>
-                    
+
                     <div className="space-y-3">
-                      {interactiveQuestions[currentStep].options.map((option) => {
-                        const isSelected = interactiveQuestions[currentStep].type === 'multi-choice'
-                          ? (interactiveAnswers[interactiveQuestions[currentStep].id] || []).includes(option.value)
-                          : interactiveAnswers[interactiveQuestions[currentStep].id] === option.value;
-                        
+                      {interactiveQuestions[currentStep].options.map(option => {
+                        const isSelected =
+                          interactiveQuestions[currentStep].type === 'multi-choice'
+                            ? (
+                                interactiveAnswers[interactiveQuestions[currentStep].id] || []
+                              ).includes(option.value)
+                            : interactiveAnswers[interactiveQuestions[currentStep].id] ===
+                              option.value;
+
                         return (
                           <motion.button
                             key={option.value}
                             type="button"
-                            onClick={() => handleInteractiveAnswer(
-                              interactiveQuestions[currentStep].id,
-                              option.value,
-                              interactiveQuestions[currentStep].type === 'multi-choice'
-                            )}
+                            onClick={() =>
+                              handleInteractiveAnswer(
+                                interactiveQuestions[currentStep].id,
+                                option.value,
+                                interactiveQuestions[currentStep].type === 'multi-choice'
+                              )
+                            }
                             className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
                               isSelected
                                 ? 'border-blue-500 bg-blue-50'
@@ -432,7 +522,7 @@ function Contact() {
                     >
                       Previous
                     </motion.button>
-                    
+
                     <motion.button
                       type="button"
                       onClick={nextStep}
@@ -441,10 +531,12 @@ function Contact() {
                       style={{ background: canProceed() ? gradient : '#9CA3AF' }}
                       whileHover={{ scale: canProceed() ? 1.05 : 1 }}
                     >
-                      {currentStep === interactiveQuestions.length - 1 ? 'Continue to Form' : 'Next'}
+                      {currentStep === interactiveQuestions.length - 1
+                        ? 'Continue to Form'
+                        : 'Next'}
                     </motion.button>
                   </div>
-                  
+
                   {/* Skip Option */}
                   <div className="text-center mt-4">
                     <button
@@ -493,7 +585,8 @@ function Contact() {
                               </ul>
                             ) : (
                               <span className="ml-2">
-                                {question.options.find(opt => opt.value === answer)?.label || answer}
+                                {question.options.find(opt => opt.value === answer)?.label ||
+                                  answer}
                               </span>
                             )}
                           </div>
@@ -506,7 +599,10 @@ function Contact() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   {/* Name Field */}
                   <div className="relative">
-                    <label htmlFor="name" className={`block text-sm font-medium mb-1 ${errors.name ? "text-red-500" : "text-gray-600"}`}>
+                    <label
+                      htmlFor="name"
+                      className={`block text-sm font-medium mb-1 ${errors.name ? 'text-red-500' : 'text-gray-600'}`}
+                    >
                       Name *
                     </label>
                     <motion.input
@@ -515,19 +611,25 @@ function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      onFocus={() => handleFocus("name")}
-                      onBlur={() => handleBlur("name")}
+                      onFocus={() => handleFocus('name')}
+                      onBlur={() => handleBlur('name')}
                       placeholder="Your Name"
-                      className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.name ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
+                      className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.name ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'} focus:outline-none transition-all duration-300`}
                       aria-invalid={!!errors.name}
-                      aria-describedby={errors.name ? "name-error" : undefined}
+                      aria-describedby={errors.name ? 'name-error' : undefined}
                       variants={inputVariants}
                       initial="rest"
-                      animate={focused.name ? "focus" : "rest"}
+                      animate={focused.name ? 'focus' : 'rest'}
                     />
                     <AnimatePresence>
                       {errors.name && (
-                        <motion.p id="name-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <motion.p
+                          id="name-error"
+                          className="text-red-500 text-xs mt-1"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                        >
                           {errors.name}
                         </motion.p>
                       )}
@@ -536,7 +638,10 @@ function Contact() {
 
                   {/* Email Field */}
                   <div className="relative">
-                    <label htmlFor="email" className={`block text-sm font-medium mb-1 ${errors.email ? "text-red-500" : "text-gray-600"}`}>
+                    <label
+                      htmlFor="email"
+                      className={`block text-sm font-medium mb-1 ${errors.email ? 'text-red-500' : 'text-gray-600'}`}
+                    >
                       Email *
                     </label>
                     <motion.input
@@ -545,19 +650,25 @@ function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      onFocus={() => handleFocus("email")}
-                      onBlur={() => handleBlur("email")}
+                      onFocus={() => handleFocus('email')}
+                      onBlur={() => handleBlur('email')}
                       placeholder="Your Email"
-                      className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.email ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
+                      className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.email ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'} focus:outline-none transition-all duration-300`}
                       aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? "email-error" : undefined}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       variants={inputVariants}
                       initial="rest"
-                      animate={focused.email ? "focus" : "rest"}
+                      animate={focused.email ? 'focus' : 'rest'}
                     />
                     <AnimatePresence>
                       {errors.email && (
-                        <motion.p id="email-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                        <motion.p
+                          id="email-error"
+                          className="text-red-500 text-xs mt-1"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                        >
                           {errors.email}
                         </motion.p>
                       )}
@@ -566,7 +677,10 @@ function Contact() {
 
                   {/* Company Field */}
                   <div className="relative">
-                    <label htmlFor="company" className="block text-sm font-medium mb-1 text-gray-600">
+                    <label
+                      htmlFor="company"
+                      className="block text-sm font-medium mb-1 text-gray-600"
+                    >
                       Company (Optional)
                     </label>
                     <motion.input
@@ -575,13 +689,13 @@ function Contact() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      onFocus={() => handleFocus("company")}
-                      onBlur={() => handleBlur("company")}
+                      onFocus={() => handleFocus('company')}
+                      onBlur={() => handleBlur('company')}
                       placeholder="Your Company"
                       className="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:outline-none transition-all duration-300"
                       variants={inputVariants}
                       initial="rest"
-                      animate={focused.company ? "focus" : "rest"}
+                      animate={focused.company ? 'focus' : 'rest'}
                     />
                   </div>
 
@@ -596,44 +710,56 @@ function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      onFocus={() => handleFocus("phone")}
-                      onBlur={() => handleBlur("phone")}
+                      onFocus={() => handleFocus('phone')}
+                      onBlur={() => handleBlur('phone')}
                       placeholder="Your Phone Number"
                       className="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:border-blue-500 focus:outline-none transition-all duration-300"
                       variants={inputVariants}
                       initial="rest"
-                      animate={focused.phone ? "focus" : "rest"}
+                      animate={focused.phone ? 'focus' : 'rest'}
                     />
                   </div>
                 </div>
 
                 {/* Message Field */}
                 <div className="relative mb-6">
-                  <label htmlFor="message" className={`block text-sm font-medium mb-1 ${errors.message ? "text-red-500" : "text-gray-600"}`}>
-                    {Object.keys(interactiveAnswers).length > 0 ? 'Additional Message (Optional)' : 'Message *'}
+                  <label
+                    htmlFor="message"
+                    className={`block text-sm font-medium mb-1 ${errors.message ? 'text-red-500' : 'text-gray-600'}`}
+                  >
+                    {Object.keys(interactiveAnswers).length > 0
+                      ? 'Additional Message (Optional)'
+                      : 'Message *'}
                   </label>
                   <motion.textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    onFocus={() => handleFocus("message")}
-                    onBlur={() => handleBlur("message")}
-                    placeholder={Object.keys(interactiveAnswers).length > 0 
-                      ? "Any additional details you'd like to share..."
-                      : "Tell me about your project or what you need help with..."
+                    onFocus={() => handleFocus('message')}
+                    onBlur={() => handleBlur('message')}
+                    placeholder={
+                      Object.keys(interactiveAnswers).length > 0
+                        ? "Any additional details you'd like to share..."
+                        : 'Tell me about your project or what you need help with...'
                     }
                     rows={4}
-                    className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.message ? "border-red-500" : "border-gray-200 focus:border-blue-500"} focus:outline-none transition-all duration-300`}
+                    className={`w-full px-4 py-2 rounded-lg bg-gray-50 border ${errors.message ? 'border-red-500' : 'border-gray-200 focus:border-blue-500'} focus:outline-none transition-all duration-300`}
                     aria-invalid={!!errors.message}
-                    aria-describedby={errors.message ? "message-error" : undefined}
+                    aria-describedby={errors.message ? 'message-error' : undefined}
                     variants={inputVariants}
                     initial="rest"
-                    animate={focused.message ? "focus" : "rest"}
+                    animate={focused.message ? 'focus' : 'rest'}
                   />
                   <AnimatePresence>
                     {errors.message && (
-                      <motion.p id="message-error" className="text-red-500 text-xs mt-1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                      <motion.p
+                        id="message-error"
+                        className="text-red-500 text-xs mt-1"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
                         {errors.message}
                       </motion.p>
                     )}
@@ -663,14 +789,18 @@ function Contact() {
         </motion.div>
 
         {/* Info Column */}
-        <motion.div className="flex flex-col justify-center text-center lg:text-left" variants={itemVariants}>
+        <motion.div
+          className="flex flex-col justify-center text-center lg:text-left"
+          variants={itemVariants}
+        >
           <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: textColor }}>
             Let’s Build Something Amazing
           </h2>
           <p className="text-lg mb-8" style={{ color: textColor }}>
-            Have a project idea or just want to chat? Reach out via the form or connect with me directly.
+            Have a project idea or just want to chat? Reach out via the form or connect with me
+            directly.
           </p>
-          
+
           {/* Resume Download Section */}
           <div className="mb-8 p-4 bg-white bg-opacity-20 backdrop-blur-lg rounded-lg">
             <h4 className="text-xl font-semibold mb-3" style={{ color: textColor }}>
@@ -681,18 +811,26 @@ function Contact() {
             </p>
             <ResumeButton variant="primary" />
           </div>
-          
+
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-4" style={{ color: textColor }}>
               Contact Info
             </h3>
             <p className="text-base" style={{ color: textColor }}>
-              <a href="mailto:nagpure.cr@gmail.com" className="hover:underline" style={{ color: primaryColor }}>
+              <a
+                href="mailto:nagpure.cr@gmail.com"
+                className="hover:underline"
+                style={{ color: primaryColor }}
+              >
                 nagpure.cr@gmail.com
               </a>
             </p>
             <p className="text-base" style={{ color: textColor }}>
-              <a href="https://www.linkedin.com/in/chandrakant-nagpure-04419b135/" className="hover:underline" style={{ color: primaryColor }}>
+              <a
+                href="https://www.linkedin.com/in/chandrakant-nagpure-04419b135/"
+                className="hover:underline"
+                style={{ color: primaryColor }}
+              >
                 https://www.linkedin.com/in/chandrakant-nagpure-04419b135/
               </a>
             </p>
@@ -713,7 +851,11 @@ function Contact() {
                   whileTap={{ scale: 0.9 }}
                   aria-label={`Visit my ${label} profile`}
                 >
-                  <Icon size={24} style={{ color, transition: "color 0.2s" }} className="hover:brightness-110" />
+                  <Icon
+                    size={24}
+                    style={{ color, transition: 'color 0.2s' }}
+                    className="hover:brightness-110"
+                  />
                 </motion.a>
               ))}
             </div>

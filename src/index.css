@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Lazy loading image effects */
 .lazy-load-image-background {
@@ -41,14 +41,15 @@
     filter: none;
     transition: none;
   }
-  
+
   .project-card img,
   .lazy-load-image-background img {
     will-change: auto;
   }
-  
+
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       box-shadow: none;
     }
   }

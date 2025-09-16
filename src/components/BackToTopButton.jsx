@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaArrowUp } from "react-icons/fa";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowUp } from 'react-icons/fa';
 
-export default function BackToTopButton({ textColor = "#fff" }) {
+export default function BackToTopButton({ textColor = '#fff' }) {
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
@@ -10,8 +10,8 @@ export default function BackToTopButton({ textColor = "#fff" }) {
       setShowBackToTop(window.scrollY > 300);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -24,7 +24,7 @@ export default function BackToTopButton({ textColor = "#fff" }) {
           exit={{ opacity: 0, scale: 0 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Scroll back to top"
         >
           <FaArrowUp size={20} color={textColor} />

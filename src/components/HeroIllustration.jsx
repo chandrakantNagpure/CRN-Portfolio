@@ -33,7 +33,8 @@ const HeroIllustration = () => {
 
       {/* Minimal Desk Setup */}
       <g transform="translate(50, 200)">
-        <rect x="0" y="0" width="450" height="150" fill="#D2B48C" filter="url(#shadow)" /> {/* Wooden desk */}
+        <rect x="0" y="0" width="450" height="150" fill="#D2B48C" filter="url(#shadow)" />{' '}
+        {/* Wooden desk */}
         <rect x="0" y="150" width="450" height="20" fill="#A1887F" /> {/* Desk edge */}
       </g>
 
@@ -59,27 +60,98 @@ const HeroIllustration = () => {
 
       {/* Right Side Panel (Inspired by david-hckh.com) */}
       <g transform="translate(550, 20)">
-        <rect x="0" y="0" width="30" height="360" rx="5" fill="url(#panelGradient)" filter="url(#shadow)" />
+        <rect
+          x="0"
+          y="0"
+          width="30"
+          height="360"
+          rx="5"
+          fill="url(#panelGradient)"
+          filter="url(#shadow)"
+        />
         {/* Social Media Icons */}
         <g transform="translate(5, 20)">
           <g className="transition-transform duration-300 hover:scale-[1.1]">
             <circle cx="10" cy="10" r="10" fill="#333" /> {/* GitHub */}
-            <text x="10" y="12" fill="#FFF" fontSize="12" textAnchor="middle" fontFamily="'Inter', sans-serif">G</text>
+            <text
+              x="10"
+              y="12"
+              fill="#FFF"
+              fontSize="12"
+              textAnchor="middle"
+              fontFamily="'Inter', sans-serif"
+            >
+              G
+            </text>
           </g>
-          <g transform="translate(0, 30)" className="transition-transform duration-300 hover:scale-[1.1]">
+          <g
+            transform="translate(0, 30)"
+            className="transition-transform duration-300 hover:scale-[1.1]"
+          >
             <circle cx="10" cy="10" r="10" fill="#0077B5" /> {/* LinkedIn */}
-            <text x="10" y="12" fill="#FFF" fontSize="12" textAnchor="middle" fontFamily="'Inter', sans-serif">L</text>
+            <text
+              x="10"
+              y="12"
+              fill="#FFF"
+              fontSize="12"
+              textAnchor="middle"
+              fontFamily="'Inter', sans-serif"
+            >
+              L
+            </text>
           </g>
-          <g transform="translate(0, 60)" className="transition-transform duration-300 hover:scale-[1.1]">
+          <g
+            transform="translate(0, 60)"
+            className="transition-transform duration-300 hover:scale-[1.1]"
+          >
             <circle cx="10" cy="10" r="10" fill="#1DA1F2" /> {/* Twitter */}
-            <text x="10" y="12" fill="#FFF" fontSize="12" textAnchor="middle" fontFamily="'Inter', sans-serif">T</text>
+            <text
+              x="10"
+              y="12"
+              fill="#FFF"
+              fontSize="12"
+              textAnchor="middle"
+              fontFamily="'Inter', sans-serif"
+            >
+              T
+            </text>
           </g>
         </g>
         {/* Navigation Links */}
         <g transform="translate(5, 150)">
-          <text x="10" y="10" fill="#607D8B" fontSize="10" textAnchor="middle" fontFamily="'Inter', sans-serif" className="transition-transform duration-300 hover:scale-[1.05]">Portfolio</text>
-          <text x="10" y="30" fill="#607D8B" fontSize="10" textAnchor="middle" fontFamily="'Inter', sans-serif" className="transition-transform duration-300 hover:scale-[1.05]">About</text>
-          <text x="10" y="50" fill="#607D8B" fontSize="10" textAnchor="middle" fontFamily="'Inter', sans-serif" className="transition-transform duration-300 hover:scale-[1.05]">Contact</text>
+          <text
+            x="10"
+            y="10"
+            fill="#607D8B"
+            fontSize="10"
+            textAnchor="middle"
+            fontFamily="'Inter', sans-serif"
+            className="transition-transform duration-300 hover:scale-[1.05]"
+          >
+            Portfolio
+          </text>
+          <text
+            x="10"
+            y="30"
+            fill="#607D8B"
+            fontSize="10"
+            textAnchor="middle"
+            fontFamily="'Inter', sans-serif"
+            className="transition-transform duration-300 hover:scale-[1.05]"
+          >
+            About
+          </text>
+          <text
+            x="10"
+            y="50"
+            fill="#607D8B"
+            fontSize="10"
+            textAnchor="middle"
+            fontFamily="'Inter', sans-serif"
+            className="transition-transform duration-300 hover:scale-[1.05]"
+          >
+            Contact
+          </text>
         </g>
       </g>
 

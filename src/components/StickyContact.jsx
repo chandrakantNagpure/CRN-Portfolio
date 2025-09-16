@@ -7,75 +7,75 @@ import { techIcons } from '../utils/techIcons';
 // Animation variants for better performance
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { 
+  visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.1
-    }
+      delayChildren: 0.1,
+    },
   },
-  exit: { 
+  exit: {
     opacity: 0,
     transition: {
       staggerChildren: 0.05,
-      staggerDirection: -1
-    }
-  }
+      staggerDirection: -1,
+    },
+  },
 };
 
 const itemVariants = {
-  hidden: { 
-    opacity: 0, 
-    x: 50, 
-    scale: 0.8
+  hidden: {
+    opacity: 0,
+    x: 50,
+    scale: 0.8,
   },
-  visible: { 
-    opacity: 1, 
-    x: 0, 
+  visible: {
+    opacity: 1,
+    x: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 100,
-      damping: 12
-    }
+      damping: 12,
+    },
   },
-  exit: { 
-    opacity: 0, 
-    x: 50, 
+  exit: {
+    opacity: 0,
+    x: 50,
     scale: 0.8,
     transition: {
-      duration: 0.2
-    }
-  }
+      duration: 0.2,
+    },
+  },
 };
 
 const buttonVariants = {
   initial: { scale: 0, rotate: -180 },
-  animate: { 
-    scale: 1, 
+  animate: {
+    scale: 1,
     rotate: 0,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 150,
-      damping: 12
-    }
+      damping: 12,
+    },
   },
-  exit: { 
-    scale: 0, 
+  exit: {
+    scale: 0,
     rotate: 180,
     transition: {
-      duration: 0.3
-    }
+      duration: 0.3,
+    },
   },
-  hover: { 
+  hover: {
     scale: 1.1,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 400,
-      damping: 10
-    }
+      damping: 10,
+    },
   },
-  tap: { scale: 0.95 }
+  tap: { scale: 0.95 },
 };
 
 function StickyContact() {
@@ -85,7 +85,7 @@ function StickyContact() {
   const [showTooltip, setShowTooltip] = useState(false);
   const stickyContactRef = useRef(null);
   const primaryColor = bgColor || techColors[selectedTech] || '#4B5563';
-  
+
   // Auto-hide tooltip after 3 seconds
   useEffect(() => {
     if (showButton && !isOpen) {
@@ -102,7 +102,7 @@ function StickyContact() {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const shouldShow = scrollY > 200; // Reduced threshold
-      
+
       if (shouldShow !== showButton) {
         setShowButton(shouldShow);
         if (!shouldShow) {
@@ -114,14 +114,14 @@ function StickyContact() {
 
     // Initial check
     handleScroll();
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showButton]);
 
   // Click outside to close contact menu
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (stickyContactRef.current && !stickyContactRef.current.contains(event.target)) {
         setIsOpen(false);
         setShowTooltip(false);
@@ -140,31 +140,39 @@ function StickyContact() {
   const contactOptions = [
     {
       icon: FaWhatsapp,
-      label: "WhatsApp",
-      action: () => window.open('https://wa.me/919767847979?text=Hi Chandrakant! I found your portfolio and I\'m interested in discussing a project.', '_blank'),
+      label: 'WhatsApp',
+      action: () =>
+        window.open(
+          "https://wa.me/919767847979?text=Hi Chandrakant! I found your portfolio and I'm interested in discussing a project.",
+          '_blank'
+        ),
       color: '#25D366',
-      description: "Quick chat"
+      description: 'Quick chat',
     },
     {
       icon: FaEnvelope,
-      label: "Email",
-      action: () => window.open('mailto:nagpure.cr@gmail.com?subject=Project Inquiry&body=Hi Chandrakant, I found your portfolio and would like to discuss a project...', '_blank'),
+      label: 'Email',
+      action: () =>
+        window.open(
+          'mailto:nagpure.cr@gmail.com?subject=Project Inquiry&body=Hi Chandrakant, I found your portfolio and would like to discuss a project...',
+          '_blank'
+        ),
       color: '#EA4335',
-      description: "Detailed inquiry"
+      description: 'Detailed inquiry',
     },
     {
       icon: FaPhoneAlt,
-      label: "Call",
+      label: 'Call',
       action: () => window.open('tel:+919767847979', '_blank'),
       color: '#4285F4',
-      description: "Immediate talk"
-    }
+      description: 'Immediate talk',
+    },
   ];
 
   return (
     <AnimatePresence mode="wait">
       {showButton && (
-        <motion.div 
+        <motion.div
           className="fixed bottom-4 right-4 z-50"
           variants={buttonVariants}
           ref={stickyContactRef}
@@ -188,7 +196,7 @@ function StickyContact() {
                     <h3 className="text-sm font-semibold text-gray-800">Get In Touch</h3>
                     <p className="text-xs text-gray-500">Choose your preferred method</p>
                   </div>
-                  
+
                   {contactOptions.map((option, index) => (
                     <motion.button
                       key={option.label}
@@ -201,7 +209,7 @@ function StickyContact() {
                       whileHover={{ x: 4 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <div 
+                      <div
                         className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-200"
                         style={{ backgroundColor: option.color }}
                       >
@@ -213,7 +221,7 @@ function StickyContact() {
                       </div>
                     </motion.button>
                   ))}
-                  
+
                   {/* Tech Selection Section */}
                   <div className="pt-2 border-t border-gray-200">
                     <div className="text-center pb-2">
@@ -222,7 +230,7 @@ function StickyContact() {
                       </h3>
                       <p className="text-xs text-gray-500">Change portfolio style</p>
                     </div>
-                    
+
                     <div className="flex flex-wrap gap-2 justify-center">
                       {techIcons
                         .filter(item => item.tech !== 'default')
@@ -236,28 +244,24 @@ function StickyContact() {
                                 // Keep menu open for tech selection
                               }}
                               className={`p-2 rounded-full transition-all duration-200 ${
-                                isSelected 
-                                  ? 'bg-gray-800 scale-110' 
+                                isSelected
+                                  ? 'bg-gray-800 scale-110'
                                   : 'bg-gray-100 hover:bg-gray-200'
                               }`}
                               whileHover={{ scale: isSelected ? 1.1 : 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               title={`Switch to ${label} theme`}
                             >
-                              <TechIcon 
-                                size={16} 
-                                color={isSelected ? '#fff' : techColors[tech]} 
-                              />
+                              <TechIcon size={16} color={isSelected ? '#fff' : techColors[tech]} />
                             </motion.button>
                           );
-                        })
-                      }
+                        })}
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Arrow pointer */}
-                <div 
+                <div
                   className="absolute -bottom-1 right-6 w-3 h-3 bg-white border-r border-b border-gray-200/50 transform rotate-45"
                   style={{ borderRadius: '0 0 2px 0' }}
                 />
@@ -284,26 +288,26 @@ function StickyContact() {
                 style={{ backgroundColor: primaryColor }}
                 animate={{
                   scale: [1, 1.3, 1],
-                  opacity: [0.6, 0, 0.6]
+                  opacity: [0.6, 0, 0.6],
                 }}
                 transition={{
                   duration: 2.5,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: 'easeInOut',
                 }}
               />
             )}
-            
+
             {/* Button Icon */}
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: isOpen ? 135 : 0,
-                scale: isOpen ? 0.9 : 1
+                scale: isOpen ? 0.9 : 1,
               }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 200, 
-                damping: 12 
+              transition={{
+                type: 'spring',
+                stiffness: 200,
+                damping: 12,
               }}
               className="relative z-10"
             >
@@ -318,7 +322,7 @@ function StickyContact() {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
-                transition={{ delay: 0.5, type: "spring" }}
+                transition={{ delay: 0.5, type: 'spring' }}
                 className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm"
               >
                 <motion.div
@@ -337,7 +341,7 @@ function StickyContact() {
                 initial={{ opacity: 0, x: 20, scale: 0.8 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: 20, scale: 0.8 }}
-                transition={{ type: "spring", duration: 0.4 }}
+                transition={{ type: 'spring', duration: 0.4 }}
                 className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2"
               >
                 <div className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap shadow-lg">

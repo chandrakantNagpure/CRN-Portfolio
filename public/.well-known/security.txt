@@ -1,0 +1,25 @@
+Contact: mailto:security@chandrakantnagpure.com
+Contact: https://chandrakantnagpure.com/contact
+Expires: 2025-12-31T23:59:59.000Z
+Encryption: https://chandrakantnagpure.com/pgp-key.txt
+Preferred-Languages: en, hi
+Canonical: https://chandrakantnagpure.com/.well-known/security.txt
+Policy: https://chandrakantnagpure.com/security-policy
+Acknowledgments: https://chandrakantnagpure.com/security-acknowledgments
+
+# Security Policy
+# If you discover a security vulnerability, please report it responsibly.
+# We appreciate your efforts to help keep our site secure.
+
+# Response Time
+# We aim to respond to security reports within 48 hours.
+
+# Scope
+# This policy applies to:
+# - chandrakantnagpure.com (main website)
+# - All subdomains of chandrakantnagpure.com
+
+# Out of Scope
+# - Social engineering attacks
+# - Physical attacks
+# - Denial of service attacks

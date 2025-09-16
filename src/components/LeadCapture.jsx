@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FaRocket, 
-  FaDownload, 
-  FaTimes, 
+import {
+  FaRocket,
+  FaDownload,
+  FaTimes,
   FaGift,
   FaCheckCircle,
   FaClock,
   FaUsers,
-  FaChartLine
+  FaChartLine,
 } from 'react-icons/fa';
 import { useTech } from './TechContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -18,39 +18,42 @@ import { getContrastTextColor } from '../utils/colors';
 const leadMagnets = [
   {
     id: 1,
-    title: "Free Website Audit Checklist",
-    subtitle: "25-Point Professional Checklist",
-    description: "Get a comprehensive checklist to audit any website's performance, SEO, and user experience. Used by professional developers.",
+    title: 'Free Website Audit Checklist',
+    subtitle: '25-Point Professional Checklist',
+    description:
+      "Get a comprehensive checklist to audit any website's performance, SEO, and user experience. Used by professional developers.",
     icon: FaCheckCircle,
-    downloadUrl: "#",
-    buttonText: "Download Free Checklist"
+    downloadUrl: '#',
+    buttonText: 'Download Free Checklist',
   },
   {
     id: 2,
-    title: "React Development Guide",
-    subtitle: "From Beginner to Expert",
-    description: "Complete guide covering React best practices, performance optimization, and modern development techniques.",
+    title: 'React Development Guide',
+    subtitle: 'From Beginner to Expert',
+    description:
+      'Complete guide covering React best practices, performance optimization, and modern development techniques.',
     icon: FaRocket,
-    downloadUrl: "#",
-    buttonText: "Get Free Guide"
+    downloadUrl: '#',
+    buttonText: 'Get Free Guide',
   },
   {
     id: 3,
-    title: "WordPress Speed Optimization",
-    subtitle: "Step-by-Step Tutorial",
-    description: "Learn how to optimize WordPress websites for speed and performance. Includes tools, plugins, and techniques.",
+    title: 'WordPress Speed Optimization',
+    subtitle: 'Step-by-Step Tutorial',
+    description:
+      'Learn how to optimize WordPress websites for speed and performance. Includes tools, plugins, and techniques.',
     icon: FaChartLine,
-    downloadUrl: "#",
-    buttonText: "Download Tutorial"
-  }
+    downloadUrl: '#',
+    buttonText: 'Download Tutorial',
+  },
 ];
 
 // Social Proof Stats
 const statsData = [
-  { number: "100+", label: "Projects Completed", icon: FaRocket },
-  { number: "50+", label: "Happy Clients", icon: FaUsers },
-  { number: "98%", label: "Client Satisfaction", icon: FaCheckCircle },
-  { number: "24h", label: "Avg Response Time", icon: FaClock }
+  { number: '100+', label: 'Projects Completed', icon: FaRocket },
+  { number: '50+', label: 'Happy Clients', icon: FaUsers },
+  { number: '98%', label: 'Client Satisfaction', icon: FaCheckCircle },
+  { number: '24h', label: 'Avg Response Time', icon: FaClock },
 ];
 
 function LeadCapture() {
@@ -74,12 +77,13 @@ function LeadCapture() {
     }, 30000);
 
     const handleScroll = () => {
-      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      
+      const scrollPercent =
+        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+
       if (scrollPercent > 50 && !showFloatingCTA) {
         setShowFloatingCTA(true);
       }
-      
+
       if (scrollPercent > 70 && !localStorage.getItem('leadMagnetShown')) {
         setShowPopup(true);
       }
@@ -92,14 +96,14 @@ function LeadCapture() {
     };
   }, [showFloatingCTA]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (email) {
       // Here you would integrate with your email service
       console.log('Email submitted:', email);
       setIsSubmitted(true);
       localStorage.setItem('leadMagnetShown', 'true');
-      
+
       // Reset after 3 seconds
       setTimeout(() => {
         setIsSubmitted(false);
@@ -155,7 +159,7 @@ function LeadCapture() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 relative shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
@@ -169,7 +173,7 @@ function LeadCapture() {
                 <>
                   {/* Header */}
                   <div className="text-center mb-6">
-                    <div 
+                    <div
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                       style={{ backgroundColor: primaryColor + '20' }}
                     >
@@ -181,9 +185,7 @@ function LeadCapture() {
                     <p className="text-sm font-medium mb-2" style={{ color: primaryColor }}>
                       {selectedMagnet.subtitle}
                     </p>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {selectedMagnet.description}
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-300">{selectedMagnet.description}</p>
                   </div>
 
                   {/* Form */}
@@ -192,7 +194,7 @@ function LeadCapture() {
                       <input
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
                         placeholder="Enter your email address"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent transition-all"
                         style={{ focusRingColor: primaryColor }}
@@ -214,18 +216,19 @@ function LeadCapture() {
                   <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <p className="text-sm text-gray-500 mb-3">Or choose another resource:</p>
                     <div className="space-y-2">
-                      {leadMagnets.map((magnet) => (
+                      {leadMagnets.map(magnet => (
                         <button
                           key={magnet.id}
                           onClick={() => setSelectedMagnet(magnet)}
                           className={`w-full text-left p-2 rounded-lg transition-all text-sm ${
-                            selectedMagnet.id === magnet.id 
-                              ? 'bg-opacity-20 border' 
+                            selectedMagnet.id === magnet.id
+                              ? 'bg-opacity-20 border'
                               : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                           }`}
                           style={{
-                            backgroundColor: selectedMagnet.id === magnet.id ? primaryColor + '20' : undefined,
-                            borderColor: selectedMagnet.id === magnet.id ? primaryColor : undefined
+                            backgroundColor:
+                              selectedMagnet.id === magnet.id ? primaryColor + '20' : undefined,
+                            borderColor: selectedMagnet.id === magnet.id ? primaryColor : undefined,
                           }}
                         >
                           {magnet.title}
@@ -263,12 +266,13 @@ function LeadCapture() {
                     Thank You!
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Your free resource is being sent to your email. 
-                    Check your inbox in a few minutes.
+                    Your free resource is being sent to your email. Check your inbox in a few
+                    minutes.
                   </p>
                   <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4">
                     <p className="text-green-800 dark:text-green-200 text-sm">
-                      <strong>Bonus:</strong> You'll also receive exclusive web development tips and special offers!
+                      <strong>Bonus:</strong> You'll also receive exclusive web development tips and
+                      special offers!
                     </p>
                   </div>
                 </div>
@@ -279,7 +283,7 @@ function LeadCapture() {
       </AnimatePresence>
 
       {/* Inline Lead Capture Section */}
-      <section 
+      <section
         className="py-16 px-6 md:px-16 relative overflow-hidden"
         style={{
           background: `linear-gradient(135deg, ${primaryColor}15, ${primaryColor}05)`,
@@ -297,7 +301,8 @@ function LeadCapture() {
               Ready to Transform Your Business Online?
             </h2>
             <p className="text-lg md:text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-              Join 500+ satisfied clients who've grown their business with professional web development
+              Join 500+ satisfied clients who've grown their business with professional web
+              development
             </p>
 
             {/* Stats Grid */}
@@ -311,7 +316,7 @@ function LeadCapture() {
                   viewport={{ once: true }}
                   className="text-center"
                 >
-                  <div 
+                  <div
                     className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
                     style={{ backgroundColor: primaryColor + '20' }}
                   >
@@ -339,14 +344,14 @@ function LeadCapture() {
               <motion.button
                 onClick={() => setShowPopup(true)}
                 className="px-8 py-4 rounded-full font-semibold border-2 transition-all duration-300 flex items-center gap-2 justify-center"
-                style={{ 
-                  borderColor: primaryColor, 
+                style={{
+                  borderColor: primaryColor,
                   color: primaryColor,
-                  backgroundColor: 'transparent'
+                  backgroundColor: 'transparent',
                 }}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
-                  backgroundColor: primaryColor + '10'
+                  backgroundColor: primaryColor + '10',
                 }}
                 whileTap={{ scale: 0.95 }}
               >

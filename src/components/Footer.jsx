@@ -1,16 +1,16 @@
-import { motion } from "framer-motion";
-import { useTech } from "./TechContext";
-import { FaHeart, FaReact, FaWordpress, FaCode } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
-import { useLanguage } from "../contexts/LanguageContext";
+import { motion } from 'framer-motion';
+import { useTech } from './TechContext';
+import { FaHeart, FaReact, FaWordpress, FaCode } from 'react-icons/fa';
+import { SiNextdotjs, SiTailwindcss } from 'react-icons/si';
+import { useLanguage } from '../contexts/LanguageContext';
 
-import { getContrastTextColor } from "../utils/colors";
+import { getContrastTextColor } from '../utils/colors';
 
 function Footer() {
   const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
-  const textColor = "#000000";
-  const primaryColor = techColors[selectedTech] || "#4B5563";
+  const textColor = '#000000';
+  const primaryColor = techColors[selectedTech] || '#4B5563';
 
   const techIcons = {
     react: FaReact,
@@ -45,18 +45,15 @@ function Footer() {
             <span style={{ color: textColor }}>{t('footer.madeWith')}</span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
             >
               <FaHeart size={16} color="#e74c3c" />
             </motion.div>
             <span style={{ color: textColor }}>{t('footer.and')}</span>
-            <motion.div
-              className="flex items-center gap-1"
-              whileHover={{ scale: 1.05 }}
-            >
+            <motion.div className="flex items-center gap-1" whileHover={{ scale: 1.05 }}>
               <TechIcon size={16} color={primaryColor} />
               <span style={{ color: primaryColor }} className="font-medium">
-                {selectedTech === "default" ? t('footer.passion') : selectedTech}
+                {selectedTech === 'default' ? t('footer.passion') : selectedTech}
               </span>
             </motion.div>
           </div>

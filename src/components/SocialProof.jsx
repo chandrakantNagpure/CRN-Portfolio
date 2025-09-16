@@ -4,31 +4,31 @@ import { useTech } from './TechContext';
 import { getContrastTextColor } from '../utils/colors';
 
 const stats = [
-  { number: "100+", label: "Projects Delivered", icon: FaRocket },
-  { number: "50+", label: "Happy Clients", icon: FaUsers },
-  { number: "98%", label: "Client Satisfaction", icon: FaCheckCircle },
-  { number: "24hrs", label: "Response Time", icon: FaClock }
+  { number: '100+', label: 'Projects Delivered', icon: FaRocket },
+  { number: '50+', label: 'Happy Clients', icon: FaUsers },
+  { number: '98%', label: 'Client Satisfaction', icon: FaCheckCircle },
+  { number: '24hrs', label: 'Response Time', icon: FaClock },
 ];
 
 const testimonialQuotes = [
   {
-    text: "Chandrakant delivered exactly what we needed. Professional, fast, and great communication!",
-    client: "Sarah Johnson, TechStart Solutions",
+    text: 'Chandrakant delivered exactly what we needed. Professional, fast, and great communication!',
+    client: 'Sarah Johnson, TechStart Solutions',
     rating: 5,
-    project: "E-commerce Platform"
+    project: 'E-commerce Platform',
   },
   {
-    text: "Outstanding React developer! Our website performance improved by 60% after his optimization.",
-    client: "Michael Chen, Digital Agency",
+    text: 'Outstanding React developer! Our website performance improved by 60% after his optimization.',
+    client: 'Michael Chen, Digital Agency',
     rating: 5,
-    project: "Performance Optimization"
+    project: 'Performance Optimization',
   },
   {
-    text: "Best investment we made! The WordPress site he built generates leads daily.",
-    client: "Emma Rodriguez, Local Business",
+    text: 'Best investment we made! The WordPress site he built generates leads daily.',
+    client: 'Emma Rodriguez, Local Business',
     rating: 5,
-    project: "Business Website"
-  }
+    project: 'Business Website',
+  },
 ];
 
 function SocialProof() {
@@ -37,7 +37,7 @@ function SocialProof() {
   const primaryColor = techColors[selectedTech] || '#4B5563';
 
   return (
-    <section 
+    <section
       className="py-12 px-6 md:px-16 relative overflow-hidden transition-all duration-500 ease-in-out"
       style={{
         // Updated gradient to match Hero section
@@ -59,7 +59,7 @@ function SocialProof() {
           <h2 className="text-2xl md:text-3xl font-bold mb-8 font-orbitron">
             🚀 <span style={{ color: primaryColor }}>Trusted by 50+ Businesses</span> Worldwide
           </h2>
-          
+
           {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {stats.map((stat, index) => (
@@ -71,13 +71,16 @@ function SocialProof() {
                 viewport={{ once: true }}
                 className="text-center bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/40"
               >
-                <div 
+                <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
                   style={{ backgroundColor: primaryColor + '20' }}
                 >
                   <stat.icon size={20} style={{ color: primaryColor }} />
                 </div>
-                <div className="text-2xl md:text-3xl font-bold mb-1" style={{ color: primaryColor }}>
+                <div
+                  className="text-2xl md:text-3xl font-bold mb-1"
+                  style={{ color: primaryColor }}
+                >
                   {stat.number}
                 </div>
                 <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
@@ -87,7 +90,6 @@ function SocialProof() {
         </motion.div>
 
         {/* Quick Testimonials Carousel */}
-
 
         {/* Quick CTA */}
         <motion.div
@@ -110,9 +112,7 @@ function SocialProof() {
             >
               🚀 Start Your Project - Free Quote
             </motion.a>
-            <p className="text-sm text-gray-600">
-              💬 Let's discuss your project in 15 minutes!
-            </p>
+            <p className="text-sm text-gray-600">💬 Let's discuss your project in 15 minutes!</p>
           </div>
         </motion.div>
       </div>

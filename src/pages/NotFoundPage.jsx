@@ -1,20 +1,18 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { FaHome, FaArrowLeft } from "react-icons/fa";
-import { useTech } from "../components/TechContext";
-import { useLanguage } from "../contexts/LanguageContext";
-import { getContrastTextColor } from "../utils/colors";
-import ParticleCanvas from "../components/ParticleCanvas";
-import Footer from "../components/Footer";
-import BackToTopButton from "../components/BackToTopButton";
-import StickyContact from "../components/StickyContact";
-import ChatBot from "../components/ChatBot";
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { FaHome, FaArrowLeft } from 'react-icons/fa';
+import { useTech } from '../components/TechContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { getContrastTextColor } from '../utils/colors';
+import ParticleCanvas from '../components/ParticleCanvas';
+import Footer from '../components/Footer';
+import BackToTopButton from '../components/BackToTopButton';
 
 function NotFoundPage() {
   const { t } = useLanguage();
   const { selectedTech, techColors, bgColor } = useTech();
   const textColor = getContrastTextColor(bgColor);
-  const primaryColor = techColors[selectedTech] || "#4B5563";
+  const primaryColor = techColors[selectedTech] || '#4B5563';
 
   return (
     <div
@@ -26,7 +24,7 @@ function NotFoundPage() {
         color: textColor,
       }}
     >
-      <ParticleCanvas bgColor={bgColor || "#4B5563"} />
+      <ParticleCanvas bgColor={bgColor || '#4B5563'} />
 
       <div className="max-w-2xl w-full z-10 relative text-center">
         <motion.div
@@ -44,7 +42,7 @@ function NotFoundPage() {
             transition={{
               duration: 3,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: 'easeInOut',
             }}
           >
             404
@@ -62,7 +60,8 @@ function NotFoundPage() {
             className="text-lg md:text-xl mb-8 max-w-lg mx-auto"
             style={{ color: textColor, opacity: 0.8 }}
           >
-            Oops! The page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+            Oops! The page you're looking for doesn't exist. It might have been moved, deleted, or
+            you entered the wrong URL.
           </p>
 
           {/* Action Buttons */}
@@ -90,14 +89,14 @@ function NotFoundPage() {
               style={{
                 borderColor: primaryColor,
                 color: primaryColor,
-                backgroundColor: "transparent",
+                backgroundColor: 'transparent',
               }}
-              onMouseEnter={(e) => {
+              onMouseEnter={e => {
                 e.target.style.backgroundColor = primaryColor;
                 e.target.style.color = getContrastTextColor(primaryColor);
               }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+              onMouseLeave={e => {
+                e.target.style.backgroundColor = 'transparent';
                 e.target.style.color = primaryColor;
               }}
             >
@@ -114,10 +113,7 @@ function NotFoundPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <h3
-              className="text-xl font-semibold mb-4 font-orbitron"
-              style={{ color: textColor }}
-            >
+            <h3 className="text-xl font-semibold mb-4 font-orbitron" style={{ color: textColor }}>
               Quick Navigation
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -131,7 +127,7 @@ function NotFoundPage() {
                   <div className="text-sm font-medium">Home</div>
                 </div>
               </Link>
-              
+
               <Link
                 to="/about"
                 className="p-3 rounded-lg transition-all duration-300 hover:scale-105 bg-white bg-opacity-10 hover:bg-opacity-20"
@@ -142,7 +138,7 @@ function NotFoundPage() {
                   <div className="text-sm font-medium">About</div>
                 </div>
               </Link>
-              
+
               <Link
                 to="/projects"
                 className="p-3 rounded-lg transition-all duration-300 hover:scale-105 bg-white bg-opacity-10 hover:bg-opacity-20"
@@ -153,7 +149,7 @@ function NotFoundPage() {
                   <div className="text-sm font-medium">Projects</div>
                 </div>
               </Link>
-              
+
               <Link
                 to="/contact"
                 className="p-3 rounded-lg transition-all duration-300 hover:scale-105 bg-white bg-opacity-10 hover:bg-opacity-20"
@@ -170,15 +166,9 @@ function NotFoundPage() {
       </div>
 
       <Footer />
-      
+
       {/* Back to Top Button */}
       <BackToTopButton textColor={getContrastTextColor(bgColor)} />
-      
-      {/* Sticky Contact */}
-      <StickyContact />
-      
-      {/* ChatBot */}
-      <ChatBot />
     </div>
   );
 }

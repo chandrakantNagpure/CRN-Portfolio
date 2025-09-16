@@ -9,7 +9,7 @@ const LanguageSwitcher = ({ className = '' }) => {
 
   const currentLang = availableLanguages.find(lang => lang.code === currentLanguage);
 
-  const handleLanguageChange = (langCode) => {
+  const handleLanguageChange = langCode => {
     changeLanguage(langCode);
     setIsOpen(false);
   };
@@ -26,10 +26,7 @@ const LanguageSwitcher = ({ className = '' }) => {
         <FaGlobe size={16} />
         <span className="text-sm font-medium">{currentLang?.flag}</span>
         <span className="hidden sm:inline text-sm">{currentLang?.name}</span>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
+        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
           <FaChevronDown size={12} />
         </motion.div>
       </motion.button>
@@ -38,11 +35,8 @@ const LanguageSwitcher = ({ className = '' }) => {
         {isOpen && (
           <>
             {/* Backdrop */}
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsOpen(false)}
-            />
-            
+            <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+
             {/* Dropdown */}
             <motion.div
               className="absolute top-full right-0 mt-2 bg-white bg-opacity-95 backdrop-blur-lg rounded-lg shadow-lg border border-white border-opacity-20 overflow-hidden z-50 min-w-[150px]"
@@ -51,7 +45,7 @@ const LanguageSwitcher = ({ className = '' }) => {
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              {availableLanguages.map((language) => (
+              {availableLanguages.map(language => (
                 <motion.button
                   key={language.code}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-100 transition-colors duration-200 ${
