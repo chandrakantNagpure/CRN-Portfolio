@@ -4,8 +4,14 @@ import { format } from 'date-fns';
 import { FaClock, FaTag, FaUser, FaArrowRight } from 'react-icons/fa';
 import { trackEvent } from '../utils/analytics';
 import OptimizedImage from './OptimizedImage';
+import { useTech } from './TechContext';
+import { getContrastTextColor } from '../utils/colors';
 
 const BlogCard = ({ post, index = 0, featured = false }) => {
+  const { techColors, bgColor, selectedTech } = useTech();
+  const textColor = getContrastTextColor(bgColor);
+  const accentColor = techColors[selectedTech] || '#14B8A6';
+  
   const handleReadMoreClick = () => {
     trackEvent('blog_card_click', {
       category: 'Blog',
@@ -35,13 +41,10 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
     },
   };
 
-  const cardClasses = featured
-    ? 'group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-teal-200 dark:border-teal-700'
-    : 'group bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden';
-
   return (
     <motion.article
-      className={cardClasses}
+      className="group bg-white bg-opacity-20 backdrop-blur-lg rounded-xl transition-all duration-300 hover:bg-opacity-30 hover:scale-105 overflow-hidden"
+      style={{ border: `1px solid ${featured ? accentColor : accentColor + '33'}` }}
       variants={cardVariants}
       initial="hidden"
       animate="visible"
@@ -51,7 +54,10 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
       <div className="relative overflow-hidden">
         {featured && (
           <div className="absolute top-4 left-4 z-10">
-            <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+            <span 
+              className="px-3 py-1 rounded-full text-xs font-orbitron font-semibold text-white"
+              style={{ backgroundColor: accentColor }}
+            >
               Featured
             </span>
           </div>
@@ -69,7 +75,10 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
 
         {/* Category Badge */}
         <div className="absolute top-4 right-4">
-          <span className="bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs font-medium">
+          <span 
+            className="px-2 py-1 rounded text-xs font-medium text-white"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+          >
             {post.category}
           </span>
         </div>
@@ -82,31 +91,44 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
           {post.tags.slice(0, 3).map((tag, tagIndex) => (
             <span
               key={tagIndex}
-              className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-colors hover:bg-opacity-30"
+              style={{ 
+                backgroundColor: `${accentColor}20`, 
+                color: textColor,
+                opacity: 0.8
+              }}
             >
               <FaTag className="w-2 h-2" />
               {tag}
             </span>
           ))}
           {post.tags.length > 3 && (
-            <span className="text-xs text-gray-500">+{post.tags.length - 3} more</span>
+            <span className="text-xs" style={{ color: textColor, opacity: 0.5 }}>
+              +{post.tags.length - 3} more
+            </span>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+        <h3 
+          className="text-xl font-orbitron font-bold mb-3 line-clamp-2 group-hover:opacity-80 transition-all"
+          style={{ color: textColor }}
+        >
           <Link to={`/blog/${post.slug}`} onClick={handleReadMoreClick}>
             {post.title}
           </Link>
         </h3>
 
         {/* Excerpt */}
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 leading-relaxed">
+        <p 
+          className="mb-4 line-clamp-3 leading-relaxed text-sm"
+          style={{ color: textColor, opacity: 0.8 }}
+        >
           {post.excerpt}
         </p>
 
         {/* Meta Information */}
-        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+        <div className="flex items-center justify-between text-xs mb-4" style={{ color: textColor, opacity: 0.6 }}>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <FaUser className="w-3 h-3" />
@@ -124,7 +146,8 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
         <Link
           to={`/blog/${post.slug}`}
           onClick={handleReadMoreClick}
-          className="inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 font-medium transition-colors group/btn"
+          className="inline-flex items-center gap-2 font-medium transition-all group/btn hover:gap-3"
+          style={{ color: accentColor }}
         >
           <span>Read More</span>
           <FaArrowRight className="w-3 h-3 transition-transform group-hover/btn:translate-x-1" />
@@ -132,7 +155,10 @@ const BlogCard = ({ post, index = 0, featured = false }) => {
       </div>
 
       {/* Hover Effect Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-xl"
+        style={{ background: `linear-gradient(to top, ${accentColor}05, transparent)` }}
+      />
     </motion.article>
   );
 };

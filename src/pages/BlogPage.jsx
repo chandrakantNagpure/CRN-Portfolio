@@ -8,6 +8,7 @@ import SEO from '../components/SEO';
 import BlogCard from '../components/BlogCard';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import ParticleCanvas from '../components/ParticleCanvas';
 import {
   blogPosts,
   getFeaturedPosts,
@@ -138,31 +139,31 @@ const BlogPage = () => {
       />
 
       <div
-        className="min-h-screen"
+        className="min-h-screen font-poppins overflow-hidden"
         style={{
           background: bgColor
-            ? `linear-gradient(to right, ${bgColor}10, ${bgColor}05)`
-            : 'linear-gradient(to right, #f9fafb, #f3f4f6)',
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : 'linear-gradient(to right, #ffffff33, #ffffff)',
           color: textColor,
         }}
       >
+        <ParticleCanvas bgColor={bgColor || '#4B5563'} />
         {/* Hero Section */}
-        <section className="pt-24 pb-12 px-6 md:px-16">
-          <div className="max-w-7xl mx-auto">
+        <section className="pt-24 pb-12 px-6 md:px-16 relative z-10">
+          <div className="max-w-6xl mx-auto text-center">
             <motion.div
-              className="text-center"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <h1
-                className="text-4xl md:text-6xl font-orbitron font-bold mb-6"
+                className="text-4xl md:text-6xl font-orbitron font-extrabold mb-6"
                 style={{ color: textColor }}
               >
                 Blog & Articles
               </h1>
               <p
-                className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto"
+                className="text-lg md:text-xl mb-8 max-w-3xl mx-auto"
                 style={{ color: textColor, opacity: 0.8 }}
               >
                 Insights, tutorials, and thoughts on modern web development
@@ -172,26 +173,41 @@ const BlogPage = () => {
         </section>
 
         {/* Search and Filters */}
-        <section className="pb-12 px-6 md:px-16">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <section className="pb-12 px-6 md:px-16 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 mb-8"
+              style={{ border: `1px solid ${accentColor}33` }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               <div className="flex flex-col lg:flex-row gap-4">
                 {/* Search Bar */}
                 <div className="relative flex-1">
-                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <FaSearch 
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2" 
+                    style={{ color: accentColor, opacity: 0.6 }}
+                  />
                   <input
                     type="text"
                     placeholder="Search articles..."
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm placeholder-opacity-60 focus:outline-none focus:ring-2 transition-all"
+                    style={{ 
+                      border: `1px solid ${accentColor}33`,
+                      color: textColor,
+                      focusRingColor: accentColor
+                    }}
                   />
                 </div>
 
                 {/* Filter Toggle Button (Mobile) */}
                 <button
                   onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+                  className="lg:hidden flex items-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all duration-300"
+                  style={{ backgroundColor: accentColor, color: '#ffffff' }}
                 >
                   <FaFilter />
                   <span>Filters</span>
@@ -203,16 +219,21 @@ const BlogPage = () => {
                 <div className="flex flex-col lg:flex-row gap-4">
                   {/* Category Filter */}
                   <div className="flex-1">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: textColor }}>
                       Category
                     </label>
                     <select
                       value={selectedCategory}
                       onChange={e => handleCategoryFilter(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
+                      style={{ 
+                        border: `1px solid ${accentColor}33`,
+                        color: textColor,
+                        focusRingColor: accentColor
+                      }}
                     >
                       {categories.map(category => (
-                        <option key={category} value={category}>
+                        <option key={category} value={category} className="bg-gray-800 text-white">
                           {category === 'all' ? 'All Categories' : category}
                         </option>
                       ))}
@@ -221,16 +242,21 @@ const BlogPage = () => {
 
                   {/* Tag Filter */}
                   <div className="flex-1">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: textColor }}>
                       Tag
                     </label>
                     <select
                       value={selectedTag}
                       onChange={e => handleTagFilter(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
+                      style={{ 
+                        border: `1px solid ${accentColor}33`,
+                        color: textColor,
+                        focusRingColor: accentColor
+                      }}
                     >
                       {tags.map(tag => (
-                        <option key={tag} value={tag}>
+                        <option key={tag} value={tag} className="bg-gray-800 text-white">
                           {tag === 'all' ? 'All Tags' : tag}
                         </option>
                       ))}
@@ -242,7 +268,8 @@ const BlogPage = () => {
                     <div className="flex items-end">
                       <button
                         onClick={clearFilters}
-                        className="flex items-center gap-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white bg-opacity-20 backdrop-blur-sm hover:bg-opacity-30 transition-all"
+                        style={{ color: '#EF4444', border: `1px solid #EF444433` }}
                       >
                         <FaTimes />
                         <span>Clear</span>
@@ -251,16 +278,22 @@ const BlogPage = () => {
                   )}
                 </div>
               </div>
+            </motion.div>
             </div>
 
             {/* Results Count */}
-            <div className="mb-8">
-              <p className="text-gray-600 dark:text-gray-400">
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <p style={{ color: textColor, opacity: 0.7 }}>
                 {filteredPosts.length === 0
                   ? 'No articles found'
                   : `${filteredPosts.length} article${filteredPosts.length === 1 ? '' : 's'} found`}
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -269,10 +302,10 @@ const BlogPage = () => {
           selectedCategory === 'all' &&
           selectedTag === 'all' &&
           !searchTerm && (
-            <section className="pb-12 px-6 md:px-16">
-              <div className="max-w-7xl mx-auto">
+            <section className="pb-12 px-6 md:px-16 relative z-10">
+              <div className="max-w-6xl mx-auto">
                 <motion.h2
-                  className="text-3xl font-bold mb-8"
+                  className="text-3xl font-orbitron font-bold mb-8"
                   style={{ color: accentColor }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -280,7 +313,7 @@ const BlogPage = () => {
                 >
                   Featured Articles
                 </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {featuredPosts.map((post, index) => (
                     <BlogCard key={post.id} post={post} index={index} featured={true} />
                   ))}
@@ -290,16 +323,16 @@ const BlogPage = () => {
           )}
 
         {/* All Posts */}
-        <section className="pb-12 px-6 md:px-16">
-          <div className="max-w-7xl mx-auto">
+        <section className="pb-20 px-6 md:px-16 relative z-10">
+          <div className="max-w-6xl mx-auto">
             {filteredPosts.length > 0 ? (
               <>
                 <motion.h2
-                  className="text-3xl font-bold mb-8"
+                  className="text-3xl font-orbitron font-bold mb-8"
                   style={{ color: textColor }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
                 >
                   {searchTerm
                     ? `Search Results for "${searchTerm}"`
@@ -309,7 +342,7 @@ const BlogPage = () => {
                         ? `Articles tagged with "${selectedTag}"`
                         : 'All Articles'}
                 </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredPosts.map((post, index) => (
                     <BlogCard key={post.id} post={post} index={index} featured={false} />
                   ))}
@@ -317,21 +350,27 @@ const BlogPage = () => {
               </>
             ) : (
               <motion.div
-                className="text-center py-16"
+                className="text-center py-16 bg-white bg-opacity-20 backdrop-blur-lg rounded-xl"
+                style={{ border: `1px solid ${accentColor}33` }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <div className="text-6xl mb-4">📝</div>
-                <h3 className="text-2xl font-bold mb-4" style={{ color: textColor }}>
+                <h3 className="text-2xl font-orbitron font-bold mb-4" style={{ color: textColor }}>
                   No Articles Found
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-8">
+                <p className="mb-8" style={{ color: textColor, opacity: 0.7 }}>
                   Try adjusting your search terms or filters
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+                  className="px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg"
+                  style={{
+                    backgroundColor: accentColor,
+                    color: '#ffffff',
+                    boxShadow: `0 4px 20px ${accentColor}33`
+                  }}
                 >
                   Clear All Filters
                 </button>
@@ -340,7 +379,7 @@ const BlogPage = () => {
           </div>
         </section>
 
-        <BackToTopButton textColor={getContrastTextColor(bgColor)} />
+        <BackToTopButton textColor={textColor} />
       </div>
 
       <Footer />

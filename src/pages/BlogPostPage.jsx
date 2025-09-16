@@ -21,6 +21,7 @@ import SEO from '../components/SEO';
 import BlogCard from '../components/BlogCard';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import ParticleCanvas from '../components/ParticleCanvas';
 import { getPostBySlug, getRelatedPosts } from '../data/blogPosts';
 import { renderMarkdown, generateTableOfContents } from '../utils/markdown';
 import { getContrastTextColor } from '../utils/colors';
@@ -160,56 +161,62 @@ const BlogPostPage = () => {
       {/* Reading Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-50">
         <motion.div
-          className="h-full bg-teal-500"
-          style={{ width: `${readingProgress}%` }}
+          className="h-full"
+          style={{ width: `${readingProgress}%`, backgroundColor: accentColor }}
           initial={{ width: 0 }}
           animate={{ width: `${readingProgress}%` }}
         />
       </div>
 
       <div
-        className="min-h-screen"
+        className="min-h-screen font-poppins overflow-hidden"
         style={{
           background: bgColor
-            ? `linear-gradient(to right, ${bgColor}05, transparent)`
-            : 'linear-gradient(to right, #f9fafb, transparent)',
+            ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
+            : 'linear-gradient(to right, #ffffff33, #ffffff)',
           color: textColor,
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-16 pt-24">
+        <ParticleCanvas bgColor={bgColor || '#4B5563'} />
+        <div className="max-w-6xl mx-auto px-6 md:px-16 pt-24 relative z-10">
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Table of Contents - Desktop Sidebar */}
             {tableOfContents.length > 0 && (
               <div className="hidden lg:block lg:w-64 shrink-0">
                 <div className="sticky top-32">
-                  <h3 className="text-lg font-semibold mb-4" style={{ color: accentColor }}>
-                    Table of Contents
-                  </h3>
-                  <nav className="space-y-2">
-                    {tableOfContents.map((item, index) => (
-                      <a
-                        key={index}
-                        href={`#${item.slug}`}
-                        className={`block py-2 px-3 text-sm rounded transition-colors ${
-                          activeSection === item.slug
-                            ? 'bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-400 font-medium'
-                            : 'text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400'
-                        }`}
-                        style={{
-                          paddingLeft: `${(item.level - 1) * 12 + 12}px`,
-                        }}
-                        onClick={() => {
-                          trackEvent('blog_toc_click', {
-                            category: 'Blog',
-                            label: item.slug,
-                            heading_text: item.text,
-                          });
-                        }}
-                      >
-                        {item.text}
-                      </a>
-                    ))}
-                  </nav>
+                  <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6" style={{ border: `1px solid ${accentColor}33` }}>
+                    <h3 className="text-lg font-orbitron font-semibold mb-4" style={{ color: accentColor }}>
+                      Table of Contents
+                    </h3>
+                    <nav className="space-y-2">
+                      {tableOfContents.map((item, index) => (
+                        <a
+                          key={index}
+                          href={`#${item.slug}`}
+                          className={`block py-2 px-3 text-sm rounded transition-all duration-300 ${
+                            activeSection === item.slug
+                              ? 'font-medium'
+                              : 'hover:bg-white hover:bg-opacity-20'
+                          }`}
+                          style={{
+                            paddingLeft: `${(item.level - 1) * 12 + 12}px`,
+                            color: activeSection === item.slug ? accentColor : textColor,
+                            opacity: activeSection === item.slug ? 1 : 0.7,
+                            backgroundColor: activeSection === item.slug ? `${accentColor}20` : 'transparent'
+                          }}
+                          onClick={() => {
+                            trackEvent('blog_toc_click', {
+                              category: 'Blog',
+                              label: item.slug,
+                              heading_text: item.text,
+                            });
+                          }}
+                        >
+                          {item.text}
+                        </a>
+                      ))}
+                    </nav>
+                  </div>
                 </div>
               </div>
             )}
@@ -220,7 +227,8 @@ const BlogPostPage = () => {
               <div className="mb-8">
                 <Link
                   to="/blog"
-                  className="inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white bg-opacity-20 backdrop-blur-lg rounded-lg hover:bg-opacity-30 transition-all duration-300"
+                  style={{ color: accentColor, border: `1px solid ${accentColor}33` }}
                 >
                   <FaArrowLeft className="w-4 h-4" />
                   <span>Back to Blog</span>
@@ -229,28 +237,32 @@ const BlogPostPage = () => {
 
               {/* Article Header */}
               <motion.header
-                className="mb-8"
+                className="mb-8 bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-8"
+                style={{ border: `1px solid ${accentColor}33` }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 {/* Category Badge */}
                 <div className="mb-4">
-                  <span className="inline-block px-3 py-1 bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-400 text-sm font-medium rounded-full">
+                  <span 
+                    className="inline-block px-3 py-1 text-sm font-medium rounded-full text-white"
+                    style={{ backgroundColor: accentColor }}
+                  >
                     {post.category}
                   </span>
                 </div>
 
                 {/* Title */}
                 <h1
-                  className="text-3xl md:text-5xl font-orbitron font-bold mb-6 leading-tight"
+                  className="text-3xl md:text-5xl font-orbitron font-extrabold mb-6 leading-tight"
                   style={{ color: textColor }}
                 >
                   {post.title}
                 </h1>
 
                 {/* Meta Information */}
-                <div className="flex flex-wrap items-center gap-6 text-gray-600 dark:text-gray-400 mb-6">
+                <div className="flex flex-wrap items-center gap-6 mb-6" style={{ color: textColor, opacity: 0.7 }}>
                   <div className="flex items-center gap-2">
                     <FaUser className="w-4 h-4" />
                     <span>{post.author}</span>
@@ -267,7 +279,8 @@ const BlogPostPage = () => {
                   {post.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full hover:bg-teal-100 dark:hover:bg-teal-900 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 px-3 py-1 text-sm rounded-full hover:bg-opacity-30 transition-colors cursor-pointer"
+                      style={{ backgroundColor: `${accentColor}20`, color: textColor, opacity: 0.8 }}
                     >
                       <FaTag className="w-3 h-3" />
                       {tag}
@@ -279,40 +292,48 @@ const BlogPostPage = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
-                    className="flex items-center gap-2 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg text-white"
+                    style={{
+                      backgroundColor: accentColor,
+                      boxShadow: `0 4px 20px ${accentColor}33`
+                    }}
                   >
                     <FaShare className="w-4 h-4" />
                     <span>Share</span>
                   </button>
 
                   {isShareMenuOpen && (
-                    <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-2 z-10">
+                    <div className="absolute top-full left-0 mt-2 bg-white bg-opacity-90 backdrop-blur-lg rounded-lg shadow-xl p-2 z-10" style={{ border: `1px solid ${accentColor}33` }}>
                       <button
                         onClick={() => handleShare('twitter')}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-white hover:bg-opacity-50 rounded transition-colors"
+                        style={{ color: textColor }}
                       >
                         <FaTwitter className="w-4 h-4 text-blue-400" />
                         <span>Twitter</span>
                       </button>
                       <button
                         onClick={() => handleShare('linkedin')}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-white hover:bg-opacity-50 rounded transition-colors"
+                        style={{ color: textColor }}
                       >
                         <FaLinkedin className="w-4 h-4 text-blue-600" />
                         <span>LinkedIn</span>
                       </button>
                       <button
                         onClick={() => handleShare('facebook')}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-white hover:bg-opacity-50 rounded transition-colors"
+                        style={{ color: textColor }}
                       >
                         <FaFacebook className="w-4 h-4 text-blue-500" />
                         <span>Facebook</span>
                       </button>
                       <button
                         onClick={() => handleShare('copy')}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-white hover:bg-opacity-50 rounded transition-colors"
+                        style={{ color: textColor }}
                       >
-                        <FaLink className="w-4 h-4 text-gray-500" />
+                        <FaLink className="w-4 h-4" style={{ color: accentColor }} />
                         <span>Copy Link</span>
                       </button>
                     </div>
