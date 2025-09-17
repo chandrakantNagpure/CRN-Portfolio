@@ -488,7 +488,7 @@ This lead showed high engagement and is ready to discuss their project!
     <div ref={chatbotRef}>
       {/* Chat Trigger Button */}
       <motion.button
-        className="chatbot-trigger fixed bottom-4 left-4 w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white z-40 md:bottom-4 md:left-4"
+        className="d-none chatbot-trigger fixed bottom-4 left-4 w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white z-40 md:bottom-4 md:left-4"
         style={{
           backgroundColor: primaryColor,
           animation: !hasEngaged && !isOpen ? 'pulse 2s infinite' : 'none',

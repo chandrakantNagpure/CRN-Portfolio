@@ -13,13 +13,15 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaLink,
+  FaBars,
+  FaTimes,
+  FaList,
 } from 'react-icons/fa';
 import { useTech } from '../components/TechContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackEvent } from '../utils/analytics';
 import SEO from '../components/SEO';
 import BlogCard from '../components/BlogCard';
-import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
 import ParticleCanvas from '../components/ParticleCanvas';
 import { getPostBySlug, getRelatedPosts } from '../data/blogPosts';
@@ -37,8 +39,10 @@ const BlogPostPage = () => {
   const [activeSection, setActiveSection] = useState('');
   const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
-
-  const textColor = getContrastTextColor(bgColor);
+  const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
+  
+  // Force dark text for better readability on glass-morphism backgrounds
+  const textColor = '#1F2937'; // Dark gray text for better contrast
   const accentColor = techColors[selectedTech] || '#14B8A6';
 
   useEffect(() => {
@@ -99,6 +103,28 @@ const BlogPostPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [tableOfContents]);
 
+  // Handle escape key for mobile TOC
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isMobileTocOpen) {
+        setIsMobileTocOpen(false);
+      }
+    };
+
+    if (isMobileTocOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      // Prevent body scroll when mobile TOC is open
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileTocOpen]);
+
   const handleShare = platform => {
     const url = window.location.href;
     const title = post?.title || '';
@@ -158,18 +184,10 @@ const BlogPostPage = () => {
         image={post.image}
       />
 
-      {/* Reading Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-50">
-        <motion.div
-          className="h-full"
-          style={{ width: `${readingProgress}%`, backgroundColor: accentColor }}
-          initial={{ width: 0 }}
-          animate={{ width: `${readingProgress}%` }}
-        />
-      </div>
+
 
       <div
-        className="min-h-screen font-poppins overflow-hidden"
+        className="min-h-screen font-poppins overflow-x-hidden"
         style={{
           background: bgColor
             ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
@@ -178,43 +196,170 @@ const BlogPostPage = () => {
         }}
       >
         <ParticleCanvas bgColor={bgColor || '#4B5563'} />
-        <div className="max-w-6xl mx-auto px-6 md:px-16 pt-24 relative z-10">
-          <div className="flex flex-col lg:flex-row gap-12">
-            {/* Table of Contents - Desktop Sidebar */}
+        
+        
+        <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-16 pt-24 relative z-10 w-full overflow-x-hidden">
+          {/* Mobile TOC Button */}
+          {tableOfContents.length > 0 && (
+            <div className="lg:hidden fixed bottom-6 right-6 z-50">
+              <button
+                onClick={() => setIsMobileTocOpen(!isMobileTocOpen)}
+                className="p-4 rounded-full shadow-lg backdrop-blur-lg transition-all duration-300 hover:shadow-xl"
+                style={{
+                  backgroundColor: `${accentColor}`,
+                  color: 'white',
+                  border: `2px solid ${accentColor}`,
+                }}
+                aria-label="Toggle Table of Contents"
+              >
+                {isMobileTocOpen ? <FaTimes className="w-5 h-5" /> : <FaList className="w-5 h-5" />}
+              </button>
+            </div>
+          )}
+
+          {/* Mobile TOC Overlay */}
+          {tableOfContents.length > 0 && isMobileTocOpen && (
+            <div className="lg:hidden fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setIsMobileTocOpen(false)}>
+              <div 
+                className="absolute bottom-20 left-4 right-4 max-h-96 overflow-y-auto bg-white bg-opacity-95 backdrop-blur-lg rounded-xl p-6 shadow-2xl"
+                style={{ border: `1px solid ${accentColor}33` }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-orbitron font-semibold" style={{ color: accentColor }}>
+                    Table of Contents
+                  </h3>
+                  <div className="flex items-center gap-2 text-sm" style={{ color: textColor, opacity: 0.7 }}>
+                    <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full transition-all duration-300 rounded-full"
+                        style={{ 
+                          width: `${readingProgress}%`, 
+                          backgroundColor: accentColor 
+                        }}
+                      />
+                    </div>
+                    <span>{Math.round(readingProgress)}%</span>
+                  </div>
+                </div>
+                <nav className="space-y-1">
+                  {tableOfContents.map((item, index) => (
+                    <a
+                      key={index}
+                      href={`#${item.slug}`}
+                      className={`block py-2 px-3 text-sm rounded transition-all duration-300 ${
+                        activeSection === item.slug
+                          ? 'font-medium'
+                          : 'hover:bg-white hover:bg-opacity-30'
+                      }`}
+                      style={{
+                        paddingLeft: `${(item.level - 1) * 12 + 12}px`,
+                        color: activeSection === item.slug ? accentColor : textColor,
+                        opacity: activeSection === item.slug ? 1 : 0.7,
+                        backgroundColor: activeSection === item.slug ? `${accentColor}20` : 'transparent'
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsMobileTocOpen(false);
+                        const element = document.getElementById(item.slug);
+                        if (element) {
+                          element.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start',
+                            inline: 'nearest'
+                          });
+                        }
+                        trackEvent('blog_toc_click', {
+                          category: 'Blog',
+                          label: item.slug,
+                          heading_text: item.text,
+                        });
+                      }}
+                    >
+                      {item.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 w-full">
+            {/* Table of Contents - Enhanced Sticky Sidebar */}
             {tableOfContents.length > 0 && (
-              <div className="hidden lg:block lg:w-64 shrink-0">
-                <div className="sticky top-32">
-                  <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6" style={{ border: `1px solid ${accentColor}33` }}>
-                    <h3 className="text-lg font-orbitron font-semibold mb-4" style={{ color: accentColor }}>
-                      Table of Contents
-                    </h3>
-                    <nav className="space-y-2">
-                      {tableOfContents.map((item, index) => (
-                        <a
-                          key={index}
-                          href={`#${item.slug}`}
-                          className={`block py-2 px-3 text-sm rounded transition-all duration-300 ${
-                            activeSection === item.slug
-                              ? 'font-medium'
-                              : 'hover:bg-white hover:bg-opacity-20'
-                          }`}
-                          style={{
-                            paddingLeft: `${(item.level - 1) * 12 + 12}px`,
-                            color: activeSection === item.slug ? accentColor : textColor,
-                            opacity: activeSection === item.slug ? 1 : 0.7,
-                            backgroundColor: activeSection === item.slug ? `${accentColor}20` : 'transparent'
+              <div className="hidden lg:block lg:w-72 lg:max-w-72 shrink-0">
+                <div className="sticky top-24 overflow-y-auto">
+                  <div className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 shadow-lg" style={{ border: `1px solid ${accentColor}33` }}>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-orbitron font-semibold" style={{ color: accentColor }}>
+                        Table of Contents
+                      </h3>
+                      <div className="text-xs" style={{ color: textColor, opacity: 0.7 }}>
+                        {Math.round(readingProgress)}%
+                      </div>
+                    </div>
+                    
+                    {/* Reading Progress Bar */}
+                    <div className="mb-4">
+                      <div className="w-full h-1 bg-gray-200 bg-opacity-30 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full transition-all duration-300 rounded-full"
+                          style={{ 
+                            width: `${readingProgress}%`, 
+                            backgroundColor: accentColor 
                           }}
-                          onClick={() => {
-                            trackEvent('blog_toc_click', {
-                              category: 'Blog',
-                              label: item.slug,
-                              heading_text: item.text,
-                            });
-                          }}
-                        >
-                          {item.text}
-                        </a>
-                      ))}
+                        />
+                      </div>
+                    </div>
+                    
+                    <nav className="space-y-1">
+                      {tableOfContents.map((item, index) => {
+                        const isActive = activeSection === item.slug;
+                        return (
+                          <a
+                            key={index}
+                            href={`#${item.slug}`}
+                            className={`group block py-2 px-1 text-sm rounded transition-all duration-300 hover:bg-white hover:bg-opacity-20 ${
+                              isActive ? 'font-medium shadow-sm' : ''
+                            }`}
+                            style={{
+                              paddingLeft: `${(item.level - 1) * 5 + 5}px`,
+                              color: isActive ? accentColor : textColor,
+                              opacity: isActive ? 1 : 0.7,
+                              backgroundColor: isActive ? `${accentColor}15` : 'transparent',
+                              borderLeft: isActive ? `3px solid ${accentColor}` : '3px solid transparent',
+                              marginLeft: isActive ? '-3px' : '0',
+                              textAlign: 'left',
+                            }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const element = document.getElementById(item.slug);
+                              if (element) {
+                                element.scrollIntoView({ 
+                                  behavior: 'smooth', 
+                                  block: 'start',
+                                  inline: 'nearest'
+                                });
+                              }
+                              trackEvent('blog_toc_click', {
+                                category: 'Blog',
+                                label: item.slug,
+                                heading_text: item.text,
+                              });
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="truncate">{item.text}</span>
+                              {isActive && (
+                                <div 
+                                  className="w-2 h-2 rounded-full ml-2 flex-shrink-0"
+                                  style={{ backgroundColor: accentColor }}
+                                />
+                              )}
+                            </div>
+                          </a>
+                        );
+                      })}
                     </nav>
                   </div>
                 </div>
@@ -222,7 +367,7 @@ const BlogPostPage = () => {
             )}
 
             {/* Main Content */}
-            <div className="flex-1 max-w-4xl">
+            <div className="flex-1 max-w-full lg:max-w-4xl min-w-0 overflow-x-hidden">
               {/* Back to Blog */}
               <div className="mb-8">
                 <Link
@@ -303,7 +448,7 @@ const BlogPostPage = () => {
                   </button>
 
                   {isShareMenuOpen && (
-                    <div className="absolute top-full left-0 mt-2 bg-white bg-opacity-90 backdrop-blur-lg rounded-lg shadow-xl p-2 z-10" style={{ border: `1px solid ${accentColor}33` }}>
+                    <div className="absolute top-full left-0 mt-2 bg-white bg-opacity-95 backdrop-blur-lg rounded-lg shadow-xl p-2 z-10" style={{ border: `1px solid ${accentColor}33` }}>
                       <button
                         onClick={() => handleShare('twitter')}
                         className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-white hover:bg-opacity-50 rounded transition-colors"
@@ -359,14 +504,49 @@ const BlogPostPage = () => {
               )}
 
               {/* Article Content */}
-              <motion.article
+              <motion.div
                 id="article-content"
-                className="prose prose-lg dark:prose-invert max-w-none"
+                className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-8 overflow-hidden w-full"
+                style={{ border: `1px solid ${accentColor}33`, maxWidth: '100%' }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
-              />
+              >
+                <div 
+                  className="article-content"
+                  style={{
+                    color: textColor,
+                    fontSize: '16px',
+                    lineHeight: '1.7',
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word'
+                  }}
+                >
+                  {post?.content ? (
+                    <div 
+                      style={{ 
+                        color: 'inherit',
+                        fontSize: 'inherit',
+                        lineHeight: 'inherit'
+                      }}
+                      dangerouslySetInnerHTML={{ 
+                        __html: renderMarkdown(post.content) 
+                      }} 
+                    />
+                  ) : (
+                    <div style={{ 
+                      color: textColor, 
+                      padding: '40px 20px', 
+                      textAlign: 'center',
+                      backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                      borderRadius: '8px'
+                    }}>
+                      <h2 style={{ marginBottom: '16px' }}>❌ Content Unavailable</h2>
+                      <p style={{ opacity: 0.8 }}>This article's content could not be loaded. Please try refreshing the page.</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
 
               {/* Article Footer */}
               <motion.footer
@@ -417,7 +597,7 @@ const BlogPostPage = () => {
               >
                 Related Articles
               </motion.h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 {relatedPosts.map((relatedPost, index) => (
                   <BlogCard key={relatedPost.id} post={relatedPost} index={index} />
                 ))}
@@ -447,7 +627,6 @@ const BlogPostPage = () => {
           </nav>
         </div>
 
-        <BackToTopButton textColor={getContrastTextColor(bgColor)} />
       </div>
 
       <Footer />

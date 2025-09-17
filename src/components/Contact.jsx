@@ -34,17 +34,91 @@ const buttonVariants = {
 };
 
 const alertVariants = {
-  hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+  hidden: { opacity: 0, y: -20, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { 
+      type: 'spring',
+      stiffness: 300,
+      damping: 20,
+      duration: 0.4 
+    } 
+  },
+  exit: { 
+    opacity: 0, 
+    y: -20, 
+    scale: 0.95,
+    transition: { duration: 0.3 } 
+  },
 };
 
 const inputVariants = {
-  rest: { boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)' },
-  focus: {
-    boxShadow: '0 0 8px 2px rgba(59, 130, 246, 0.5)',
-    transition: { duration: 0.3 },
+  rest: { 
+    scale: 1,
+    boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)'
   },
+  focus: {
+    scale: 1.02,
+    boxShadow: '0 0 20px 4px rgba(59, 130, 246, 0.2)',
+    transition: { 
+      type: 'spring',
+      stiffness: 300,
+      damping: 25,
+      duration: 0.3 
+    },
+  },
+  invalid: {
+    scale: 1.02,
+    boxShadow: '0 0 20px 4px rgba(239, 68, 68, 0.3)',
+    transition: { duration: 0.3 },
+  }
+};
+
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50, 
+    rotateX: -15,
+    scale: 0.9
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    rotateX: 0,
+    scale: 1,
+    transition: { 
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+      duration: 0.8,
+      staggerChildren: 0.1
+    } 
+  }
+};
+
+const stepVariants = {
+  enter: {
+    x: 300,
+    opacity: 0
+  },
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 200,
+      damping: 20
+    }
+  },
+  exit: {
+    x: -300,
+    opacity: 0,
+    transition: {
+      duration: 0.3
+    }
+  }
 };
 
 import { getContrastTextColor } from '../utils/colors';
@@ -479,29 +553,100 @@ function Contact() {
                           <motion.button
                             key={option.value}
                             type="button"
-                            onClick={() =>
+                            onClick={() => {
                               handleInteractiveAnswer(
                                 interactiveQuestions[currentStep].id,
                                 option.value,
                                 interactiveQuestions[currentStep].type === 'multi-choice'
-                              )
-                            }
-                            className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
+                              );
+                              // Add haptic feedback
+                              if (navigator.vibrate) {
+                                navigator.vibrate(50);
+                              }
+                            }}
+                            className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-300 relative overflow-hidden group ${
                               isSelected
-                                ? 'border-blue-500 bg-blue-50'
-                                : 'border-gray-200 hover:border-gray-300 bg-white'
+                                ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-lg transform scale-105'
+                                : 'border-gray-200 hover:border-blue-300 bg-white hover:bg-gray-50 hover:shadow-md'
                             }`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ 
+                              scale: isSelected ? 1.05 : 1.03,
+                              transition: { type: 'spring', stiffness: 300, damping: 20 } 
+                            }}
+                            whileTap={{ 
+                              scale: 0.98,
+                              transition: { duration: 0.1 } 
+                            }}
+                            layout
+                            variants={{
+                              selected: {
+                                scale: 1.05,
+                                boxShadow: '0 10px 30px rgba(59, 130, 246, 0.3)',
+                                transition: { type: 'spring', stiffness: 300, damping: 25 }
+                              },
+                              unselected: {
+                                scale: 1,
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+                                transition: { type: 'spring', stiffness: 300, damping: 25 }
+                              }
+                            }}
+                            animate={isSelected ? 'selected' : 'unselected'}
                           >
-                            <div className="flex items-center gap-3">
-                              <span className="text-xl">{option.icon}</span>
-                              <div>
-                                <div className="font-medium">{option.label}</div>
-                                {option.description && (
-                                  <div className="text-sm text-gray-500 mt-1">
-                                    {option.description}
+                            {/* Selection indicator */}
+                            <AnimatePresence>
+                              {isSelected && (
+                                <motion.div
+                                  className="absolute top-2 right-2"
+                                  initial={{ scale: 0, rotate: -180 }}
+                                  animate={{ scale: 1, rotate: 0 }}
+                                  exit={{ scale: 0, rotate: 180 }}
+                                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                                >
+                                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <FaCheckCircle className="text-white text-sm" />
                                   </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                            
+                            {/* Hover effect overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                            
+                            <div className="flex items-center gap-3 relative z-10">
+                              <motion.span 
+                                className="text-xl"
+                                animate={{
+                                  scale: isSelected ? 1.2 : 1,
+                                  rotate: isSelected ? 10 : 0
+                                }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                              >
+                                {option.icon}
+                              </motion.span>
+                              <div className="flex-1">
+                                <motion.div 
+                                  className={`font-medium transition-colors duration-200 ${
+                                    isSelected ? 'text-blue-700' : 'text-gray-900'
+                                  }`}
+                                  animate={{
+                                    x: isSelected ? 4 : 0
+                                  }}
+                                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                                >
+                                  {option.label}
+                                </motion.div>
+                                {option.description && (
+                                  <motion.div 
+                                    className={`text-sm mt-1 transition-colors duration-200 ${
+                                      isSelected ? 'text-blue-600' : 'text-gray-500'
+                                    }`}
+                                    animate={{
+                                      x: isSelected ? 4 : 0
+                                    }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
+                                  >
+                                    {option.description}
+                                  </motion.div>
                                 )}
                               </div>
                             </div>

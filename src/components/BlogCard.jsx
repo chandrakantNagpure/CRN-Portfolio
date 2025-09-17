@@ -9,7 +9,8 @@ import { getContrastTextColor } from '../utils/colors';
 
 const BlogCard = ({ post, index = 0, featured = false }) => {
   const { techColors, bgColor, selectedTech } = useTech();
-  const textColor = getContrastTextColor(bgColor);
+  // Force dark text for better readability on glass-morphism backgrounds
+  const textColor = '#1F2937'; // Dark gray text for better contrast
   const accentColor = techColors[selectedTech] || '#14B8A6';
   
   const handleReadMoreClick = () => {

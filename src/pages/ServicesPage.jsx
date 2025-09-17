@@ -19,13 +19,13 @@ import { Link } from 'react-router-dom';
 import ParticleCanvas from '../components/ParticleCanvas';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
-import BackToTopButton from '../components/BackToTopButton';
 import { getContrastTextColor } from '../utils/colors';
 
 const ServicesPage = () => {
   const { t } = useLanguage();
   const { techColors, bgColor, selectedTech } = useTech();
-  const textColor = getContrastTextColor(bgColor);
+  // Force dark text for better readability on glass-morphism backgrounds
+  const textColor = '#1F2937'; // Dark gray text for better contrast
   const accentColor = techColors[selectedTech] || '#14B8A6';
 
   const services = [
@@ -162,7 +162,7 @@ const ServicesPage = () => {
       />
       
       <div
-        className="min-h-screen font-poppins overflow-hidden"
+        className="min-h-screen font-poppins overflow-x-hidden"
         style={{
           background: bgColor
             ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
@@ -195,7 +195,7 @@ const ServicesPage = () => {
             </motion.div>
             
             <motion.div
-              className="flex flex-wrap justify-center gap-4 mb-8"
+              className="flex flex-wrap justify-center gap-4 mb-8 w-full"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -256,7 +256,7 @@ const ServicesPage = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
               {services.map((service, index) => (
                 <motion.div
                   key={index}
@@ -327,7 +327,7 @@ const ServicesPage = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 w-full">
               {packages.map((pkg, index) => (
                 <motion.div
                   key={index}
@@ -410,7 +410,7 @@ const ServicesPage = () => {
               </h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 w-full">
               {[
                 {
                   icon: FaStar,
@@ -479,7 +479,7 @@ const ServicesPage = () => {
               >
                 Let's discuss your requirements and bring your vision to life
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4 w-full">
                 <Link
                   to="/contact"
                   className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg flex items-center gap-2"
@@ -505,7 +505,6 @@ const ServicesPage = () => {
           </div>
         </section>
 
-        <BackToTopButton textColor={textColor} />
       </div>
       
       <Footer />

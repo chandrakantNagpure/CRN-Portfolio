@@ -4,80 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import { useTech } from './TechContext';
 import { FaArrowUp, FaThumbtack, FaLink, FaShareAlt, FaTimes } from 'react-icons/fa';
-// Project images
-const creativeLab_splashscreen = '/assets/projects/CreativeLab-Interior.png';
-const cyberi3secure_splashscreen = '/assets/projects/Cyber3Secure.png';
-const share_proximacloud_splashscreen = '/assets/projects/share.proximacloud.png';
-const inheritance_infra_splashscreen = '/assets/projects/Inheritance_Infra.png';
-const palloti_splashscreen = '/assets/projects/Palloti.png';
-// Real project data
-const projectsData = [
-  {
-    id: 1,
-    title: 'Creative for CreativeLab Interior',
-    description:
-      'A unique horizontal scrolling website built completely from scratch with custom WordPress theme. Features creative layouts and fresh design elements for an interior design company.',
-    techs: ['figma', 'wordpress', 'css', 'gsap', 'javascript'],
-    image: creativeLab_splashscreen,
-    liveLink: 'https://creativelabinteriors.ae/',
-    featured: true,
-  },
-  {
-    id: 2,
-    title: 'Cyberi3Secure',
-    description:
-      'A cybersecurity firm specializing in Privileged Access Management (PAM) to enhance identity security, compliance, and operational efficiency for organizations.',
-    techs: ['wordpress', 'php', 'javascript', 'gsap', 'css'],
-    image: cyberi3secure_splashscreen,
-    liveLink: 'https://cyberi3secure.com/',
-    repoLink: 'https://github.com/chandrakantNagpure/Cyber3Secure',
-    featured: true,
-  },
-  {
-    id: 3,
-    title: 'ProximaShare',
-    description:
-      'A lightweight and secure file-sharing platform with drag-and-drop support. Files are limited to 2MB and shared via expiring links that auto-delete after 3 downloads or 3 days, ensuring privacy and simplicity.',
-    techs: ['nextjs', 'javascript', 'tailwind'],
-    image: share_proximacloud_splashscreen,
-    liveLink: 'https://share.proximacloud.in/',
-    repoLink: 'https://github.com/proxima-cloud/proxima-share-fe',
-    featured: true,
-  },
-  {
-    id: 4,
-    title: 'Inheritance Infrastructure',
-    description:
-      'A forward-thinking real estate company based in Nagpur, Maharashtra, focused on delivering quality residential and commercial land investments and developments.',
-    techs: ['react', 'tailwind', 'javascript', 'gsap'],
-    image: inheritance_infra_splashscreen,
-    liveLink: 'https://inheritance-infrastructure.vercel.app/',
-    repoLink: 'https://github.com/chandrakantNagpure/InheritanceInfrastructure',
-    featured: false,
-  },
-  {
-    id: 5,
-    title: 'St. Vincent Pallotti College',
-    description:
-      'An autonomous engineering college website with modern design and user-friendly interface for students and faculty.',
-    techs: ['html', 'php', 'css', 'bootstrap', 'javascript'],
-    image: palloti_splashscreen,
-    liveLink: 'https://svpcet.ac.in/',
-    repoLink: 'https://github.com/chandrakantNagpure/pallotti',
-    featured: false,
-  },
-  {
-    id: 6,
-    title: 'Task Manager App',
-    description:
-      'A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.',
-    techs: ['react', 'javascript', 'figma'],
-    image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/task-manager',
-    repoLink: 'https://github.com/dummyuser/task-manager',
-    featured: false,
-  },
-];
+import { projectsData } from '../data/projectsData';
 
 // Animation variants
 const cardVariants = {
@@ -370,9 +297,23 @@ const ProjectModal = ({ project, techColors, selectedTech, setModalProject, setT
             className="text-sm font-medium px-3 py-1 rounded text-white transition"
             style={{ backgroundColor: primaryColor }}
             aria-label={`View live demo of ${project.title}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Live Demo
           </a>
+          {project.repoLink && (
+            <a
+              href={project.repoLink}
+              className="text-sm font-medium px-3 py-1 rounded text-white transition"
+              style={{ backgroundColor: secondaryColor }}
+              aria-label={`View GitHub repository of ${project.title}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          )}
           <button
             className="text-sm font-medium px-3 py-1 rounded text-white transition"
             style={{ backgroundColor: primaryColor }}

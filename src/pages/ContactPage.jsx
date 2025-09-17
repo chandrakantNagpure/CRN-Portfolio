@@ -18,7 +18,6 @@ import {
 } from 'react-icons/fa';
 import { useLanguage } from '../contexts/LanguageContext';
 import SEO from '../components/SEO';
-import BackToTopButton from '../components/BackToTopButton';
 import { getContrastTextColor } from '../utils/colors';
 
 // Interactive questions configuration
@@ -955,8 +954,6 @@ function ContactPage() {
       </div>
       <Footer />
 
-      {/* Back to Top Button */}
-      <BackToTopButton textColor={getContrastTextColor(bgColor)} />
     </>
   );
 }

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { FaHome, FaUser, FaProjectDiagram, FaEnvelope, FaCog, FaBlog } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import OptimizedImage from './OptimizedImage';
-import StatusIndicator from './StatusIndicator';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -119,7 +118,7 @@ function Navbar() {
                 isActive('/blog') ? 'text-teal-500' : 'text-gray-700 dark:text-gray-300'
               }`}
             >
-              {t('nav.blog') || 'Blog'}
+              Blog
             </Link>
             <Link
               to="/contact"
@@ -133,11 +132,6 @@ function Navbar() {
 
           {/* Right side items */}
           <div className="flex items-center space-x-4">
-            {/* Status Indicator - Hidden on mobile */}
-            <div className="hidden md:block">
-              <StatusIndicator />
-            </div>
-
             {/* Language Switcher - Hidden on mobile */}
             <div className="hidden md:block">
               <LanguageSwitcher />
@@ -208,12 +202,9 @@ function Navbar() {
         </div>
 
         <div className="flex flex-col p-6 pt-4 space-y-6 text-lg font-medium">
-          {/* Status in mobile menu */}
+          {/* Language switcher in mobile menu */}
           <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
-            <StatusIndicator useSidebarColors={true} />
-            <div className="mt-3">
-              <LanguageSwitcher />
-            </div>
+            <LanguageSwitcher />
           </div>
 
           <Link
@@ -259,7 +250,7 @@ function Navbar() {
               isActive('/blog') ? 'text-teal-500' : ''
             }`}
           >
-            <FaBlog /> {t('nav.blog') || 'Blog'}
+            <FaBlog /> Blog
           </Link>
           <Link
             to="/contact"

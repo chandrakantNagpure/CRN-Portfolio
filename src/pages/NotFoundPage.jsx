@@ -6,7 +6,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getContrastTextColor } from '../utils/colors';
 import ParticleCanvas from '../components/ParticleCanvas';
 import Footer from '../components/Footer';
-import BackToTopButton from '../components/BackToTopButton';
 
 function NotFoundPage() {
   const { t } = useLanguage();
@@ -167,8 +166,6 @@ function NotFoundPage() {
 
       <Footer />
 
-      {/* Back to Top Button */}
-      <BackToTopButton textColor={getContrastTextColor(bgColor)} />
     </div>
   );
 }

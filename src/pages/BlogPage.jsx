@@ -6,7 +6,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { trackEvent } from '../utils/analytics';
 import SEO from '../components/SEO';
 import BlogCard from '../components/BlogCard';
-import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
 import ParticleCanvas from '../components/ParticleCanvas';
 import {
@@ -28,7 +27,8 @@ const BlogPage = () => {
   const [selectedTag, setSelectedTag] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const textColor = getContrastTextColor(bgColor);
+  // Force dark text for better readability on glass-morphism backgrounds
+  const textColor = '#1F2937'; // Dark gray text for better contrast
   const accentColor = techColors[selectedTech] || '#14B8A6';
 
   // Get unique categories
@@ -139,7 +139,7 @@ const BlogPage = () => {
       />
 
       <div
-        className="min-h-screen font-poppins overflow-hidden"
+        className="min-h-screen font-poppins overflow-x-hidden"
         style={{
           background: bgColor
             ? `linear-gradient(to right, ${bgColor}33, ${bgColor})`
@@ -149,7 +149,7 @@ const BlogPage = () => {
       >
         <ParticleCanvas bgColor={bgColor || '#4B5563'} />
         {/* Hero Section */}
-        <section className="pt-24 pb-12 px-6 md:px-16 relative z-10">
+        <section className="pt-24 pb-12 px-4 md:px-6 lg:px-16 relative z-10">
           <div className="max-w-6xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -173,8 +173,8 @@ const BlogPage = () => {
         </section>
 
         {/* Search and Filters */}
-        <section className="pb-12 px-6 md:px-16 relative z-10">
-          <div className="max-w-6xl mx-auto">
+        <section className="pb-12 px-4 md:px-6 lg:px-16 relative z-10">
+          <div className="max-w-6xl mx-auto w-full">
             <motion.div
               className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 mb-8"
               style={{ border: `1px solid ${accentColor}33` }}
@@ -194,11 +194,11 @@ const BlogPage = () => {
                     placeholder="Search articles..."
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm placeholder-opacity-60 focus:outline-none focus:ring-2 transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all placeholder-gray-500"
                     style={{ 
                       border: `1px solid ${accentColor}33`,
                       color: textColor,
-                      focusRingColor: accentColor
+                      boxShadow: `0 0 0 2px ${accentColor}33`
                     }}
                   />
                 </div>
@@ -225,11 +225,11 @@ const BlogPage = () => {
                     <select
                       value={selectedCategory}
                       onChange={e => handleCategoryFilter(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
                       style={{ 
                         border: `1px solid ${accentColor}33`,
                         color: textColor,
-                        focusRingColor: accentColor
+                        boxShadow: `0 0 0 2px ${accentColor}33`
                       }}
                     >
                       {categories.map(category => (
@@ -248,11 +248,11 @@ const BlogPage = () => {
                     <select
                       value={selectedTag}
                       onChange={e => handleTagFilter(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-30 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all"
                       style={{ 
                         border: `1px solid ${accentColor}33`,
                         color: textColor,
-                        focusRingColor: accentColor
+                        boxShadow: `0 0 0 2px ${accentColor}33`
                       }}
                     >
                       {tags.map(tag => (
@@ -279,7 +279,6 @@ const BlogPage = () => {
                 </div>
               </div>
             </motion.div>
-            </div>
 
             {/* Results Count */}
             <motion.div
@@ -302,8 +301,8 @@ const BlogPage = () => {
           selectedCategory === 'all' &&
           selectedTag === 'all' &&
           !searchTerm && (
-            <section className="pb-12 px-6 md:px-16 relative z-10">
-              <div className="max-w-6xl mx-auto">
+            <section className="pb-12 px-4 md:px-6 lg:px-16 relative z-10">
+              <div className="max-w-6xl mx-auto w-full">
                 <motion.h2
                   className="text-3xl font-orbitron font-bold mb-8"
                   style={{ color: accentColor }}
@@ -323,8 +322,8 @@ const BlogPage = () => {
           )}
 
         {/* All Posts */}
-        <section className="pb-20 px-6 md:px-16 relative z-10">
-          <div className="max-w-6xl mx-auto">
+        <section className="pb-20 px-4 md:px-6 lg:px-16 relative z-10">
+          <div className="max-w-6xl mx-auto w-full">
             {filteredPosts.length > 0 ? (
               <>
                 <motion.h2
@@ -379,7 +378,6 @@ const BlogPage = () => {
           </div>
         </section>
 
-        <BackToTopButton textColor={textColor} />
       </div>
 
       <Footer />

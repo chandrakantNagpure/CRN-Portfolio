@@ -40,7 +40,7 @@ function App() {
         <TechProvider>
           <Router>
             <PageTracker />
-            <ScrollToTop />
+            {/* <ScrollToTop /> */}
             <Navbar />
             <Routes>
               <Route path="/" element={<HomePage />} />

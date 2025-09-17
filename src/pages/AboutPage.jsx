@@ -16,7 +16,6 @@ import {
 } from 'react-icons/si';
 import { useLanguage } from '../contexts/LanguageContext';
 import SEO from '../components/SEO';
-import BackToTopButton from '../components/BackToTopButton';
 import { getContrastTextColor } from '../utils/colors';
 
 const techIcons = {
@@ -228,8 +227,6 @@ function AboutPage() {
           </motion.div>
         </div>
 
-        {/* Back to Top Button */}
-        <BackToTopButton textColor={getContrastTextColor(bgColor)} />
       </div>
       <Footer />
     </>

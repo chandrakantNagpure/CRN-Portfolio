@@ -8,77 +8,8 @@ import Footer from '../components/Footer';
 import { FaArrowUp, FaThumbtack, FaLink, FaShareAlt, FaTimes, FaFilter } from 'react-icons/fa';
 import { useLanguage } from '../contexts/LanguageContext';
 import SEO from '../components/SEO';
-import BackToTopButton from '../components/BackToTopButton';
+import { projectsData } from '../data/projectsData';
 
-// Reuse project data from Projects component
-const projectsData = [
-  {
-    id: 1,
-    title: 'E-commerce Platform',
-    description:
-      'A responsive online store with product filtering, cart, and secure checkout. Features advanced search, user authentication, and payment integration for a seamless shopping experience.',
-    techs: ['react', 'nextjs', 'tailwind'],
-    image: 'https://images.unsplash.com/photo-1661956600684-97d3a4320e45?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/ecommerce-platform',
-    repoLink: 'https://github.com/dummyuser/ecommerce-platform',
-    featured: true,
-  },
-  {
-    id: 2,
-    title: 'Personal Blog',
-    description:
-      'A customizable blog platform with SEO optimization and a user-friendly CMS. Supports rich media, comments, and social sharing for engaging content delivery.',
-    techs: ['wordpress', 'php', 'javascript'],
-    image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/personal-blog',
-    repoLink: 'https://github.com/dummyuser/personal-blog',
-    featured: false,
-  },
-  {
-    id: 3,
-    title: 'Task Manager App',
-    description:
-      'A productivity tool with drag-and-drop tasks, real-time sync, and intuitive UI. Designed for team collaboration with role-based access and notifications.',
-    techs: ['react', 'javascript', 'figma'],
-    image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/task-manager',
-    repoLink: 'https://github.com/dummyuser/task-manager',
-    featured: true,
-  },
-  {
-    id: 4,
-    title: 'Animated Portfolio',
-    description:
-      'A dynamic portfolio site with smooth animations and modern design. Showcases developer skills with interactive elements and responsive layouts.',
-    techs: ['gsap', 'framer', 'tailwind'],
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/animated-portfolio',
-    repoLink: 'https://github.com/dummyuser/animated-portfolio',
-    featured: false,
-  },
-  {
-    id: 5,
-    title: 'Social Media Dashboard',
-    description:
-      'A dashboard for managing social media accounts with analytics and post scheduling. Features real-time insights and cross-platform integration.',
-    techs: ['react', 'nextjs', 'javascript'],
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/social-dashboard',
-    repoLink: 'https://github.com/dummyuser/social-dashboard',
-    featured: true,
-  },
-  {
-    id: 6,
-    title: 'Photography Website',
-    description:
-      'A visually stunning site for photographers with galleries and booking forms. Built with a CMS for easy content updates and SEO optimization.',
-    techs: ['wordpress', 'php', 'photoshop'],
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=250&fit=crop',
-    liveLink: 'https://example.com/photography-website',
-    repoLink: 'https://github.com/dummyuser/photography-website',
-    featured: false,
-  },
-];
 
 import { getContrastTextColor } from '../utils/colors';
 
@@ -132,10 +63,12 @@ function ProjectsPage() {
   const filters = [
     { key: 'all', label: t('projects.filters.all') },
     { key: 'featured', label: t('projects.filters.featured') },
-    { key: 'react', label: t('projects.filters.react') },
-    { key: 'nextjs', label: t('projects.filters.nextjs') },
-    { key: 'wordpress', label: t('projects.filters.wordpress') },
-    { key: 'javascript', label: t('projects.filters.javascript') },
+    { key: 'wordpress', label: 'WordPress' },
+    { key: 'react', label: 'React' },
+    { key: 'nextjs', label: 'Next.js' },
+    { key: 'javascript', label: 'JavaScript' },
+    { key: 'tailwind', label: 'Tailwind CSS' },
+    { key: 'gsap', label: 'GSAP' },
   ];
 
   const primaryColor = techColors[selectedTech] || '#4B5563';
@@ -291,8 +224,6 @@ function ProjectsPage() {
       </div>
       <Footer />
 
-      {/* Back to Top Button */}
-      <BackToTopButton textColor={getContrastTextColor(bgColor)} />
     </>
   );
 }
@@ -325,7 +256,7 @@ const ProjectCard = ({
     >
       {project.featured && (
         <div
-          className="absolute top-4 right-4 px-2 py-1 rounded-full text-xs font-bold"
+          className="absolute top-4 right-4 px-2 py-1 rounded-full text-xs font-bold z-40"
           style={{ backgroundColor: primaryColor, color: getContrastTextColor(primaryColor) }}
         >
           Featured
@@ -451,16 +382,22 @@ const ProjectModal = ({ project, techColors, selectedTech, setModalProject }) =>
             href={project.liveLink}
             className="flex-1 px-4 py-2 rounded-lg text-white font-medium text-center transition"
             style={{ backgroundColor: primaryColor }}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Live Demo
           </a>
-          <a
-            href={project.repoLink}
-            className="flex-1 px-4 py-2 rounded-lg border font-medium text-center transition hover:bg-gray-50"
-            style={{ borderColor: primaryColor, color: primaryColor }}
-          >
-            GitHub
-          </a>
+          {project.repoLink && (
+            <a
+              href={project.repoLink}
+              className="flex-1 px-4 py-2 rounded-lg border font-medium text-center transition hover:bg-gray-50"
+              style={{ borderColor: primaryColor, color: primaryColor }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          )}
         </div>
       </motion.div>
     </motion.div>

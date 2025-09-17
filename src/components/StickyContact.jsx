@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaTimes, FaCommentDots, FaCog } from 'react-icons/fa';
+import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaTimes, FaCommentDots, FaCog, FaRobot, FaUser, FaPaperPlane, FaLightbulb, FaDollarSign, FaClock, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useTech } from './TechContext';
 import { techIcons } from '../utils/techIcons';
 
@@ -78,14 +78,186 @@ const buttonVariants = {
   tap: { scale: 0.95 },
 };
 
+// Chatbot conversation flow
+const chatbotFlow = {
+  welcome: {
+    id: 'welcome',
+    type: 'bot',
+    message: "👋 Hi! I'm here to help with your project needs. What brings you here today?",
+    options: [
+      { id: 'new_project', label: '🚀 Start a new project', next: 'project_type' },
+      { id: 'get_quote', label: '💰 Get a quote', next: 'budget_range' },
+      { id: 'ask_question', label: '❓ Ask a question', next: 'question_input' },
+      { id: 'direct_contact', label: '📞 Contact directly', next: 'contact_options' }
+    ]
+  },
+  project_type: {
+    id: 'project_type',
+    type: 'bot',
+    message: "Great! What type of project are you thinking about?",
+    options: [
+      { id: 'website', label: '🌐 Website Development', next: 'budget_range' },
+      { id: 'webapp', label: '⚡ Web Application', next: 'budget_range' },
+      { id: 'ecommerce', label: '🛒 E-commerce Store', next: 'budget_range' },
+      { id: 'redesign', label: '🎨 Website Redesign', next: 'budget_range' },
+      { id: 'maintenance', label: '🔧 Maintenance & Support', next: 'contact_options' }
+    ]
+  },
+  budget_range: {
+    id: 'budget_range',
+    type: 'bot',
+    message: "Perfect! What's your budget range for this project?",
+    options: [
+      { id: 'small', label: '💵 $500 - $2,000', next: 'timeline' },
+      { id: 'medium', label: '💰 $2,000 - $5,000', next: 'timeline' },
+      { id: 'large', label: '💸 $5,000 - $10,000', next: 'timeline' },
+      { id: 'enterprise', label: '🏦 $10,000+', next: 'timeline' },
+      { id: 'discuss', label: '💬 Let\'s discuss', next: 'contact_options' }
+    ]
+  },
+  timeline: {
+    id: 'timeline',
+    type: 'bot',
+    message: "When would you like to get this completed?",
+    options: [
+      { id: 'urgent', label: '🔥 ASAP (Rush job)', next: 'contact_urgent' },
+      { id: 'month', label: '📅 Within 1 month', next: 'contact_ready' },
+      { id: 'quarter', label: '📆 2-3 months', next: 'contact_ready' },
+      { id: 'flexible', label: '🕒 No rush', next: 'contact_ready' }
+    ]
+  },
+  question_input: {
+    id: 'question_input',
+    type: 'input',
+    message: "What would you like to know? Type your question and I'll help!",
+    placeholder: "e.g., How long does it take to build a website?",
+    next: 'question_response'
+  },
+  question_response: {
+    id: 'question_response',
+    type: 'bot',
+    message: "Thanks for your question! I'd love to give you a detailed answer. Let's connect:",
+    options: []
+  },
+  contact_urgent: {
+    id: 'contact_urgent',
+    type: 'bot',
+    message: "For urgent projects, let's connect immediately! I prioritize quick communication:",
+    options: []
+  },
+  contact_ready: {
+    id: 'contact_ready',
+    type: 'bot',
+    message: "Awesome! Based on your needs, I think we're a great match. Let's discuss your project:",
+    options: []
+  },
+  contact_options: {
+    id: 'contact_options',
+    type: 'bot',
+    message: "Perfect! How would you like to get in touch?",
+    options: []
+  }
+};
+
 function StickyContact() {
   const { techColors, selectedTech, bgColor, updateTech } = useTech();
   const [isOpen, setIsOpen] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [mode, setMode] = useState('chat'); // 'chat', 'contact', 'tech'
+  const [currentStep, setCurrentStep] = useState('welcome');
+  const [conversation, setConversation] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [userData, setUserData] = useState({});
   const stickyContactRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const primaryColor = bgColor || techColors[selectedTech] || '#4B5563';
 
+  // Chatbot functions
+  const addToConversation = (message, type = 'bot', options = []) => {
+    const newMessage = {
+      id: Date.now(),
+      message,
+      type,
+      options,
+      timestamp: new Date()
+    };
+    setConversation(prev => [...prev, newMessage]);
+    
+    // Auto-scroll to bottom
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+    }, 100);
+  };
+
+  const handleChatOption = (optionId, optionLabel, nextStep) => {
+    // Add user response
+    addToConversation(optionLabel, 'user');
+    
+    // Store user data
+    setUserData(prev => ({ ...prev, [currentStep]: optionId }));
+    
+    // Move to next step
+    setTimeout(() => {
+      if (nextStep && chatbotFlow[nextStep]) {
+        setCurrentStep(nextStep);
+        const nextStepData = chatbotFlow[nextStep];
+        addToConversation(nextStepData.message, 'bot', nextStepData.options);
+      } else {
+        // Show contact options
+        showContactOptions();
+      }
+    }, 500);
+  };
+
+  const handleUserInput = (input) => {
+    if (!input.trim()) return;
+    
+    addToConversation(input, 'user');
+    setUserInput('');
+    
+    // Store user input
+    setUserData(prev => ({ ...prev, userQuestion: input }));
+    
+    setTimeout(() => {
+      const responseStep = chatbotFlow[chatbotFlow[currentStep].next];
+      if (responseStep) {
+        addToConversation(responseStep.message, 'bot');
+        showContactOptions();
+      }
+    }, 500);
+  };
+
+  const showContactOptions = () => {
+    setTimeout(() => {
+      addToConversation(
+        "Here are the best ways to reach me:",
+        'contact-options'
+      );
+    }, 300);
+  };
+
+  const startChat = () => {
+    setMode('chat');
+    setConversation([]);
+    setCurrentStep('welcome');
+    
+    setTimeout(() => {
+      const welcomeStep = chatbotFlow.welcome;
+      addToConversation(welcomeStep.message, 'bot', welcomeStep.options);
+    }, 300);
+  };
+
+  const resetChat = () => {
+    setConversation([]);
+    setUserData({});
+    setCurrentStep('welcome');
+    startChat();
+  };
+
+  // Auto-hide tooltip after 3 seconds
   // Auto-hide tooltip after 3 seconds
   useEffect(() => {
     if (showButton && !isOpen) {
@@ -180,83 +352,279 @@ function StickyContact() {
           animate="animate"
           exit="exit"
         >
-          {/* Contact Options Menu */}
+          {/* Simplified Menu Panel */}
           <AnimatePresence mode="wait">
             {isOpen && (
               <motion.div
-                className="absolute bottom-20 right-0 w-72 mb-2"
+                className="absolute bottom-20 right-0 w-80 mb-2"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
               >
-                <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200/50 p-3 space-y-2">
-                  {/* Contact Section */}
-                  <div className="text-center pb-2 border-b border-gray-200">
-                    <h3 className="text-sm font-semibold text-gray-800">Get In Touch</h3>
-                    <p className="text-xs text-gray-500">Choose your preferred method</p>
+                <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-200/50 overflow-hidden">
+                  {/* Header with Mode Tabs */}
+                  <div className="bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 p-3">
+                    <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+                      <button
+                        onClick={() => setMode('chat')}
+                        className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                          mode === 'chat'
+                            ? 'bg-white shadow-sm text-gray-900'
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        <FaRobot className="inline mr-1" /> Smart Chat
+                      </button>
+                      <button
+                        onClick={() => setMode('contact')}
+                        className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                          mode === 'contact'
+                            ? 'bg-white shadow-sm text-gray-900'
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        <FaCommentDots className="inline mr-1" /> Contact
+                      </button>
+                      <button
+                        onClick={() => setMode('tech')}
+                        className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all ${
+                          mode === 'tech'
+                            ? 'bg-white shadow-sm text-gray-900'
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        <FaCog className="inline mr-1" /> Themes
+                      </button>
+                    </div>
                   </div>
 
-                  {contactOptions.map((option, index) => (
-                    <motion.button
-                      key={option.label}
-                      variants={itemVariants}
-                      onClick={() => {
-                        option.action();
-                        setIsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
-                      whileHover={{ x: 4 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-200"
-                        style={{ backgroundColor: option.color }}
-                      >
-                        <option.icon size={16} />
-                      </div>
-                      <div className="text-left flex-1">
-                        <div className="font-medium text-gray-800 text-sm">{option.label}</div>
-                        <div className="text-xs text-gray-500">{option.description}</div>
-                      </div>
-                    </motion.button>
-                  ))}
-
-                  {/* Tech Selection Section */}
-                  <div className="pt-2 border-t border-gray-200">
-                    <div className="text-center pb-2">
-                      <h3 className="text-sm font-semibold text-gray-800 flex items-center justify-center gap-2">
-                        <FaCog size={12} /> Tech Theme
-                      </h3>
-                      <p className="text-xs text-gray-500">Change portfolio style</p>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {techIcons
-                        .filter(item => item.tech !== 'default')
-                        .map(({ icon: TechIcon, tech, label }) => {
-                          const isSelected = selectedTech === tech;
-                          return (
-                            <motion.button
-                              key={tech}
-                              onClick={() => {
-                                updateTech(tech);
-                                // Keep menu open for tech selection
-                              }}
-                              className={`p-2 rounded-full transition-all duration-200 ${
-                                isSelected
-                                  ? 'bg-gray-800 scale-110'
-                                  : 'bg-gray-100 hover:bg-gray-200'
-                              }`}
-                              whileHover={{ scale: isSelected ? 1.1 : 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              title={`Switch to ${label} theme`}
+                  {/* Content Area */}
+                  <div className="h-80 overflow-hidden">
+                    {/* Chat Mode */}
+                    {mode === 'chat' && (
+                      <div className="h-full flex flex-col">
+                        {conversation.length === 0 ? (
+                          <div className="flex-1 flex items-center justify-center p-6">
+                            <div className="text-center">
+                              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FaRobot className="text-white text-2xl" />
+                              </div>
+                              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Assistant</h3>
+                              <p className="text-sm text-gray-600 mb-4">I'll help you find the perfect solution for your project!</p>
+                              <button
+                                onClick={startChat}
+                                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+                              >
+                                Start Conversation
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            {/* Chat Messages */}
+                            <div
+                              ref={chatContainerRef}
+                              className="flex-1 overflow-y-auto p-4 space-y-3"
                             >
-                              <TechIcon size={16} color={isSelected ? '#fff' : techColors[tech]} />
-                            </motion.button>
-                          );
-                        })}
-                    </div>
+                              {conversation.map((msg) => (
+                                <div key={msg.id}>
+                                  {msg.type === 'bot' && (
+                                    <div className="flex gap-2 items-start">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <FaRobot className="text-white text-sm" />
+                                      </div>
+                                      <div className="bg-gray-100 rounded-lg rounded-tl-none px-3 py-2 max-w-xs">
+                                        <p className="text-sm text-gray-800">{msg.message}</p>
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {msg.type === 'user' && (
+                                    <div className="flex gap-2 items-start justify-end">
+                                      <div
+                                        className="rounded-lg rounded-tr-none px-3 py-2 max-w-xs text-white"
+                                        style={{ backgroundColor: primaryColor }}
+                                      >
+                                        <p className="text-sm">{msg.message}</p>
+                                      </div>
+                                      <div
+                                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                                        style={{ backgroundColor: primaryColor }}
+                                      >
+                                        <FaUser className="text-white text-sm" />
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {msg.type === 'contact-options' && (
+                                    <div className="flex gap-2 items-start">
+                                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <FaRobot className="text-white text-sm" />
+                                      </div>
+                                      <div className="bg-gray-100 rounded-lg rounded-tl-none px-3 py-2 w-full">
+                                        <p className="text-sm text-gray-800 mb-2">{msg.message}</p>
+                                        <div className="space-y-2">
+                                          {contactOptions.map((option) => (
+                                            <button
+                                              key={option.label}
+                                              onClick={() => {
+                                                option.action();
+                                                setIsOpen(false);
+                                              }}
+                                              className="w-full flex items-center gap-2 p-2 rounded-lg hover:bg-white transition-colors text-left"
+                                            >
+                                              <div
+                                                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs"
+                                                style={{ backgroundColor: option.color }}
+                                              >
+                                                <option.icon size={12} />
+                                              </div>
+                                              <div className="flex-1">
+                                                <div className="font-medium text-xs text-gray-800">{option.label}</div>
+                                                <div className="text-xs text-gray-600">{option.description}</div>
+                                              </div>
+                                            </button>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {/* Chat Options */}
+                                  {msg.options && msg.options.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 ml-10 mt-2">
+                                      {msg.options.map((option) => (
+                                        <button
+                                          key={option.id}
+                                          onClick={() => handleChatOption(option.id, option.label, option.next)}
+                                          className="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm hover:bg-gray-50 transition-colors"
+                                        >
+                                          {option.label}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Input Area for text questions */}
+                            {currentStep === 'question_input' && (
+                              <div className="border-t border-gray-200 p-3">
+                                <div className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    value={userInput}
+                                    onChange={(e) => setUserInput(e.target.value)}
+                                    placeholder={chatbotFlow[currentStep]?.placeholder || "Type your message..."}
+                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                                    onKeyPress={(e) => e.key === 'Enter' && handleUserInput(userInput)}
+                                  />
+                                  <button
+                                    onClick={() => handleUserInput(userInput)}
+                                    className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                  >
+                                    <FaPaperPlane size={14} />
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Chat Footer */}
+                            {conversation.length > 0 && (
+                              <div className="border-t border-gray-200 p-2">
+                                <button
+                                  onClick={resetChat}
+                                  className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                                >
+                                  🔄 Start over
+                                </button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Quick Contact Mode */}
+                    {mode === 'contact' && (
+                      <div className="p-4 space-y-3">
+                        <div className="text-center pb-2">
+                          <h3 className="text-sm font-semibold text-gray-800">Get In Touch</h3>
+                          <p className="text-xs text-gray-500">Choose your preferred method</p>
+                        </div>
+                        {contactOptions.map((option, index) => (
+                          <motion.button
+                            key={option.label}
+                            variants={itemVariants}
+                            onClick={() => {
+                              option.action();
+                              setIsOpen(false);
+                            }}
+                            className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
+                            whileHover={{ x: 4 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div
+                              className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-200"
+                              style={{ backgroundColor: option.color }}
+                            >
+                              <option.icon size={16} />
+                            </div>
+                            <div className="text-left flex-1">
+                              <div className="font-medium text-gray-800 text-sm">{option.label}</div>
+                              <div className="text-xs text-gray-500">{option.description}</div>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Tech Theme Mode */}
+                    {mode === 'tech' && (
+                      <div className="p-4">
+                        <div className="text-center pb-4">
+                          <h3 className="text-sm font-semibold text-gray-800">Portfolio Themes</h3>
+                          <p className="text-xs text-gray-500">Choose your favorite tech style</p>
+                        </div>
+                        
+                        <div className="grid grid-cols-3 gap-3">
+                          {techIcons
+                            .filter(item => item.tech !== 'default')
+                            .map(({ icon: TechIcon, tech, label }) => {
+                              const isSelected = selectedTech === tech;
+                              return (
+                                <motion.button
+                                  key={tech}
+                                  onClick={() => {
+                                    updateTech(tech);
+                                  }}
+                                  className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all duration-200 ${
+                                    isSelected
+                                      ? 'bg-gray-900 text-white scale-105 shadow-lg'
+                                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                                  }`}
+                                  whileHover={{ scale: isSelected ? 1.05 : 1.02 }}
+                                  whileTap={{ scale: 0.98 }}
+                                >
+                                  <TechIcon size={24} color={isSelected ? '#fff' : techColors[tech]} />
+                                  <span className="text-xs font-medium">{label}</span>
+                                  {isSelected && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </motion.button>
+                              );
+                            })}
+                        </div>
+                        
+                        <div className="mt-4 text-center">
+                          <p className="text-xs text-gray-500">
+                            ✨ Changes apply instantly across the site
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -269,26 +637,29 @@ function StickyContact() {
             )}
           </AnimatePresence>
 
-          {/* Main Toggle Button */}
+          {/* Enhanced Main Toggle Button */}
           <motion.button
             onClick={() => {
               setIsOpen(!isOpen);
               setShowTooltip(false);
+              if (!isOpen) {
+                setMode('chat'); // Default to chat when opening
+              }
             }}
             className="relative w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-white font-bold overflow-hidden"
-            style={{ backgroundColor: primaryColor }}
+            style={{ background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}dd)` }}
             variants={buttonVariants}
             whileHover="hover"
             whileTap="tap"
           >
-            {/* Pulse animation - only when closed */}
+            {/* Enhanced pulse animation */}
             {!isOpen && (
               <motion.div
                 className="absolute inset-0 rounded-full"
                 style={{ backgroundColor: primaryColor }}
                 animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.6, 0, 0.6],
+                  scale: [1, 1.4, 1],
+                  opacity: [0.7, 0, 0.7],
                 }}
                 transition={{
                   duration: 2.5,
@@ -298,7 +669,7 @@ function StickyContact() {
               />
             )}
 
-            {/* Button Icon */}
+            {/* Button Icon with mode indication */}
             <motion.div
               animate={{
                 rotate: isOpen ? 135 : 0,
@@ -309,32 +680,20 @@ function StickyContact() {
                 stiffness: 200,
                 damping: 12,
               }}
-              className="relative z-10"
+              className="relative z-10 flex items-center justify-center"
             >
-              {isOpen ? <FaTimes size={20} /> : <FaCommentDots size={20} />}
+              {isOpen ? (
+                <FaTimes size={20} />
+              ) : (
+                <div className="relative">
+                  <FaRobot size={20} />
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                </div>
+              )}
             </motion.div>
           </motion.button>
 
-          {/* Notification Badge */}
-          <AnimatePresence>
-            {!isOpen && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ delay: 0.5, type: 'spring' }}
-                className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm"
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-2 h-2 bg-white rounded-full"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Tooltip */}
+          {/* Enhanced Tooltip */}
           <AnimatePresence>
             {!isOpen && showTooltip && (
               <motion.div
@@ -344,8 +703,12 @@ function StickyContact() {
                 transition={{ type: 'spring', duration: 0.4 }}
                 className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2"
               >
-                <div className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap shadow-lg">
-                  💬 Let's discuss your project!
+                <div className="bg-gray-900 text-white px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap shadow-xl">
+                  <div className="flex items-center gap-2">
+                    <FaRobot size={16} />
+                    <span>Hi! Need help with your project?</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">Click to start our AI assistant</div>
                   <div className="absolute right-0 top-1/2 transform translate-x-full -translate-y-1/2">
                     <div className="w-0 h-0 border-l-8 border-r-0 border-t-4 border-b-4 border-l-gray-900 border-t-transparent border-b-transparent" />
                   </div>
