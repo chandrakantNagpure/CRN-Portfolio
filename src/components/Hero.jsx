@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-// import { motion } from 'framer-motion'; // Removed unused import
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { techIcons } from '../utils/techIcons';
 import { useTech } from './TechContext';
