@@ -22,6 +22,8 @@
     "@sentry/react": "^10.11.0",
     "@sentry/tracing": "^7.120.4",
     "@tailwindcss/vite": "^4.1.10",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.18.1",
     "gray-matter": "^4.0.3",

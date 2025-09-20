@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import { trackPageView } from './utils/analytics';
 import { TechProvider } from './components/TechContext';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -59,6 +61,8 @@ function App() {
           </TechProvider>
         </StatusProvider>
       </LanguageProvider>
+      <SpeedInsights />
+      <Analytics />
     </HelmetProvider>
   );
 }
