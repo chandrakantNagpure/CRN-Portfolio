@@ -1,15 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion'; // Removed unused import
 import { Link } from 'react-router-dom';
-import { FaReact, FaWordpress, FaPhp, FaGithub, FaFigma, FaCode } from 'react-icons/fa';
-import {
-  SiNextdotjs,
-  SiTailwindcss,
-  SiJavascript,
-  SiAdobephotoshop,
-  SiGreensock,
-  SiFramer,
-} from 'react-icons/si';
+import { techIcons } from '../utils/techIcons';
 import { useTech } from './TechContext';
 
 import ParticleCanvas from './ParticleCanvas';
@@ -106,20 +98,6 @@ function Hero() {
     setDeleting(false);
   };
 
-  const techIcons = [
-    { icon: FaReact, tech: 'react', label: 'React' },
-    { icon: SiNextdotjs, tech: 'nextjs', label: 'Next.js' },
-    { icon: SiTailwindcss, tech: 'tailwind', label: 'Tailwind CSS' },
-    { icon: FaWordpress, tech: 'wordpress', label: 'WordPress' },
-    { icon: FaPhp, tech: 'php', label: 'PHP' },
-    { icon: SiJavascript, tech: 'javascript', label: 'JavaScript' },
-    { icon: FaGithub, tech: 'github', label: 'GitHub' },
-    { icon: FaFigma, tech: 'figma', label: 'Figma' },
-    { icon: SiAdobephotoshop, tech: 'photoshop', label: 'Photoshop' },
-    { icon: SiGreensock, tech: 'gsap', label: 'GSAP' },
-    { icon: SiFramer, tech: 'framer', label: 'Framer' },
-    { icon: FaCode, tech: 'default', label: 'General Tech' },
-  ];
 
   const iconColor =
     selectedTech === 'default' ? '#4B5563' : techColors[selectedTech] || techColors['react'];
@@ -254,7 +232,7 @@ function Hero() {
             >
               {techIcons
                 .filter(item => item.tech !== 'default')
-                .map(({ icon: Icon, tech, label }, i) => (
+                .map(({ icon: TechIcon, tech, label }, i) => (
                   <motion.div
                     key={tech}
                     className="relative group flex justify-center items-center"
@@ -298,7 +276,7 @@ function Hero() {
                         />
                       )}
 
-                      <Icon
+                      <TechIcon
                         size={selectedTech === tech ? 40 : 32}
                         color={techColors[tech]}
                         aria-label={`Select ${label} technology`}

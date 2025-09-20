@@ -168,7 +168,7 @@ function StickyContact() {
   const [currentStep, setCurrentStep] = useState('welcome');
   const [conversation, setConversation] = useState([]);
   const [userInput, setUserInput] = useState('');
-  const [userData, setUserData] = useState({});
+  const [_userData, setUserData] = useState({});
   const stickyContactRef = useRef(null);
   const chatContainerRef = useRef(null);
   const primaryColor = bgColor || techColors[selectedTech] || '#4B5563';
@@ -356,7 +356,7 @@ function StickyContact() {
           <AnimatePresence mode="wait">
             {isOpen && (
               <motion.div
-                className="absolute bottom-20 right-0 w-80 mb-2"
+                className="absolute bottom-20 right-0 w-96 mb-2"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -400,7 +400,7 @@ function StickyContact() {
                   </div>
 
                   {/* Content Area */}
-                  <div className="h-80 overflow-hidden">
+                  <div className="h-[28rem] overflow-hidden">
                     {/* Chat Mode */}
                     {mode === 'chat' && (
                       <div className="h-full flex flex-col">
@@ -583,45 +583,92 @@ function StickyContact() {
 
                     {/* Tech Theme Mode */}
                     {mode === 'tech' && (
-                      <div className="p-4">
-                        <div className="text-center pb-4">
+                      <div className="h-full flex flex-col">
+                        <div className="text-center p-4 pb-2 border-b border-gray-200">
                           <h3 className="text-sm font-semibold text-gray-800">Portfolio Themes</h3>
                           <p className="text-xs text-gray-500">Choose your favorite tech style</p>
                         </div>
                         
-                        <div className="grid grid-cols-3 gap-3">
-                          {techIcons
-                            .filter(item => item.tech !== 'default')
-                            .map(({ icon: TechIcon, tech, label }) => {
-                              const isSelected = selectedTech === tech;
-                              return (
-                                <motion.button
-                                  key={tech}
-                                  onClick={() => {
-                                    updateTech(tech);
-                                  }}
-                                  className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all duration-200 ${
-                                    isSelected
-                                      ? 'bg-gray-900 text-white scale-105 shadow-lg'
-                                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                                  }`}
-                                  whileHover={{ scale: isSelected ? 1.05 : 1.02 }}
-                                  whileTap={{ scale: 0.98 }}
-                                >
-                                  <TechIcon size={24} color={isSelected ? '#fff' : techColors[tech]} />
-                                  <span className="text-xs font-medium">{label}</span>
-                                  {isSelected && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
-                                  )}
-                                </motion.button>
-                              );
-                            })}
-                        </div>
-                        
-                        <div className="mt-4 text-center">
-                          <p className="text-xs text-gray-500">
-                            ✨ Changes apply instantly across the site
-                          </p>
+                        {/* Scrollable Tech Grid */}
+                        <div className="flex-1 overflow-y-auto p-3">
+                          <div className="grid grid-cols-2 gap-3 mb-4">
+                            {techIcons
+                              .filter(item => item.tech !== 'default')
+                              .map(({ icon: TechIcon, tech, label }) => {
+                                const isSelected = selectedTech === tech;
+                                return (
+                                  <motion.button
+                                    key={tech}
+                                    onClick={() => {
+                                      updateTech(tech);
+                                    }}
+                                    className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-xl transition-all duration-200 min-h-[90px] ${
+                                      isSelected
+                                        ? 'bg-gray-900 text-white shadow-lg ring-2 ring-blue-500'
+                                        : 'bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200'
+                                    }`}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    style={{
+                                      ...(isSelected && {
+                                        backgroundColor: techColors[tech],
+                                        boxShadow: `0 4px 12px ${techColors[tech]}40`,
+                                      })
+                                    }}
+                                  >
+                                    {/* Selected indicator */}
+                                    {isSelected && (
+                                      <motion.div 
+                                        className="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center"
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: "spring", stiffness: 300 }}
+                                      >
+                                        <div className="w-2 h-2 bg-green-500 rounded-full" />
+                                      </motion.div>
+                                    )}
+                                    
+                                    <TechIcon 
+                                      size={24} 
+                                      color={isSelected ? '#fff' : techColors[tech]} 
+                                    />
+                                    <span className="text-xs font-medium text-center leading-tight px-1">
+                                      {label}
+                                    </span>
+                                  </motion.button>
+                                );
+                              })}
+                          </div>
+                          
+                          {/* Selected Tech Info */}
+                          <motion.div 
+                            key={selectedTech}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-gray-50 rounded-lg p-3 border border-gray-200"
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <div 
+                                className="w-6 h-6 rounded-full flex items-center justify-center"
+                                style={{ backgroundColor: techColors[selectedTech] }}
+                              >
+                                {(() => {
+                                  const iconData = techIcons.find(icon => icon.tech === selectedTech);
+                                  if (iconData) {
+                                    const IconComponent = iconData.icon;
+                                    return <IconComponent size={14} color="white" />;
+                                  }
+                                  return null;
+                                })()}
+                              </div>
+                              <span className="text-sm font-semibold text-gray-800">
+                                {techIcons.find(icon => icon.tech === selectedTech)?.label || 'Technology'} Theme
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-600">
+                              ✨ Your portfolio now uses {techIcons.find(icon => icon.tech === selectedTech)?.label || 'this'} colors and styling throughout the site.
+                            </p>
+                          </motion.div>
                         </div>
                       </div>
                     )}

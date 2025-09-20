@@ -6,6 +6,10 @@ import {
   SiAdobephotoshop,
   SiGreensock,
   SiFramer,
+  SiShopify,
+  SiSquarespace,
+  SiWebflow,
+  SiWix,
 } from 'react-icons/si';
 
 // Use the same colors from TechContext
@@ -21,6 +25,10 @@ export const techColors = {
   photoshop: '#31A8FF',
   gsap: '#88CE02',
   framer: '#A259FF',
+  shopify: '#7AB55C',
+  squarespace: '#000000',
+  webflow: '#4353FF',
+  wix: '#0C6EFC',
   default: '#4B5563',
 };
 
@@ -36,5 +44,9 @@ export const techIcons = [
   { tech: 'photoshop', label: 'Photoshop', icon: SiAdobephotoshop },
   { tech: 'gsap', label: 'GSAP', icon: SiGreensock },
   { tech: 'framer', label: 'Framer', icon: SiFramer },
+  { tech: 'shopify', label: 'Shopify', icon: SiShopify },
+  { tech: 'squarespace', label: 'Squarespace', icon: SiSquarespace },
+  { tech: 'webflow', label: 'Webflow', icon: SiWebflow },
+  { tech: 'wix', label: 'Wix', icon: SiWix },
   { tech: 'default', label: 'General Tech', icon: FaCode },
 ];

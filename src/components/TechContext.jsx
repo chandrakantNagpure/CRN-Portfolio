@@ -16,6 +16,10 @@ const techColors = {
   photoshop: '#31A8FF',
   gsap: '#88CE02',
   framer: '#A259FF',
+  shopify: '#7AB55C',
+  squarespace: '#000000',
+  webflow: '#4353FF',
+  wix: '#0C6EFC',
 };
 
 function TechProvider({ children }) {

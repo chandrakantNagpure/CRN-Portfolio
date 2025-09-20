@@ -29,6 +29,10 @@ const translations = {
         photoshop: 'Graphic Designer',
         gsap: 'Animation Developer',
         framer: 'Framer Motion Expert',
+        shopify: 'Shopify Developer',
+        squarespace: 'Squarespace Specialist',
+        webflow: 'Webflow Designer',
+        wix: 'Wix Developer',
         default: [
           'Frontend Developer',
           'WordPress Expert',
@@ -56,6 +60,10 @@ const translations = {
           'Skilled in Adobe Photoshop for creating high-quality graphics and visual assets.',
         gsap: 'Experienced in GSAP for creating smooth, engaging animations for web applications.',
         framer: 'Proficient in Framer Motion for building advanced, interactive web animations.',
+        shopify: 'Expert Shopify developer creating custom e-commerce stores with themes, apps, and payment integrations.',
+        squarespace: 'Skilled in Squarespace for building professional websites with custom designs and functionality.',
+        webflow: 'Proficient Webflow designer creating responsive, visually stunning websites with advanced interactions.',
+        wix: 'Experienced Wix developer building business websites with custom features and integrations.',
         default:
           'Versatile frontend developer with expertise in React, WordPress, UI/UX design, and modern web technologies.',
       },
@@ -260,6 +268,74 @@ const translations = {
             name: 'Animations',
             level: 88,
             description: 'Designing advanced animations for web applications.',
+          },
+        ],
+        shopify: [
+          {
+            name: 'E-commerce',
+            level: 85,
+            description: 'Building custom Shopify stores with advanced e-commerce functionality.',
+          },
+          {
+            name: 'Themes',
+            level: 88,
+            description: 'Creating and customizing Shopify themes for unique store designs.',
+          },
+          {
+            name: 'Apps',
+            level: 80,
+            description: 'Developing Shopify apps and integrations for enhanced store features.',
+          },
+        ],
+        squarespace: [
+          {
+            name: 'Design',
+            level: 90,
+            description: 'Creating beautiful, professional websites with Squarespace templates.',
+          },
+          {
+            name: 'Customization',
+            level: 85,
+            description: 'Customizing Squarespace sites with CSS and JavaScript.',
+          },
+          {
+            name: 'E-commerce',
+            level: 82,
+            description: 'Setting up online stores and payment systems in Squarespace.',
+          },
+        ],
+        webflow: [
+          {
+            name: 'Visual Design',
+            level: 92,
+            description: 'Creating pixel-perfect, responsive designs in Webflow.',
+          },
+          {
+            name: 'Interactions',
+            level: 88,
+            description: 'Building complex animations and interactions in Webflow.',
+          },
+          {
+            name: 'CMS',
+            level: 85,
+            description: 'Implementing dynamic content with Webflow CMS.',
+          },
+        ],
+        wix: [
+          {
+            name: 'Website Building',
+            level: 88,
+            description: 'Creating professional business websites with Wix platform.',
+          },
+          {
+            name: 'Velo Development',
+            level: 80,
+            description: 'Adding custom functionality with Wix Velo (formerly Corvid).',
+          },
+          {
+            name: 'SEO',
+            level: 85,
+            description: 'Optimizing Wix websites for search engine visibility.',
           },
         ],
         default: [
